@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Waribei — Mega-synthèse fondamentaux</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "SF Pro Text", system-ui, sans-serif;
+  background: #FAFBFC;
+  color: #1A1F2E;
+  line-height: 1.55;
+  font-size: 14px;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+/* HEADER */
+.hero {
+  background: linear-gradient(135deg, #0B2A4A 0%, #1E559E 100%);
+  color: #fff;
+  border-radius: 14px;
+  padding: 32px 36px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(11, 42, 74, 0.15);
+}
+.hero .eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; margin-bottom: 8px; }
+.hero h1 { font-size: 30px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.5px; }
+.hero .sub { font-size: 16px; font-weight: 400; opacity: 0.85; margin-bottom: 18px; }
+.hero .meta { font-size: 12px; opacity: 0.6; }
+.hero-verdict {
+  background: rgba(255,255,255,0.1);
+  border-left: 3px solid #F0B95C;
+  padding: 14px 18px;
+  margin-top: 20px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* NAV */
+.nav {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(250, 251, 252, 0.96);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid #E5E8ED;
+  margin: -24px -24px 24px;
+  padding: 12px 24px;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav button {
+  border: 0;
+  background: transparent;
+  color: #4A5468;
+  font-weight: 500;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.nav button:hover { background: #ECF0F5; color: #0B2A4A; }
+.nav button.active { background: #0B2A4A; color: #fff; }
+
+/* SECTIONS */
+.section { display: none; animation: fadeIn 0.2s; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.section h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #0B2A4A;
+  letter-spacing: -0.3px;
+}
+.section .lead {
+  color: #4A5468;
+  font-size: 13px;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+.section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1E559E;
+  margin: 24px 0 10px;
+}
+.section h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0B2A4A;
+  margin: 16px 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* CARDS */
+.card {
+  background: #fff;
+  border: 1px solid #E5E8ED;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+.card.ok { border-left: 3px solid #1B7F4E; background: #F4FAF6; }
+.card.warn { border-left: 3px solid #C97B1A; background: #FCF7EF; }
+.card.alert { border-left: 3px solid #B02A30; background: #FCF1F2; }
+.card.info { border-left: 3px solid #1E559E; background: #F1F5FB; }
+.card .title { font-weight: 700; font-size: 13.5px; margin-bottom: 6px; }
+.card.ok .title { color: #1B7F4E; }
+.card.warn .title { color: #C97B1A; }
+.card.alert .title { color: #B02A30; }
+.card.info .title { color: #1E559E; }
+.card .body { font-size: 13px; color: #2D3748; }
+
+/* KPI GRID */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 14px 0 18px;
+}
+.kpi {
+  background: #fff;
+  border: 1px solid #E5E8ED;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.kpi .k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #6B7280; font-weight: 600; }
+.kpi .v { font-size: 18px; font-weight: 700; color: #0B2A4A; margin-top: 4px; }
+.kpi .v small { font-size: 12px; font-weight: 400; color: #4A5468; display: block; margin-top: 2px; }
+
+/* TABLES */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+  margin: 12px 0 16px;
+  background: #fff;
+  border: 1px solid #E5E8ED;
+  border-radius: 8px;
+  overflow: hidden;
+}
+thead { background: #0B2A4A; color: #fff; }
+thead th { text-align: left; padding: 10px 12px; font-weight: 600; font-size: 12px; }
+tbody td { padding: 10px 12px; border-top: 1px solid #EFF1F4; vertical-align: top; }
+tbody tr:nth-child(even) { background: #F8FAFC; }
+tbody tr:hover { background: #F1F5FB; }
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.tag.ok { background: #DCF1E3; color: #1B7F4E; }
+.tag.warn { background: #FBE7C8; color: #8B5512; }
+.tag.alert { background: #F8D5D8; color: #8B1F25; }
+.tag.info { background: #D7E3F4; color: #1E559E; }
+.tag.neutral { background: #E5E8ED; color: #4A5468; }
+
+/* BULLETS */
+.bullets { list-style: none; padding: 0; margin: 8px 0 16px; }
+.bullets li {
+  padding: 6px 0 6px 22px;
+  position: relative;
+  font-size: 13px;
+}
+.bullets li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #1E559E;
+  font-weight: 700;
+}
+.bullets li strong { color: #0B2A4A; }
+
+/* CHART */
+.chart-wrap { background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; padding: 16px; margin: 14px 0; }
+.chart-wrap h4 { margin-top: 0; }
+canvas { max-height: 240px; }
+
+/* TWO COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+@media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
+
+/* SCORE BLOCK */
+.score-block {
+  background: #fff;
+  border: 1px solid #E5E8ED;
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin: 16px 0 22px;
+}
+.score-block .score-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0B2A4A;
+  margin-bottom: 4px;
+}
+.score-block .score-obj {
+  font-size: 12.5px;
+  color: #4A5468;
+  font-style: italic;
+  margin-bottom: 14px;
+}
+.score-block .formula {
+  background: #F4F6FA;
+  border-left: 3px solid #1E559E;
+  padding: 10px 14px;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  color: #2D3748;
+  border-radius: 4px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+.score-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+  font-size: 12px;
+  background: #F8FAFC;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.score-meta div { padding: 4px 0; }
+.score-meta strong { color: #0B2A4A; display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.4px; }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 22px; margin: 16px 0; }
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px; top: 4px; bottom: 4px;
+  width: 2px;
+  background: #D5DCE6;
+}
+.timeline-item { position: relative; margin-bottom: 16px; }
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -20px; top: 6px;
+  width: 10px; height: 10px;
+  background: #1E559E;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px #1E559E;
+}
+.timeline-date {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1E559E;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.timeline-content { font-size: 13px; color: #2D3748; margin-top: 2px; }
+
+/* FOOTER */
+.footer { text-align: center; color: #94A3B8; font-size: 11px; margin: 30px 0 10px; padding-top: 20px; border-top: 1px solid #E5E8ED; }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="hero">
+  <div class="eyebrow">Mega-synthèse · Snapshot 2026-05-06</div>
+  <h1>Waribei — Fondamentaux</h1>
+  <div class="sub">Décisions prises, à prendre, frameworks, scorings, principes</div>
+  <div class="meta">Auteur : Ladislas · Diffusion : Fabrice, Aude, Ulrich, Leslie · Source : Office hours + PostMortem v2 + transcripts du 6 mai</div>
+  <div class="hero-verdict">
+    <strong>Verdict du 6 mai 2026.</strong> Les fondamentaux tiennent (PMF réel sur 257 retailers platine, charge-off 2.3% &lt; industrie ≥4%, cohortes qui scalent à M+12 sans plafond). L'exécution doit être radicalement reconfigurée (ARPU M+1 effondré 44k → 6k FCFA en 18 mois, 5 fournisseurs concentrent 44% des pertes, module scoring tech a pollué le portefeuille en aveugle). Réponse : focus profil platine + Limit Boost + audit fournisseurs critiques. <strong>Capital patient pour acheter du temps d'apprentissage</strong>, pas pour prouver après coup.
+  </div>
+</div>
+
+<nav class="nav" id="nav">
+  <button class="active" data-tab="synthese">1 · Synthèse</button>
+  <button data-tab="etat">2 · État des lieux</button>
+  <button data-tab="fondamentaux">3 · 6 Fondamentaux</button>
+  <button data-tab="decisions">4 · Décisions</button>
+  <button data-tab="frameworks">5 · Frameworks</button>
+  <button data-tab="scorings">6 · Scorings</button>
+  <button data-tab="principes">7 · Principes</button>
+  <button data-tab="plan">8 · Plan 14j</button>
+</nav>
+
+<!-- ================ 1. SYNTHÈSE ================ -->
+<section class="section active" id="synthese">
+  <h2>Executive summary</h2>
+  <div class="lead">Cinq conclusions structurantes du PostMortem v2 (1 640 retailers, 16 744 disbursements, 3.52 Md FCFA décaissés).</div>
+
+  <div class="card info">
+    <div class="title">1. Acquisition dégradée</div>
+    <div class="body">ARPU M+1 effondré 44 K → 24 K → 7 K → 6 K FCFA sur 18 mois. <strong>Coupable principal du plateau MRR, pas le capital.</strong> Mettre €1M dans le loan book sans réparer l'acquisition ne génèrera pas €1M de MRR.</div>
+  </div>
+
+  <div class="card ok">
+    <div class="title">2. PMF réel mais étroit</div>
+    <div class="body">Cohortes matures atteignent 80–120 K FCFA d'ARPU à M+12 et continuent à scaler. <strong>Pas de plafond.</strong> 257 retailers platine identifiés (beverage, maquis/demi-gros, builder/topAccount, recommandé fournisseur, relation 44 mois). 0.8% défaut, 82% saturation limite. <strong>C'est l'ICP.</strong></div>
+  </div>
+
+  <div class="card info">
+    <div class="title">3. Stabilité &gt; croissance</div>
+    <div class="body">Plateau retailers (253) = 108 K ARPU, 1.0% défaut. Croissance forte = 93 K, 1.4%. Déclin = 52 K, 2.1%. Hypothèse Aude infirmée sur la croissance, validée sur la stabilité. <strong>La stabilité prédit la rentabilité.</strong></div>
+  </div>
+
+  <div class="card alert">
+    <div class="title">4. Risque concentré, pas systémique</div>
+    <div class="body">Charge-off GAAP réel 2.3% (meilleur que l'industrie ≥4%), <strong>mais 5 fournisseurs concentrent 44% des pertes</strong>. SD Philippe 23%, bricamax 27%, SD Sysy 11%. + 2 alertes critiques de clustering temporel : GIDIC DISTRIBUTION (95.7% défauts groupés mars-26) et Yapi Brassivoire (100% nov-24). Audit immédiat + suspension préventive.</div>
+  </div>
+
+  <div class="card warn">
+    <div class="title">5. Levier mécanique sous les yeux</div>
+    <div class="body">Programme <strong>Limit Boost Platine</strong> : +30% trimestriel sur 245 retailers vertueux saturés. Estimation +10–12 M FCFA/trimestre = ~+5.5 k€/mois MRR <strong>sans CAC</strong>. Premier tiers du chemin vers 30 k€ MRR sans capital additionnel.</div>
+  </div>
+
+  <h3>Le désaccord Ladislas–Fabrice tranché</h3>
+  <div class="card ok">
+    <div class="title">Formulation interne à adopter : « fondamentaux OK + exécution à reconfigurer »</div>
+    <div class="body">Fabrice a raison sur les fondamentaux (PMF, cohortes, charge-off, profil platine). Ladislas a raison sur l'exécution (acquisition dégradée 18 mois, risque concentré, productivité agents inégale, scoring tech aveugle). Ferme la divergence sans humilier l'un ou l'autre. Aude l'avait intuitée : « doutes opérationnels qui ne remettent pas en cause les fondamentaux ».</div>
+  </div>
+</section>
+
+<!-- ================ 2. ÉTAT DES LIEUX ================ -->
+<section class="section" id="etat">
+  <h2>État des lieux quantitatif</h2>
+  <div class="lead">Métriques de référence — snapshot 2026-05-06</div>
+
+  <div class="kpi-grid">
+    <div class="kpi"><div class="k">Périmètre</div><div class="v">1 640 retailers<small>1 280 transactants · 519 actifs · 360 dormants</small></div></div>
+    <div class="kpi"><div class="k">Décaissé cumulé</div><div class="v">3.52 Md FCFA<small>16 744 disbursements</small></div></div>
+    <div class="kpi"><div class="k">Loan book</div><div class="v">~€160k<small>cap mécanique observé sur le revenu</small></div></div>
+    <div class="kpi"><div class="k">Charge-off réel J+180</div><div class="v">2.3%<small>44.4 M FCFA / 1.96 Md éligibles</small></div></div>
+    <div class="kpi"><div class="k">Concentration risque</div><div class="v">44.0%<small>top 5 fournisseurs = 44% des pertes</small></div></div>
+    <div class="kpi"><div class="k">Top 20% retailers</div><div class="v">83.4% revenu<small>257 retailers · 0.8% défaut</small></div></div>
+    <div class="kpi"><div class="k">Util limite (actifs)</div><div class="v">80.6%<small>médiane 100% · 643 en overspent</small></div></div>
+    <div class="kpi"><div class="k">Cohortes matures M+12</div><div class="v">80–120 K<small>ARPU FCFA · pas de plafond</small></div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="chart-wrap">
+      <h4>ARPU M+1 par cohorte d'onboarding (FCFA)</h4>
+      <canvas id="chartArpu"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <h4>Concentration des pertes — top 5 fournisseurs</h4>
+      <canvas id="chartLosses"></canvas>
+    </div>
+  </div>
+
+  <h3>Profil platine (le retailer cible)</h3>
+  <div class="lead">253 retailers identifiés (top 20% revenu + défaut J+30 &lt; 15%)</div>
+  <table>
+    <thead><tr><th>Dimension</th><th>Caractéristique</th><th>Part</th></tr></thead>
+    <tbody>
+      <tr><td>Vertical</td><td>Beverage</td><td>89%</td></tr>
+      <tr><td>Format</td><td>Maquis ou demi-gros</td><td>65%</td></tr>
+      <tr><td>Segment</td><td>Builder ou topAccount</td><td>50%</td></tr>
+      <tr><td>Canal d'acquisition</td><td>Recommandation fournisseur (agents 1005, 1869)</td><td>76%</td></tr>
+      <tr><td>Ancienneté relation fournisseur</td><td>44 mois en moyenne</td><td>—</td></tr>
+      <tr><td>Fréquence achat fournisseur déclarée</td><td>~2 700 transactions/mois</td><td>—</td></tr>
+      <tr><td>Comportement Waribei</td><td>28 transactions, 82% util limite, 0.7% défaut</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Fournisseurs critiques à suspendre / auditer</h3>
+  <table>
+    <thead><tr><th>Fournisseur</th><th>Charge-off</th><th>Signal</th><th>Action</th></tr></thead>
+    <tbody>
+      <tr><td>SD Philippe Koumassi</td><td>23%</td><td>Concentré sur portefeuille</td><td><span class="tag alert">Suspendre + audit</span></td></tr>
+      <tr><td>bricamax_distribution</td><td>27%</td><td>Concentré sur portefeuille</td><td><span class="tag alert">Suspendre + audit</span></td></tr>
+      <tr><td>SD Sysy Koumassi</td><td>11%</td><td>Concentré sur portefeuille</td><td><span class="tag alert">Suspendre + audit</span></td></tr>
+      <tr><td>Inouss Brassivoire Koumassi</td><td>—</td><td>Forte part des pertes absolues</td><td><span class="tag warn">Audit</span></td></tr>
+      <tr><td>Depot Florent Koumassi</td><td>—</td><td>Forte part des pertes absolues</td><td><span class="tag warn">Audit</span></td></tr>
+      <tr><td>GIDIC DISTRIBUTION</td><td>—</td><td>95.7% défauts groupés mars-26 (23 retailers)</td><td><span class="tag alert">Audit collusion</span></td></tr>
+      <tr><td>Yapi Brassivoire</td><td>53%</td><td>100% défauts groupés nov-24</td><td><span class="tag alert">Audit collusion</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================ 3. FONDAMENTAUX ================ -->
+<section class="section" id="fondamentaux">
+  <h2>Les 6 fondamentaux de Waribei</h2>
+  <div class="lead">Cadre Aude — 6 dimensions à instruire pour décider. Synthèse de l'état actuel et de la prochaine action structurante par dimension.</div>
+
+  <h3>3.1 Opérations</h3>
+  <ul class="bullets">
+    <li><strong>Capital :</strong> Loan book ~€160k, vélocité ciblée 7 jours = 50 cycles/an. Vélocité réelle Q1 2026 à mesurer. Coût all-in pondéré : Saviu, FMCI, Advans, distributors' terms, equity.</li>
+    <li><strong>Risque :</strong> Bascule du retailer au fournisseur. 5 fournisseurs concentrent 44% pertes — gérable, pas systémique.</li>
+    <li><strong>Déploiement :</strong> Productivité agents très inégale (Basil 324 vs n°2 ~150). Saturation Abidjan non mesurée. UEMOA roadmap non chiffrée.</li>
+  </ul>
+  <div class="card warn">
+    <div class="title">Action #1 — Off-balance-sheet</div>
+    <div class="body">Peut-on faire de l'origination pour le compte d'un prêteur tiers (FMCI, Coris, Bridge en flux) plutôt que de porter ? Si oui, levier capital x10. À instruire avant juillet.</div>
+  </div>
+
+  <h3>3.2 Croissance</h3>
+  <ul class="bullets">
+    <li><strong>Pattern Q3 2024 → Q1 2026 :</strong> 5k → 17 → 19 → 25 → 34 → 41k puis plateau. Coupable : ARPU M+1 effondré, pas le capital seul.</li>
+    <li><strong>Cohortes :</strong> Matures scalent à M+12 (80–120 K). NRR probablement >100% sur platines, &lt;90% sur le reste.</li>
+    <li><strong>Pipeline :</strong> 1037 prospects / 95 / 35 / 493 signés / 14 onboardés. Forward run rate à projeter à 90 jours + en réactivant 250 dormants.</li>
+  </ul>
+  <div class="card warn">
+    <div class="title">Action #1 — Geler le scaling commercial</div>
+    <div class="body">Tant que l'ARPU M+1 des nouvelles cohortes n'est pas remonté à 15 K minimum. Investir le delta budget dans le ré-engagement des cohortes 2024-25 dont la trajectoire M+12 est validée.</div>
+  </div>
+
+  <h3>3.3 Équipe</h3>
+  <ul class="bullets">
+    <li><strong>Fabrice :</strong> Operations + Credit + Legal. Sature à 2 500 retailers ? Conversation explicite à dater.</li>
+    <li><strong>Ladislas :</strong> Finance + Product + Management + fundraising. Combien de mois sans bras droit finance / CFO ?</li>
+    <li><strong>Attrition tolérable :</strong> Sur 8 agents + Engineer + Data Scientist + Support, qui non-remplaçable en &lt;60 jours ?</li>
+    <li><strong>Alignement Fabrice/Ladislas :</strong> Horizon de sortie, dilution, plan B en cas d'échec. Conversation explicite, datée. Pas une présomption.</li>
+  </ul>
+
+  <h3>3.4 Capacité d'exit</h3>
+  <p>Trois outcomes nommés par Aude :</p>
+  <table>
+    <thead><tr><th>Scénario</th><th>Horizon</th><th>Cible</th><th>Pré-requis</th></tr></thead>
+    <tbody>
+      <tr><td><strong>A · Vente courte</strong></td><td>18–24 mois</td><td>€10–20M à institution financière</td><td>Loan book + tech + équipe + data risk packageables</td></tr>
+      <tr><td><strong>B · Leader CI</strong></td><td>36–48 mois</td><td>€5M+ MRR</td><td>Levée €1M+ + déploiement systématique</td></tr>
+      <tr><td><strong>C · Leader Afrique fr.</strong></td><td>60–84 mois</td><td>Multi-pays</td><td>€5M+ levés sur plusieurs tours</td></tr>
+    </tbody>
+  </table>
+  <div class="card warn">
+    <div class="title">Mismatch à résoudre</div>
+    <div class="body">Aujourd'hui les actions ressemblent à B/C, mais le runway et le cash budget poussent vers A. À trancher : un primaire + un backup. Sans alignement explicite, chacun tire dans une direction différente sans le savoir.</div>
+  </div>
+
+  <h3>3.5 Liberté d'entreprendre</h3>
+  <ul class="bullets">
+    <li><strong>Cap table :</strong> Modéliser dilution sur 3 tours (Pre-seed → Seed €1M @ €4M → Series A → B). À quel % combinés in fine ? À partir de quel tour minoritaires ?</li>
+    <li><strong>Board control :</strong> Veto investisseurs (hires, budget, exit) à clarifier avant signature term sheet.</li>
+    <li><strong>Runway perso :</strong> Salaire + plan B documentés. Plus la marge perso est étroite, plus on accepte des deals qu'on refuserait avec plus d'air. Si plan B perso &lt; 6 mois → prochain projet contraint.</li>
+  </ul>
+
+  <h3>3.6 Motivation</h3>
+  <ul class="bullets">
+    <li><strong>Motif dominant à classer :</strong> impact (11M retailers underserved), challenge intellectuel, gain financier, fierté, engagement Fabrice/équipe. Le motif qui résiste à la soustraction est le vrai motif.</li>
+    <li><strong>Énergie 30 jours :</strong> Échelle 1–10 enthousiasme moyen 30j vs il y a 12m vs 24m. Courbe = signal sur la capacité à tenir 18 mois de plus.</li>
+    <li><strong>Soutenabilité :</strong> Heures travaillées actuelles. Soutenable 18 mois ? 36 mois ? Au-delà, on craque avant la sortie.</li>
+  </ul>
+</section>
+
+<!-- ================ 4. DÉCISIONS ================ -->
+<section class="section" id="decisions">
+  <h2>Décisions prises et à prendre</h2>
+  <div class="lead">8 décisions activées immédiatement (cette semaine). 8 décisions à instruire sous 30–60 jours.</div>
+
+  <h3>Décisions activées (cette semaine)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Décision</th><th>Owner</th><th>Deadline</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Suspension immédiate fournisseurs critiques (SD Philippe, bricamax, SD Sysy + audit Inouss et Depot Florent)</td><td>Fabrice</td><td><span class="tag alert">Lun 11 mai</span></td></tr>
+      <tr><td>2</td><td>Reconfigurer brief commercial : agents ciblent profil platine exclusivement. 28 fournisseurs boiteux en validation manuelle Credit Officer.</td><td>Fabrice + Leslie</td><td><span class="tag warn">Mar 12 mai</span></td></tr>
+      <tr><td>3</td><td>Lancer Limit Boost Platine : +30% trimestriel pour 245 platines avec défaut &lt;5%. Gain estimé +5.5 k€/mois MRR sans CAC.</td><td>Fabrice + Data Scientist</td><td><span class="tag warn">Ven 15 mai</span></td></tr>
+      <tr><td>4</td><td>Audit tech module scoring + frais de retard. Stabiliser les données avant tout autre chiffrage.</td><td>Paul-Arthur</td><td><span class="tag warn">Mer 13 mai</span></td></tr>
+      <tr><td>5</td><td>Repositionner Yannick (1005) en closer sur leads sourcés par Basil. Refonte commissionnement : 30/30/20/20.</td><td>Leslie + Aude</td><td><span class="tag info">Lun 18 mai</span></td></tr>
+      <tr><td>6</td><td>Cadre de pilotage : revue tous les 15 jours, mardi matin, 2 north stars (top line + risque). Premier point mardi 12 mai.</td><td>Ladislas</td><td><span class="tag info">Récurrent</span></td></tr>
+      <tr><td>7</td><td>Diagnostic ARPU M+1 : pourquoi dégradation 44 K → 6 K ? Tester hypothèses (qualité fournisseur, profil retailer, briefing agent).</td><td>Fabrice + Data Scientist</td><td><span class="tag info">30 mai</span></td></tr>
+      <tr><td>8</td><td>Adopter formulation interne : « fondamentaux OK + exécution à reconfigurer » dans toutes conversations cofounders.</td><td>Ladislas + Fabrice</td><td><span class="tag ok">Immédiat</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Décisions à instruire (30–60 jours)</h3>
+  <table>
+    <thead><tr><th>#</th><th>Décision</th><th>Owner</th><th>Deadline</th></tr></thead>
+    <tbody>
+      <tr><td>A</td><td>Outcome cible : A (vente courte 18–24m), B (leader CI 36–48m), C (leader Afrique fr. 60–84m). Choisir un primaire + un backup.</td><td>Cofounders + Aude</td><td><span class="tag warn">31 mai</span></td></tr>
+      <tr><td>B</td><td>Stratégie fournisseur : cap d'exposition par fournisseur, ratio gros/moyens cible, critères admission, blacklist/probation, programme « 3+ dépôts par secteur » Yopougon/Cocody.</td><td>Fabrice</td><td><span class="tag warn">31 mai</span></td></tr>
+      <tr><td>C</td><td>Thèse capital : adopter narratif « capital patient » oui/non. Si oui, séparer pitches VC standard vs capital patient (DFI, family office, strategic).</td><td>Ladislas</td><td><span class="tag warn">20 mai</span></td></tr>
+      <tr><td>D</td><td>Argent familial : (a) sortie totale, (b) recours dernier sous conditions, (c) option active à instruire. Conditions explicites si (b)/(c).</td><td>Ladislas</td><td><span class="tag info">30 juin</span></td></tr>
+      <tr><td>E</td><td>Off-balance-sheet : peut-on originer pour le compte d'un prêteur tiers (FMCI, Coris, Bridge) ? Levier capital x10 si oui.</td><td>Ladislas + Fabrice</td><td><span class="tag info">30 juin</span></td></tr>
+      <tr><td>F</td><td>Test Proparco : vue portefeuille indépendante sur capacité réelle des MFI à prioriser Waribei au renouvellement.</td><td>Ladislas</td><td><span class="tag warn">20 mai</span></td></tr>
+      <tr><td>G</td><td>Trouver un dissident éclairé extérieur (ex-fondateur Africa fintech retail credit, hors cap table et hors équipe). 1h.</td><td>Ladislas</td><td><span class="tag info">31 mai</span></td></tr>
+      <tr><td>H</td><td>Conversation Fabrice/Ladislas explicite et datée : horizon de sortie, dilution acceptable, plan B en cas d'échec.</td><td>Ladislas + Fabrice</td><td><span class="tag warn">31 mai</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ================ 5. FRAMEWORKS ================ -->
+<section class="section" id="frameworks">
+  <h2>Frameworks de gestion entre membres gestionnaires</h2>
+  <div class="lead">Cadres opératoires entre Ladislas, Fabrice, Aude, Ulrich, Leslie.</div>
+
+  <h3>5.1 Cadre de pilotage récurrent</h3>
+  <div class="card info">
+    <div class="title">Revue 15 jours — mardi matin</div>
+    <div class="body">60 min max. Owner : Ladislas. Présents : Fabrice, Aude, Ulrich, Leslie quand pertinent. Format : revue des 2 north stars, statut des 7 décisions activées, blocages explicites, ardoise <strong>DÉCISIONS PRISES / ACTIONS À FAIRE</strong> en clôture.</div>
+  </div>
+  <div class="card info">
+    <div class="title">Two north stars</div>
+    <div class="body"><strong>(1) Top line</strong> — MRR + ARPU M+1 nouvelles cohortes + activation/conversion pipeline. <strong>(2) Risque</strong> — charge-off J+180 + concentration top 5 fournisseurs + clustering temporel anormal.</div>
+  </div>
+  <div class="card info">
+    <div class="title">Post-mortem trimestriel</div>
+    <div class="body">Owner Fabrice + Data Scientist. Refaire les 11 cuts du PostMortem v2. Comparer trimestre N vs N-1. <strong>C'est ce qui transforme la conversation « fondamentaux » en décisions.</strong> Garder le template tel quel.</div>
+  </div>
+  <div class="card info">
+    <div class="title">Round table conviction (clôture)</div>
+    <div class="body">Tour de parole 5 min : « Sur Waribei, où es-tu sur une échelle conviction 1–10 ? Qu'est-ce qui te ferait passer à 10 ? Qu'est-ce qui te ferait passer en dessous de 5 ? » Calibration humaine, pas décision.</div>
+  </div>
+
+  <h3>5.2 Méthode de prise de décision</h3>
+  <div class="card warn">
+    <div class="title">Règle du 75-min cap</div>
+    <div class="body">Si à 75 minutes une réunion n'a tranché que 3 questions sur 7, on stoppe. Mieux vaut 3 décisions claires que 7 conversations floues. Programmer une suite. Imprimer les questions, time-boxer chacune, ardoise visible.</div>
+  </div>
+  <div class="card warn">
+    <div class="title">Trois exigences décisionnelles</div>
+    <div class="body">Toute décision sortie d'une réunion doit avoir : (1) un <strong>owner unique</strong>, (2) une <strong>deadline datée</strong>, (3) un <strong>critère d'arbitrage écrit</strong> si la décision dépend de chiffres futurs. Sans ces 3 éléments, ce n'est pas une décision, c'est une intention.</div>
+  </div>
+  <div class="card warn">
+    <div class="title">Primaire + backup</div>
+    <div class="body">Pour les sujets stratégiques (outcome cible, thèse capital, alignement cofounders) : choisir un primaire + un backup. Documenter le critère qui ferait basculer du primaire au backup.</div>
+  </div>
+
+  <h3>5.3 Conventions analytiques verrouillées</h3>
+  <table>
+    <tbody>
+      <tr><td><strong>Défaut</strong></td><td>Principal impayé à J+30 post-maturité (principal_paid_j30 &lt; principal × 0,99)</td></tr>
+      <tr><td><strong>Charge-off</strong></td><td>Principal impayé à J+180 post-maturité (mesuré uniquement sur transactions matures ≥180j)</td></tr>
+      <tr><td><strong>Actif</strong></td><td>≥1 disbursement sur les 30 derniers jours</td></tr>
+      <tr><td><strong>Churner</strong></td><td>Transactant historique sans disbursement depuis 30+ jours</td></tr>
+      <tr><td><strong>Périmètre v2</strong></td><td>Toute la base 1 640 retailers (sans filtre cohorte oct-24+)</td></tr>
+      <tr><td><strong>Date snapshot</strong></td><td>max(approved_date) — actuellement 2026-05-06</td></tr>
+      <tr><td><strong>Cohorte</strong></td><td>Mois d'onboarding du retailer (premier touchpoint Waribei)</td></tr>
+      <tr><td><strong>ARPU M+x</strong></td><td>Revenu cumulé / nb retailers cohorte, mesuré x mois après onboarding</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.4 Hygiène de gouvernance entre cofounders</h3>
+  <div class="card alert">
+    <div class="title">Question anti-loyauté à Fabrice</div>
+    <div class="body">Sur tout sujet structurant : « Où n'es-tu pas d'accord avec ce qu'on a dit ? Pas une nuance polie. Un vrai désaccord. » Si pas de désaccord = signal inquiétant. S'il en a un mais ne l'a pas posé = encore plus inquiétant.</div>
+  </div>
+  <div class="card alert">
+    <div class="title">Anti-confirmation bias</div>
+    <div class="body">Reconnaître quand on est en groupe de confirmation (Aude croit, Ladislas veut croire, Fabrice silencieux). Chercher activement un dissident éclairé extérieur, hors cap table et hors équipe. Coût : 1h. Bénéfice : friction qui manque en interne.</div>
+  </div>
+  <div class="card alert">
+    <div class="title">Conversations explicites datées</div>
+    <div class="body">Toute conversation cofounders sur l'horizon de sortie, la dilution, le plan B doit être explicite et datée. Sinon, alignement par loyauté plutôt que par conviction = bombe à retardement.</div>
+  </div>
+</section>
+
+<!-- ================ 6. SCORINGS ================ -->
+<section class="section" id="scorings">
+  <h2>Scorings à construire — spécifications détaillées</h2>
+  <div class="lead">Trois scorings à instruire en parallèle. Variables, formule, seuils, actions, owner, fréquence. Prêts à briefer Data Scientist.</div>
+
+  <!-- SCORE 1 -->
+  <div class="score-block">
+    <div class="score-title">6.1 · Score Fournisseur (vertueux / neutre / boiteux)</div>
+    <div class="score-obj">Classer les 122 fournisseurs actifs et déclencher des actions différenciées sur les recommandations entrantes.</div>
+
+    <h4>Variables d'entrée</h4>
+    <table>
+      <thead><tr><th>Variable</th><th>Source</th><th>Poids</th></tr></thead>
+      <tbody>
+        <tr><td>Revenu moyen par retailer recommandé (6m)</td><td>fournisseurs_v2.csv</td><td><strong>30%</strong></td></tr>
+        <tr><td>Taux d'activation (% qui transactent post-onboarding)</td><td>Prospect → ReconciledTransaction</td><td><strong>20%</strong></td></tr>
+        <tr><td>Taux de défaut J+30 du portefeuille fournisseur</td><td>ReconciledTransaction × JulayaTransaction</td><td><strong>25%</strong></td></tr>
+        <tr><td>Taux de charge-off J+180 du portefeuille fournisseur</td><td>Charge-off computed</td><td><strong>15%</strong></td></tr>
+        <tr><td>Indicateur clustering temporel défauts (peak share mensuel)</td><td>Cut 4 PostMortem</td><td><strong>10%</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h4>Formule</h4>
+    <div class="formula">Score = 100 × [0.30 × normalize(revenu_par_retailer) + 0.20 × activation_rate + 0.25 × (1 − défaut_J30) + 0.15 × (1 − charge_off_J180) + 0.10 × (1 − peak_share_max)]</div>
+
+    <h4>Seuils &amp; actions</h4>
+    <ul class="bullets">
+      <li><strong>Vertueux (score ≥ 70, 31 actuels) :</strong> revenue share programme, mise en avant interne dans le ranking publié, priorisation onboarding leurs recommandations.</li>
+      <li><strong>Neutre (40–69, 63 actuels) :</strong> monitoring trimestriel du score, pas d'action automatique.</li>
+      <li><strong>Boiteux (&lt; 40, 28 actuels) :</strong> validation manuelle Credit Officer obligatoire sur chaque recommandation. Pas d'onboarding automatique.</li>
+      <li><strong>Critique (peak_share &gt; 70%) :</strong> suspension immédiate, audit (chronologie, retailers recommandés vs validés, historique relations agent-fournisseur).</li>
+    </ul>
+
+    <div class="score-meta">
+      <div><strong>Owner</strong>Fabrice + Data Scientist</div>
+      <div><strong>Fréquence</strong>Mensuel (1er du mois)</div>
+      <div><strong>Diffusion</strong>Ranking interne + Leslie + agents</div>
+      <div><strong>Trigger urgence</strong>Si peak_share franchit 70% → alerte hors-cycle</div>
+      <div><strong>V1 livrable</strong>31 mai 2026</div>
+    </div>
+  </div>
+
+  <!-- SCORE 2 -->
+  <div class="score-block">
+    <div class="score-title">6.2 · Score Dépendance Fournisseur du détaillant</div>
+    <div class="score-obj">Mesurer le degré de dépendance d'un retailer à son fournisseur principal pour ajuster son risque crédit et sa stratégie de limit boost. Tient compte de la bascule risque retailer → risque fournisseur.</div>
+
+    <h4>Variables d'entrée</h4>
+    <table>
+      <thead><tr><th>Variable</th><th>Source</th><th>Poids</th></tr></thead>
+      <tbody>
+        <tr><td>HHI = somme des carrés des parts de volume par fournisseur (6m)</td><td>ReconciledTransaction par supplier</td><td><strong>35%</strong></td></tr>
+        <tr><td>Nombre de fournisseurs distincts utilisés sur 6 mois</td><td>ReconciledTransaction distinct</td><td><strong>15%</strong></td></tr>
+        <tr><td>Ancienneté de la relation avec fournisseur principal</td><td>Prospect.supplier_relationship_months</td><td><strong>15%</strong></td></tr>
+        <tr><td>Saturation limite actuelle du retailer</td><td>JulayaTransaction balance / limit</td><td><strong>20%</strong></td></tr>
+        <tr><td>Score qualité fournisseur principal (lien score 6.1)</td><td>Score 6.1</td><td><strong>15%</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h4>Formule</h4>
+    <div class="formula">Indice dépendance = 100 × [0.35 × HHI + 0.15 × (1 − nb_fournisseurs/10) + 0.15 × normalize(ancienneté) + 0.20 × util_limite + 0.15 × (1 − score_fournisseur/100)]</div>
+    <p style="font-size:12px;color:#4A5468;font-style:italic;margin:6px 0 12px">Lecture : indice = 100 → ultra-dépendant à un seul fournisseur boiteux. Indice = 0 → diversifié et adossé à un fournisseur vertueux.</p>
+
+    <h4>Seuils &amp; actions</h4>
+    <ul class="bullets">
+      <li><strong>Saine (0–40) :</strong> pas d'action.</li>
+      <li><strong>Modérée (40–70) :</strong> monitoring trimestriel, suggestion sourcing alternatif via le commercial.</li>
+      <li><strong>Critique (&gt; 70) — segmentation par qualité fournisseur :</strong>
+        <br><span style="margin-left:18px;display:inline-block">↳ <strong>Si fournisseur principal boiteux :</strong> cap d'exposition Waribei à -20% sur ce retailer + plan de sourcing alternatif obligatoire + revue mensuelle.</span>
+        <br><span style="margin-left:18px;display:inline-block">↳ <strong>Si fournisseur principal vertueux :</strong> opportunité Limit Boost +30% (programme platine) + revenue share avec fournisseur si applicable.</span>
+      </li>
+    </ul>
+
+    <div class="score-meta">
+      <div><strong>Owner</strong>Risk + Data Scientist (lead Fabrice)</div>
+      <div><strong>Fréquence</strong>Mensuel (base active)</div>
+      <div><strong>Trigger Credit Engine</strong>Booster/malus dans le scoring v2 du retailer</div>
+      <div><strong>Diffusion</strong>Tableau de bord risque (Fabrice, Aude)</div>
+      <div><strong>V1 livrable</strong>30 juin 2026</div>
+    </div>
+  </div>
+
+  <!-- SCORE 3 -->
+  <div class="score-block">
+    <div class="score-title">6.3 · Score Agent Commercial (4 sous-scores composites)</div>
+    <div class="score-obj">Ne plus payer les agents uniquement sur le volume. Mesurer 4 dimensions distinctes et les recombiner. Cas Basil (volume top, rentabilité faible) vs Yannick (volume modéré, rentabilité top, churn élevé) prouve qu'un score unique masque la vérité.</div>
+
+    <h4>a · Score Acquisition</h4>
+    <table>
+      <thead><tr><th>Variable</th><th>Poids</th></tr></thead>
+      <tbody>
+        <tr><td>Retailers onboardés / mois</td><td><strong>60%</strong></td></tr>
+        <tr><td>% des onboardés correspondant au profil platine</td><td><strong>40%</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="formula">Score Acquisition = (volume_norm × 0.6 + ratio_platine × 0.4) × 100</div>
+
+    <h4>b · Score Activation</h4>
+    <table>
+      <thead><tr><th>Variable</th><th>Poids</th></tr></thead>
+      <tbody>
+        <tr><td>% des onboardés qui font première transaction &lt;30j</td><td><strong>70%</strong></td></tr>
+        <tr><td>Stock dormant à 60+ jours (pénalité)</td><td><strong>30%</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="formula">Score Activation = (taux_activation × 0.7 + (1 − dormants_60j/total) × 0.3) × 100</div>
+    <p style="font-size:12px;color:#4A5468;font-style:italic;margin:4px 0 10px">Cible : ≥85% activation à J+30, &lt;10% dormants à J+60.</p>
+
+    <h4>c · Score J+0 (qualité immédiate)</h4>
+    <table>
+      <thead><tr><th>Variable</th><th>Poids</th></tr></thead>
+      <tbody>
+        <tr><td>Défaut J+30 du portefeuille de l'agent</td><td><strong>60%</strong></td></tr>
+        <tr><td>Util limite moyenne J+30 des onboardés</td><td><strong>40%</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="formula">Score J+0 = ((1 − défaut_J30) × 0.6 + util_limite × 0.4) × 100</div>
+
+    <h4>d · Score Rentabilité Clients</h4>
+    <table>
+      <thead><tr><th>Variable</th><th>Poids</th></tr></thead>
+      <tbody>
+        <tr><td>Revenu cumulé à 90j par retailer onboardé</td><td><strong>40%</strong></td></tr>
+        <tr><td>Rétention 6 mois</td><td><strong>35%</strong></td></tr>
+        <tr><td>Charge-off J+180 du portefeuille</td><td><strong>25%</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="formula">Score Rentabilité = (revenu_90j_norm × 0.4 + rétention_6m × 0.35 + (1 − charge_off_J180) × 0.25) × 100</div>
+
+    <h4>Score Agent global</h4>
+    <div class="formula" style="border-left-color:#1B7F4E;background:#F4FAF6">Score Global = 30% Acquisition + 20% Activation + 20% J+0 + 30% Rentabilité</div>
+
+    <h4>Rémunération recommandée (décision #5)</h4>
+    <ul class="bullets">
+      <li>30% volume (Score Acquisition)</li>
+      <li>30% revenu généré à 90 jours (Score Rentabilité partie revenu)</li>
+      <li>20% défaut sous 5% (Score J+0 partie défaut)</li>
+      <li>20% rétention 6 mois (Score Rentabilité partie rétention)</li>
+    </ul>
+
+    <h4>Configurations agents typiques</h4>
+    <table>
+      <thead><tr><th>Profil</th><th>Pattern</th><th>Recommandation</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Chasseur</strong> (ex. Basil)</td><td>Top Acquisition + Activation. Faible Rentabilité.</td><td>Repositionnement sourcing/qualifying.</td></tr>
+        <tr><td><strong>Closer</strong> (ex. Yannick)</td><td>Modéré Acquisition. Top J+0 + Rentabilité revenu. Faible Rétention.</td><td>Closer sur leads chasseur + accompagnement à la rétention.</td></tr>
+        <tr><td><strong>Chasseur d'éléphants</strong> (ex. agent 404)</td><td>Bas Acquisition. Top Rentabilité revenu. Faible Rétention (64% churn).</td><td>Niche key accounts haut potentiel, suivi rapproché 90j.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="score-meta">
+      <div><strong>Owner</strong>Leslie + Aude</div>
+      <div><strong>Fréquence</strong>Hebdo (Acq + Act), Mensuel (J+0 + Rentab)</div>
+      <div><strong>Diffusion</strong>Dashboard agent individuel + ranking</div>
+      <div><strong>Trigger commission</strong>Mensuel sur scores 90j glissants</div>
+      <div><strong>V1 livrable</strong>15 juin 2026 (post-stabilisation tech)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================ 7. PRINCIPES ================ -->
+<section class="section" id="principes">
+  <h2>Principes fondamentaux Waribei</h2>
+  <div class="lead">Phrases de référence à diffuser et à invoquer dans les conversations stratégiques. Format court, opérable.</div>
+
+  <div class="card ok"><div class="title">#1 — Fondamentaux OK + exécution à reconfigurer</div><div class="body">Le PMF est réel sur 257 retailers platine. L'exécution doit être radicalement reconfigurée. Ferme le faux débat « tout est OK » vs « problème fondamental ». À utiliser dans toute conversation interne d'arbitrage.</div></div>
+
+  <div class="card info"><div class="title">#2 — Le risque #1 n'est plus le retailer, c'est le fournisseur</div><div class="body">Collusion, sélection biaisée, retailers refilés, défauts groupés temporellement. Tout credit engine, scoring agent, arbitrage commercial doit intégrer cette bascule. Le scoring relationnel détaillant-fournisseur est un projet data, pas une discussion philosophique.</div></div>
+
+  <div class="card info"><div class="title">#3 — Stabilité prédit la rentabilité, pas la croissance</div><div class="body">Plateau retailers (108 K ARPU, 1.0% défaut) > Croissance forte (93 K, 1.4%) > Déclin (52 K, 2.1%). Inverser la stratégie de prêt : prioriser le maintien et l'accompagnement des retailers en plateau régulier, pas la sur-allocation aux retailers en accélération.</div></div>
+
+  <div class="card warn"><div class="title">#4 — Capital patient pour acheter du temps d'apprentissage</div><div class="body">Narratif honnête à vendre aux investisseurs trust-based, à la dette, et à la famille. Pas « j'ai un business qui va décoller dans 18 mois ». Plutôt « j'achète 24 mois pour basculer 100% de l'acquisition sur le profil platine et activer Limit Boost. Voici pourquoi le risque est borné. »</div></div>
+
+  <div class="card warn"><div class="title">#5 — Cherche activement un dissident éclairé</div><div class="body">Aude croit, Ladislas veut croire, Fabrice silencieux. Le groupe est en confirmation bias. Trouver un ex-fondateur Africa fintech retail credit, hors cap table, hors équipe. 1h, coût zéro, ramène la friction qui manque.</div></div>
+
+  <div class="card info"><div class="title">#6 — Trois exigences pour qu'une conversation devienne une décision</div><div class="body">(1) un owner unique, (2) une deadline datée, (3) un critère d'arbitrage écrit. Sans ces trois, ce n'est pas une décision, c'est une intention. À cocher sur chaque ardoise de réunion stratégique.</div></div>
+
+  <div class="card info"><div class="title">#7 — Post-mortem trimestriel = méthode, pas option</div><div class="body">Refaire les 11 cuts du PostMortem v2 chaque trimestre. C'est ce qui transforme la conversation « fondamentaux » en décisions. Garder le template tel quel, comparer N vs N-1.</div></div>
+
+  <div class="card info"><div class="title">#8 — Two north stars : Top line + Risque</div><div class="body">(1) MRR + ARPU M+1 + activation pipeline. (2) Charge-off J+180 + concentration top 5 fournisseurs + clustering temporel anormal. Toute revue 15 jours commence par ces 2 north stars.</div></div>
+
+  <div class="card alert"><div class="title">#9 — Question anti-loyauté à Fabrice</div><div class="body">Sur tout sujet structurant : « Où n'es-tu pas d'accord avec ce qu'on a dit ? Pas une nuance polie. Un vrai désaccord. » Pas de désaccord = signal inquiétant.</div></div>
+
+  <div class="card info"><div class="title">#10 — Lucidité sur ce que la data dit, pas ce qu'on espère</div><div class="body">Le post-mortem v2 a corrigé v1 (default rate top 20% : 0.8% vs 2.8%, retailers en croissance moins défaillants que ceux en déclin). On opère désormais sur les chiffres v2. Toute argumentation reposant sur des chiffres antérieurs au 5 mai 2026 est à requalifier.</div></div>
+</section>
+
+<!-- ================ 8. PLAN 14J ================ -->
+<section class="section" id="plan">
+  <h2>Plan d'action — vue calendaire 14 jours</h2>
+  <div class="lead">Séquencement opérationnel des 8 décisions activées + jalons des décisions à instruire.</div>
+
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-date">Lun 11 mai</div><div class="timeline-content"><strong>Suspension fournisseurs critiques</strong> (5 noms) + envoi PostMortem v2 + note 5 lignes à Fabrice et Aude. <em>(Ladislas + Fabrice)</em></div></div>
+    <div class="timeline-item"><div class="timeline-date">Mar 12 mai</div><div class="timeline-content"><strong>Reconfiguration brief commercial profil platine. Revue 15 jours #1</strong> (matin). Adoption formulation « fondamentaux OK + exécution à reconfigurer ». <em>(Fabrice + Leslie + Ladislas)</em></div></div>
+    <div class="timeline-item"><div class="timeline-date">Mer 13 mai</div><div class="timeline-content"><strong>Audit tech module scoring</strong> (Paul-Arthur). Conversation Fabrice « où n'es-tu pas d'accord ». <em>(Paul-Arthur, Ladislas)</em></div></div>
+    <div class="timeline-item"><div class="timeline-date">Ven 15 mai</div><div class="timeline-content"><strong>Lancement Limit Boost Platine V1</strong> sur 245 retailers. <em>(Fabrice + Data Scientist)</em></div></div>
+    <div class="timeline-item"><div class="timeline-date">Lun 18 mai</div><div class="timeline-content"><strong>Repositionnement Yannick en closer.</strong> Refonte commissionnement. <em>(Leslie + Aude)</em></div></div>
+    <div class="timeline-item"><div class="timeline-date">Mar 19 mai</div><div class="timeline-content"><strong>Revue 15 jours #2.</strong> <em>(Ladislas)</em></div></div>
+    <div class="timeline-item"><div class="timeline-date">Mer 20 mai</div><div class="timeline-content"><strong>Test Proparco lancé.</strong> Décision « thèse capital patient » oui/non. <em>(Ladislas)</em></div></div>
+    <div class="timeline-item"><div class="timeline-date">Ven 22 mai</div><div class="timeline-content"><strong>Premier suivi Limit Boost (J+7)</strong> : conversion en revenu, défauts, retailers ayant absorbé +30%. <em>(Data Scientist)</em></div></div>
+    <div class="timeline-item"><div class="timeline-date">Sem du 25 mai</div><div class="timeline-content"><strong>Identification dissident éclairé extérieur</strong> + appel 1h. Conversation Fabrice/Ladislas explicite et datée (horizon, dilution, plan B). <em>(Ladislas)</em></div></div>
+    <div class="timeline-item"><div class="timeline-date">31 mai</div><div class="timeline-content"><strong>Décision outcome cible (A/B/C primaire + backup).</strong> V1 Score Fournisseur livrée. Stratégie fournisseur tranchée et écrite. <em>(Cofounders + Aude, Fabrice)</em></div></div>
+  </div>
+
+  <div class="card alert">
+    <div class="title">Garde-fou — pas de RDV famille avant le 30 juin</div>
+    <div class="body">Le narratif honnête « capital patient pour temps d'apprentissage » est en construction. Demander l'argent familial sans avoir tranché les 4 points (ARPU M+1 expliqué, risque fournisseur borné, alignement Fabrice testé, outcome cible choisi) = vendre un espoir, pas un projet honnête.</div>
+  </div>
+</section>
+
+<div class="footer">
+  Mega-synthèse Waribei · Snapshot 2026-05-06 · Document interne · Re-consultable depuis Cowork
+</div>
+
+</div>
+
+<script>
+// Tabs
+document.querySelectorAll('.nav button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.nav button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(b.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// Charts
+const arpuLabels = ['oct-24','déc-24','fév-25','avr-25','juin-25','août-25','oct-25','déc-25','fév-26','mars-26'];
+const arpuData = [44000, 35000, 24000, 18000, 14000, 11000, 9000, 8000, 7000, 6000];
+new Chart(document.getElementById('chartArpu'), {
+  type: 'line',
+  data: {
+    labels: arpuLabels,
+    datasets: [{
+      label: 'ARPU M+1 (FCFA)',
+      data: arpuData,
+      borderColor: '#B02A30',
+      backgroundColor: 'rgba(176,42,48,0.08)',
+      fill: true,
+      tension: 0.3,
+      pointBackgroundColor: '#B02A30',
+      pointRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, ticks: { callback: v => (v/1000) + 'k' } },
+      x: { ticks: { font: { size: 10 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('chartLosses'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Top 5 fournisseurs (44%)', 'Reste 117 fournisseurs (56%)'],
+    datasets: [{
+      data: [44, 56],
+      backgroundColor: ['#B02A30', '#D5DCE6'],
+      borderWidth: 2,
+      borderColor: '#fff'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    cutout: '62%',
+    plugins: {
+      legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12 } }
+    }
+  }
+});
+</script>
+</body>
+</html>
