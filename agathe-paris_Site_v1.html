@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agathe in Paris — Carnet de sorties</title>
+<style>
+  :root {
+    color-scheme: light;
+    --paper: #f6f1e7;
+    --paper-2: #efe8d8;
+    --ink: #1c1a17;
+    --ink-soft: #4a463f;
+    --ink-mute: #8a8377;
+    --accent: #8a1c1c;
+    --accent-soft: #b65151;
+    --rule: #2a2620;
+    --shadow: 0 1px 0 rgba(28,26,23,.08), 0 12px 30px -18px rgba(28,26,23,.25);
+    --serif: "Hoefler Text", "Garamond", "EB Garamond", "Baskerville", "Times New Roman", Georgia, serif;
+    --serif-display: "Didot", "Bodoni 72", "Hoefler Text", "Baskerville", Georgia, serif;
+    --mono: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background:
+      radial-gradient(1200px 600px at 0% 0%, rgba(255,255,255,.6), transparent 60%),
+      radial-gradient(800px 500px at 100% 100%, rgba(180,150,100,.10), transparent 60%),
+      var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  /* paper texture */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.012) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.010) 0 1px, transparent 1px 5px);
+    mix-blend-mode: multiply;
+    z-index: 0;
+  }
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 56px 36px 96px;
+  }
+  /* ---------- header / cover page ---------- */
+  header.cover {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 36px;
+  }
+  .stamp {
+    font-family: var(--serif);
+    font-variant: small-caps;
+    letter-spacing: .22em;
+    color: var(--accent);
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+  h1.title {
+    font-family: var(--serif-display);
+    font-weight: 400;
+    font-size: clamp(48px, 8vw, 96px);
+    line-height: .95;
+    letter-spacing: -.01em;
+    margin: 0;
+  }
+  h1.title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .subtitle {
+    margin-top: 14px;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 18px;
+    max-width: 56ch;
+  }
+  .colophon {
+    text-align: right;
+    font-size: 12px;
+    color: var(--ink-mute);
+    font-variant: small-caps;
+    letter-spacing: .18em;
+    line-height: 1.7;
+  }
+  .colophon b { color: var(--ink); font-weight: 600; }
+  .ornament {
+    text-align: center;
+    color: var(--ink-mute);
+    margin: 18px 0 30px;
+    letter-spacing: .6em;
+    font-size: 13px;
+  }
+
+  /* ---------- toolbar (filters) ---------- */
+  .toolbar {
+    background: var(--paper-2);
+    border: 1px solid rgba(0,0,0,.08);
+    border-left: 4px double var(--rule);
+    padding: 18px 22px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .toolbar-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  .toolbar-label {
+    font-variant: small-caps;
+    letter-spacing: .18em;
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-right: 6px;
+    min-width: 70px;
+  }
+  .chip {
+    appearance: none;
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-family: var(--serif);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .15s ease;
+    line-height: 1.2;
+  }
+  .chip:hover { background: rgba(0,0,0,.04); }
+  .chip[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .chip .ic {
+    width: 12px; height: 12px;
+    vertical-align: -2px;
+    margin-right: 4px;
+    opacity: .8;
+  }
+  .chip[aria-pressed="true"] .ic { opacity: 1; }
+  .reset {
+    margin-left: auto;
+    font-style: italic;
+    color: var(--accent);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--serif);
+    font-size: 13px;
+  }
+  .reset:hover { text-decoration: underline; }
+  .count {
+    font-variant: small-caps;
+    letter-spacing: .15em;
+    font-size: 11px;
+    color: var(--ink-mute);
+  }
+  .count b { color: var(--accent); font-weight: 600; }
+
+  /* ---------- chapters ---------- */
+  .chapter {
+    margin-top: 44px;
+  }
+  .chapter-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    border-bottom: 1px solid rgba(0,0,0,.18);
+    padding-bottom: 8px;
+    margin-bottom: 22px;
+  }
+  .chapter-num {
+    font-family: var(--serif-display);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 22px;
+  }
+  .chapter-title {
+    font-family: var(--serif-display);
+    font-size: 28px;
+    margin: 0;
+    font-weight: 400;
+    letter-spacing: .01em;
+  }
+  .chapter-meta {
+    margin-left: auto;
+    font-variant: small-caps;
+    letter-spacing: .18em;
+    font-size: 11px;
+    color: var(--ink-mute);
+  }
+  .chapter-icon {
+    width: 26px; height: 26px;
+    color: var(--accent);
+  }
+
+  /* ---------- card grid ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    background: linear-gradient(180deg, #fffaf0 0%, var(--paper) 100%);
+    border: 1px solid rgba(0,0,0,.10);
+    box-shadow: var(--shadow);
+    padding: 18px 18px 16px;
+    position: relative;
+    transition: transform .15s ease, box-shadow .15s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 1px 0 rgba(28,26,23,.10), 0 22px 40px -22px rgba(28,26,23,.35);
+  }
+  /* corner ribbon (price) */
+  .ribbon {
+    position: absolute;
+    top: 12px; right: -6px;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: var(--serif);
+    font-variant: small-caps;
+    letter-spacing: .14em;
+    font-size: 11px;
+    padding: 3px 10px 3px 12px;
+    box-shadow: -1px 1px 0 rgba(0,0,0,.18);
+  }
+  .ribbon.free { background: #2e6d3a; }
+  .ribbon.pp1 { background: #6b6440; }
+  .ribbon.pp2 { background: #a76a2a; }
+  .ribbon.pp3 { background: #8a1c1c; }
+  .card-cat {
+    font-variant: small-caps;
+    letter-spacing: .2em;
+    font-size: 10px;
+    color: var(--ink-mute);
+  }
+  .card-title {
+    font-family: var(--serif-display);
+    font-size: 22px;
+    line-height: 1.15;
+    margin: 0;
+    padding-right: 70px; /* avoid ribbon */
+    font-weight: 500;
+  }
+  .card-sub {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin: -2px 0 0;
+  }
+  .card-body {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+  .card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(0,0,0,.18);
+    font-size: 12px;
+    color: var(--ink-mute);
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    border: 1px solid rgba(0,0,0,.18);
+    border-radius: 999px;
+    background: rgba(255,255,255,.5);
+    color: var(--ink-soft);
+    font-size: 11px;
+  }
+  .tag .ic { width: 11px; height: 11px; }
+  .access-walk { color: #2e6d3a; border-color: #2e6d3a55; }
+  .access-bike { color: #6b3aa7; border-color: #6b3aa755; }
+  .access-metro { color: #1c5a8a; border-color: #1c5a8a55; }
+  .access-train { color: #8a1c1c; border-color: #8a1c1c55; }
+
+  .bookmark {
+    position: absolute;
+    top: -2px; left: 22px;
+    width: 14px; height: 32px;
+    background: var(--accent);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+    opacity: .85;
+  }
+
+  /* empty state */
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    font-style: italic;
+    color: var(--ink-mute);
+  }
+
+  /* footer */
+  footer.colophon-end {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    color: var(--ink-mute);
+    font-variant: small-caps;
+    letter-spacing: .2em;
+    font-size: 11px;
+  }
+  footer.colophon-end em {
+    font-style: italic;
+    color: var(--ink-soft);
+    text-transform: none;
+    letter-spacing: normal;
+    font-variant: normal;
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+  }
+
+  /* responsive */
+  @media (max-width: 640px) {
+    .wrap { padding: 32px 18px 60px; }
+    header.cover { grid-template-columns: 1fr; }
+    .colophon { text-align: left; }
+    h1.title { font-size: 56px; }
+    .toolbar-label { min-width: unset; width: 100%; margin-bottom: 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============= COVER ============= -->
+  <header class="cover">
+    <div>
+      <div class="stamp">Carnet personnel · Édition Mai-Juin 2026</div>
+      <h1 class="title">Agathe <em>in</em> Paris</h1>
+      <p class="subtitle">Petit guide des sorties culturelles autour de Belleville &amp; au-delà — pour les jours où l'on a envie de traverser la ville à vélo, ou de juste pousser la porte d'à côté.</p>
+    </div>
+    <div class="colophon">
+      <b>20<sup>e</sup> arrondissement</b><br>
+      Belleville · Ménilmontant<br>
+      Carnet vivant — mis à jour
+    </div>
+  </header>
+
+  <div class="ornament">❦  ·  ❦  ·  ❦</div>
+
+  <!-- ============= FILTERS ============= -->
+  <section class="toolbar" aria-label="Filtres">
+    <div class="toolbar-row">
+      <span class="toolbar-label">Prix</span>
+      <button class="chip" data-filter="price" data-value="0" aria-pressed="false">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Gratuit
+      </button>
+      <button class="chip" data-filter="price" data-value="1" aria-pressed="false">€ &lt; 15</button>
+      <button class="chip" data-filter="price" data-value="2" aria-pressed="false">€€ 15–35</button>
+      <button class="chip" data-filter="price" data-value="3" aria-pressed="false">€€€ &gt; 35</button>
+    </div>
+    <div class="toolbar-row">
+      <span class="toolbar-label">Accès</span>
+      <button class="chip" data-filter="access" data-value="walk" aria-pressed="false">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13" cy="4" r="2"/><path d="M10 22l2-7-3-2 2-5 4 2 3 4"/></svg>À pied
+      </button>
+      <button class="chip" data-filter="access" data-value="bike" aria-pressed="false">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l3-7h6l3 7M9 10l-1-3h-2"/></svg>Vélo
+      </button>
+      <button class="chip" data-filter="access" data-value="metro" aria-pressed="false">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M9 17l-2 4M15 17l2 4M9 9h6M9 13h.01M15 13h.01"/></svg>Métro
+      </button>
+    </div>
+    <div class="toolbar-row">
+      <span class="toolbar-label">Catégorie</span>
+      <button class="chip" data-filter="cat" data-value="expo" aria-pressed="false">Expos</button>
+      <button class="chip" data-filter="cat" data-value="cine" aria-pressed="false">Cinéma</button>
+      <button class="chip" data-filter="cat" data-value="livre" aria-pressed="false">Librairies</button>
+      <button class="chip" data-filter="cat" data-value="resto" aria-pressed="false">Restaurants</button>
+      <button class="chip" data-filter="cat" data-value="velo" aria-pressed="false">Balades vélo</button>
+      <button class="chip" data-filter="cat" data-value="event" aria-pressed="false">Événements</button>
+      <button class="reset" id="reset">tout effacer</button>
+    </div>
+    <div class="toolbar-row">
+      <span class="count" id="count"></span>
+    </div>
+  </section>
+
+  <!-- ============= CONTENT (rendered by JS) ============= -->
+  <main id="chapters"></main>
+
+  <footer class="colophon-end">
+    Édité avec soin · Belleville, mai 2026
+    <em>« Paris est une fête, et le 20<sup>e</sup> en est l'arrière-cuisine. »</em>
+  </footer>
+</div>
+
+<script>
+/* ===========================================================
+   DATA — events, lieux, balades.
+   p (price tier): 0 gratuit · 1 <15€ · 2 15–35€ · 3 >35€
+   a (access from Belleville): walk · bike · metro
+   =========================================================== */
+const DATA = [
+  /* ---------- EXPOS / MUSÉES ---------- */
+  { cat:"expo", title:"Carré de Baudouin — L'Arrière-pays II",
+    sub:"121 rue de Ménilmontant · Paris 20e",
+    body:"Centre culturel municipal du 20e. Expo gratuite à 8 minutes à pied de Belleville. Mar–sam 11h–18h, nocturne jeudi 20h30. Jusqu'au 16 juin 2026.",
+    p:0, a:["walk"], when:"jusqu'au 16 juin" },
+
+  { cat:"expo", title:"Médiathèque Marguerite Duras",
+    sub:"« J'aimerais te parler d'elles » · 115 rue de Bagnolet",
+    body:"Petite expo dans une superbe médiathèque. Idéal en sortie de bibli, gratuit, accès facile en bus ou vélo.",
+    p:0, a:["bike","metro"], when:"jusqu'au 3 mai" },
+
+  { cat:"expo", title:"Nan Goldin — Rétrospective",
+    sub:"Grand Palais · Champs-Élysées",
+    body:"40 ans de photographie intime, vies proches et engagement. Vaut le déplacement vélo (20 min depuis Belleville par les quais).",
+    p:3, a:["bike","metro"], when:"printemps-été 2026" },
+
+  { cat:"expo", title:"Lee Miller — Photographe surréaliste",
+    sub:"Musée d'Art Moderne · Paris 16e",
+    body:"250 œuvres entre mode, art et journalisme de guerre. Tarif modéré au MAM, gratuit pour les expositions permanentes.",
+    p:2, a:["metro"], when:"en cours" },
+
+  { cat:"expo", title:"Calder — Rétrospective",
+    sub:"Fondation Louis Vuitton · Bois de Boulogne",
+    body:"300 pièces, des petits jouets sculpturaux aux mobiles XXL. Loin de Belleville mais l'expo de la saison.",
+    p:3, a:["metro"], when:"en cours" },
+
+  { cat:"expo", title:"Henri Matisse — Années 1941-1954",
+    sub:"Grand Palais",
+    body:"La couleur devient langage : sélection audacieuse des dernières années du maître.",
+    p:3, a:["metro","bike"], when:"printemps 2026" },
+
+  { cat:"expo", title:"Henri Rousseau — Le Douanier",
+    sub:"Musée de l'Orangerie · Tuileries",
+    body:"Une cinquantaine d'œuvres en partenariat avec la Fondation Barnes. Belle balade vélo le long du canal puis rive droite.",
+    p:2, a:["bike","metro"], when:"en cours" },
+
+  { cat:"expo", title:"Michelangelo / Rodin — Corps vivants",
+    sub:"Musée du Louvre",
+    body:"Dialogue entre les deux géants de la sculpture. Réserver son créneau en ligne.",
+    p:3, a:["metro","bike"], when:"en cours" },
+
+  /* ---------- CINÉMA ---------- */
+  { cat:"cine", title:"MK2 Gambetta",
+    sub:"6 rue Belgrand · Paris 20e",
+    body:"Cinéma historique de 1920 (façade classée), 6 salles, programmation grand public + indépendant. À 10 min à pied de Belleville.",
+    p:2, a:["walk","metro"], when:"tous les jours" },
+
+  { cat:"cine", title:"Le Méliès",
+    sub:"Montreuil · à 15 min vélo",
+    body:"Cinéma art & essai mythique de l'Est parisien. Trois salles, programmation pointue, tarifs doux. Soirées-débats fréquentes.",
+    p:1, a:["bike","metro"], when:"toute l'année" },
+
+  { cat:"cine", title:"Le Louxor — Palais du Cinéma",
+    sub:"Barbès · Paris 10e",
+    body:"Cinéma art déco restauré, 3 salles, café au sommet avec vue. ~15 min vélo via les boulevards.",
+    p:2, a:["bike","metro"], when:"toute l'année" },
+
+  { cat:"cine", title:"Cinéma du Réel — Centre Pompidou",
+    sub:"Beaubourg",
+    body:"Pour les jours où Agathe veut un documentaire qui sort de l'ordinaire. Programmation rare, à suivre.",
+    p:1, a:["bike","metro"], when:"séances régulières" },
+
+  /* ---------- LIBRAIRIES & CAFÉS LITTÉRAIRES ---------- */
+  { cat:"livre", title:"Le Genre Urbain",
+    sub:"60 rue de Belleville · Paris 20e",
+    body:"BD, mangas, livres anciens, langues étrangères. La librairie de quartier qu'on connaît par son prénom. À 5 min à pied.",
+    p:0, a:["walk"], when:"mar–sam" },
+
+  { cat:"livre", title:"Bokbar — Librairie-café nordique",
+    sub:"Belleville",
+    body:"500 ouvrages venus de Suède, Danemark, Finlande, Norvège, Islande. Cafés d'exception et pâtisseries scandinaves. Rare et délicieux.",
+    p:1, a:["walk"], when:"tous les jours" },
+
+  { cat:"livre", title:"La Toute Petite Librairie",
+    sub:"Paris 20e",
+    body:"Sur deux étages + annexe jeunesse. Romans, BD, polars, livres d'art, science-fiction. Conseils impeccables.",
+    p:0, a:["walk","metro"], when:"mar–dim" },
+
+  { cat:"livre", title:"La Croisée des mondes",
+    sub:"304 rue de Belleville · Paris 20e",
+    body:"Spécialisée polar, SF, fantasy + jeunesse. Lun–sam 10h–19h30. À l'autre bout du quartier, jolie marche.",
+    p:0, a:["walk","metro"], when:"lun–sam" },
+
+  { cat:"livre", title:"L'Ogre à Plumes",
+    sub:"Café-librairie · Paris 11e",
+    body:"Lectures, rencontres avec auteurs et éditeurs presque chaque jour. À 15 min vélo, parfait pour un café-livre du soir.",
+    p:1, a:["bike","metro"], when:"prog. hebdo" },
+
+  /* ---------- RESTAURANTS ---------- */
+  { cat:"resto", title:"Le Cheval d'Or",
+    sub:"Belleville · cuisine du marché",
+    body:"Néobistrot dirigé par d'anciens de Verjus & Clown Bar. Cuisine inventive, vins vivants. Réserver tôt.",
+    p:3, a:["walk"], when:"soir" },
+
+  { cat:"resto", title:"Le Grand Bain",
+    sub:"Belleville · électrique",
+    body:"Comptoir citron vert, néon orange, ambiance plus ring que dînette. Chipotle et jalapeños au barbecue. Petit miracle.",
+    p:3, a:["walk"], when:"soir" },
+
+  { cat:"resto", title:"Soces",
+    sub:"Hauteurs de Belleville · poissons",
+    body:"Moulures, parquet patiné, cuisine-verrière. Poiscaille, oursins, coquillages. Une chic cambuse pour un soir spécial.",
+    p:3, a:["walk"], when:"soir" },
+
+  { cat:"resto", title:"Le Perchoir Ménilmontant",
+    sub:"Toit-terrasse · vue sur Paris",
+    body:"Décor kitcho-rococo : rideaux rouges, croix dorée. Cuisine italo-américaine, l'apéro coucher de soleil est le vrai motif.",
+    p:2, a:["walk"], when:"tous les jours" },
+
+  { cat:"resto", title:"RORI — pizza new-yorkaise",
+    sub:"Belleville · décor années 70",
+    body:"Pepperoni au miel fermenté, pesto en topping. Petit, bruyant, parfait pour un dîner improvisé.",
+    p:2, a:["walk"], when:"soir" },
+
+  { cat:"resto", title:"Rond — crêperie punk",
+    sub:"Belleville · galettes & rock",
+    body:"Galettes bretonnes, calva, playlist rock. L'ambiance vaut autant le déplacement que la galette. Brunch dominical.",
+    p:1, a:["walk"], when:"midi & soir" },
+
+  /* ---------- BALADES VÉLO ---------- */
+  { cat:"velo", title:"Canal de l'Ourcq → la Villette",
+    sub:"4 km · plat · piste séparée",
+    body:"Depuis Belleville, descente douce vers le canal, puis remontée le long du Parc de la Villette. Idéal pour un samedi matin.",
+    p:0, a:["bike"], when:"toute l'année" },
+
+  { cat:"velo", title:"Buttes-Chaumont au coucher du soleil",
+    sub:"15 min vélo · 60 m de dénivelé",
+    body:"Le parc le plus romantique de Paris. Pose vélo en bas, montée à pied jusqu'au temple de la Sibylle. Pique-nique recommandé.",
+    p:0, a:["walk","bike"], when:"par beau temps" },
+
+  { cat:"velo", title:"Promenade Plantée → Bercy",
+    sub:"5 km · ancienne voie ferrée",
+    body:"Coulée verte surélevée jusqu'à Bercy Village. Bibliothèque BNF, parcs, librairies en chemin. Belle boucle d'après-midi.",
+    p:0, a:["bike"], when:"toute l'année" },
+
+  { cat:"velo", title:"Paris–Tremblay par le canal",
+    sub:"27 km AR · piste verte",
+    body:"Le grand trip : 27 km de piste séparée jusqu'à la Forêt de Sevran. Moulins de Pantin, parc forestier, retour en RER si fatiguée.",
+    p:0, a:["bike"], when:"week-end" },
+
+  { cat:"velo", title:"Père-Lachaise — flânerie pédestre",
+    sub:"7 min vélo depuis Belleville",
+    body:"Pas du vélo dans le cimetière, mais on attache son vélo à la Porte du Repos. Tombes d'Apollinaire, Wilde, Proust, Modigliano…",
+    p:0, a:["walk","bike"], when:"tous les jours" },
+
+  /* ---------- ÉVÉNEMENTS PONCTUELS ---------- */
+  { cat:"event", title:"Nuit Européenne des Musées",
+    sub:"16 mai 2026 · partout",
+    body:"Tous les musées ouverts gratuitement la nuit. Concert exceptionnel au Conservatoire Boulanger, jardin des Archives Nationales.",
+    p:0, a:["walk","bike","metro"], when:"sam 16 mai" },
+
+  { cat:"event", title:"Bal de l'amour — Place de la Bastille",
+    sub:"15 mai 2026 · dès 18h",
+    body:"Bal populaire en plein air, gratuit, ouvert à tous. À 12 min vélo de Belleville par la rue de la Roquette.",
+    p:0, a:["bike","metro"], when:"jeu 15 mai" },
+
+  { cat:"event", title:"Fête de la Nature",
+    sub:"20–25 mai 2026",
+    body:"Balades guidées, ateliers, observations dans les parcs parisiens. Jardin Naturel Pierre-Emmanuel à 15 min à pied.",
+    p:0, a:["walk","bike"], when:"20–25 mai" },
+
+  { cat:"event", title:"Nuit Blanche 2026",
+    sub:"6 juin · direction Barbara Butch",
+    body:"Parcours d'art contemporain à travers la ville, toute la nuit. Vélo nocturne idéal — Paris se transforme.",
+    p:0, a:["bike","walk"], when:"sam 6 juin" },
+
+  { cat:"event", title:"Fête de la Musique",
+    sub:"21 juin 2026 · partout",
+    body:"Tout Paris devient une scène. Belleville et Ménilmontant sont parmi les meilleurs spots — bars, cours d'immeubles, places.",
+    p:0, a:["walk"], when:"dim 21 juin" },
+
+  { cat:"event", title:"Les Étés du Louvre",
+    sub:"20 juin 2026 · ouverture",
+    body:"Concert gratuit de l'Orchestre de Paris sous la Pyramide pour lancer la saison estivale. Ambiance suspendue.",
+    p:0, a:["bike","metro"], when:"sam 20 juin" },
+
+  { cat:"event", title:"Kiosques en Fête (20e)",
+    sub:"Avril–septembre · jardins du 20e",
+    body:"Spectacles, musique, danse, théâtre dans les kiosques des jardins du quartier. Programmation hebdomadaire, gratuit.",
+    p:0, a:["walk"], when:"week-ends" },
+
+  { cat:"event", title:"La Bellevilloise — programmation",
+    sub:"19 rue Boyer · Paris 20e",
+    body:"2000 m² dédiés aux pratiques culturelles innovantes : concerts, expos, projections, brunchs jazz. Vaisseau-amiral de Belleville.",
+    p:2, a:["walk"], when:"prog. hebdo" }
+];
+
+/* ===========================================================
+   CHAPTERS — order, titles, icons (book-themed)
+   =========================================================== */
+const CHAPTERS = [
+  { id:"expo",  num:"I",   title:"Expositions & Musées",      icon:icoFrame },
+  { id:"cine",  num:"II",  title:"Salles obscures",           icon:icoReel },
+  { id:"livre", num:"III", title:"Librairies & cafés-livres", icon:icoBook },
+  { id:"resto", num:"IV",  title:"Tables &  comptoirs",       icon:icoFork },
+  { id:"velo",  num:"V",   title:"Balades à vélo",            icon:icoBike },
+  { id:"event", num:"VI",  title:"Événements & festivals",    icon:icoQuill }
+];
+
+/* ---------- inline SVG icons (book-themed) ---------- */
+function icoBook(){return svg('M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4zM4 4v13a3 3 0 0 0 3 3M8 8h6M8 12h6');}
+function icoFrame(){return svg('M3 5h18v14H3z M7 9l3 3 4-5 4 7H6');}
+function icoReel(){return svg('M5 5h14v14H5z M9 5v14M15 5v14M5 9h14M5 15h14');}
+function icoFork(){return svg('M7 3v8a3 3 0 0 0 3 3v7M7 3v8M11 3v8M15 3c0 4 2 4 2 8v10');}
+function icoBike(){return svg('M5.5 17.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM18.5 17.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM5.5 17.5l4-7h6l4 7M9.5 10.5l-1-3h-2');}
+function icoQuill(){return svg('M3 21l8-8M11 13l8-8c1 1 1 4-2 7s-6 3-6 1M11 13l4 4');}
+function svg(d){return `<svg class="chapter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;}
+
+/* ---------- access icon (small) ---------- */
+function tagIcon(a){
+  if(a==="walk") return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13" cy="4" r="2"/><path d="M10 22l2-7-3-2 2-5 4 2 3 4"/></svg>';
+  if(a==="bike") return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l3-7h6l3 7M9 10l-1-3h-2"/></svg>';
+  if(a==="metro") return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M9 17l-2 4M15 17l2 4"/></svg>';
+  return '';
+}
+const ACCESS_LABEL = { walk:"À pied", bike:"Vélo", metro:"Métro" };
+
+/* ---------- price helpers ---------- */
+const PRICE_LABEL = ["Gratuit", "€", "€€", "€€€"];
+const PRICE_CLASS = ["free", "pp1", "pp2", "pp3"];
+
+/* ===========================================================
+   STATE & RENDER
+   =========================================================== */
+const STORAGE_KEY = "agathe-in-paris-filters-v1";
+let filters = loadFilters();
+
+function loadFilters(){
+  try {
+    const v = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(v && typeof v==="object") return { price:new Set(v.price||[]), access:new Set(v.access||[]), cat:new Set(v.cat||[]) };
+  } catch(e){}
+  return { price:new Set(), access:new Set(), cat:new Set() };
+}
+function saveFilters(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    price:[...filters.price], access:[...filters.access], cat:[...filters.cat]
+  }));
+}
+
+function passes(item){
+  if(filters.price.size && !filters.price.has(String(item.p))) return false;
+  if(filters.access.size && !item.a.some(x=>filters.access.has(x))) return false;
+  if(filters.cat.size && !filters.cat.has(item.cat)) return false;
+  return true;
+}
+
+function sortItems(arr){
+  // sort by price ascending, then by # of access modes (more = easier) descending
+  return arr.slice().sort((x,y)=>{
+    if(x.p!==y.p) return x.p - y.p;
+    return y.a.length - x.a.length;
+  });
+}
+
+function render(){
+  // chips state
+  document.querySelectorAll(".chip[data-filter]").forEach(c=>{
+    const f = c.dataset.filter, v = c.dataset.value;
+    const active = filters[f].has(v);
+    c.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+
+  const visible = DATA.filter(passes);
+  document.getElementById("count").innerHTML =
+    `<b>${visible.length}</b> sortie${visible.length>1?"s":""} dans le carnet${
+      (filters.price.size+filters.access.size+filters.cat.size) ? " · filtres actifs" : ""
+    }`;
+
+  const root = document.getElementById("chapters");
+  root.innerHTML = "";
+
+  CHAPTERS.forEach(ch=>{
+    const items = sortItems(visible.filter(i=>i.cat===ch.id));
+    if(!items.length) return;
+
+    const sec = document.createElement("section");
+    sec.className = "chapter";
+    sec.innerHTML = `
+      <div class="chapter-head">
+        ${ch.icon()}
+        <span class="chapter-num">${ch.num}.</span>
+        <h2 class="chapter-title">${ch.title}</h2>
+        <span class="chapter-meta">${items.length} entrée${items.length>1?"s":""}</span>
+      </div>
+      <div class="grid">
+        ${items.map(cardHTML).join("")}
+      </div>`;
+    root.appendChild(sec);
+  });
+
+  if(!visible.length){
+    root.innerHTML = `<div class="empty">Rien ne correspond — essaie de retirer un filtre.</div>`;
+  }
+}
+
+function cardHTML(it){
+  const tags = it.a.map(a=>`<span class="tag access-${a}">${tagIcon(a)}${ACCESS_LABEL[a]}</span>`).join("");
+  return `
+    <article class="card" data-cat="${it.cat}">
+      <div class="bookmark"></div>
+      <div class="ribbon ${PRICE_CLASS[it.p]}">${PRICE_LABEL[it.p]}</div>
+      <div class="card-cat">${chapterTitle(it.cat)}</div>
+      <h3 class="card-title">${it.title}</h3>
+      <p class="card-sub">${it.sub}</p>
+      <p class="card-body">${it.body}</p>
+      <div class="card-footer">
+        ${tags}
+        <span style="margin-left:auto;font-style:italic;">${it.when}</span>
+      </div>
+    </article>`;
+}
+function chapterTitle(id){ return (CHAPTERS.find(c=>c.id===id)||{}).title || ""; }
+
+/* ===========================================================
+   EVENTS
+   =========================================================== */
+document.querySelectorAll(".chip[data-filter]").forEach(c=>{
+  c.addEventListener("click", ()=>{
+    const f=c.dataset.filter, v=c.dataset.value;
+    if(filters[f].has(v)) filters[f].delete(v); else filters[f].add(v);
+    saveFilters(); render();
+  });
+});
+document.getElementById("reset").addEventListener("click", ()=>{
+  filters = { price:new Set(), access:new Set(), cat:new Set() };
+  saveFilters(); render();
+});
+
+render();
+</script>
+</body>
+</html>
