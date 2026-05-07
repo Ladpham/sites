@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Emile — Pistes pro Tanzanie</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0d0a08;
+    --bg-soft: #1a1410;
+    --bg-card: #211a14;
+    --border: rgba(255,255,255,0.08);
+    --text: #f3ecdf;
+    --text-soft: #b8a890;
+    --text-dim: #7a6a55;
+    --accent: #ffb15c;          /* savanna sunset */
+    --accent-2: #4dd6c4;         /* indian ocean */
+    --accent-3: #e8a05c;          /* gold */
+    --dar: #ffb15c;
+    --arusha: #4dd6c4;
+    --zanzibar: #c87ef0;
+    --warn: #ff7a90;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(255,177,92,0.12), transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, rgba(77,214,196,0.08), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 48px 28px 80px; }
+  header.hero {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: end;
+    padding-bottom: 32px; border-bottom: 1px solid var(--border); margin-bottom: 48px;
+  }
+  .eyebrow { color: var(--accent); letter-spacing: 0.18em; text-transform: uppercase; font-size: 12px; font-weight: 600; }
+  h1 { font-size: clamp(36px, 5vw, 56px); line-height: 1.05; margin: 12px 0 16px; font-weight: 700; letter-spacing: -0.02em; }
+  h1 .grad { background: linear-gradient(120deg, var(--accent), var(--accent-3) 60%, var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { color: var(--text-soft); font-size: 17px; max-width: 60ch; }
+  .magellan {
+    margin-top: 14px; padding: 10px 14px; border-left: 3px solid var(--accent); background: rgba(255,177,92,0.06);
+    font-style: italic; color: var(--text-soft); font-size: 14px; max-width: 60ch; border-radius: 0 10px 10px 0;
+  }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .stat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; }
+  .stat .v { font-size: 28px; font-weight: 700; letter-spacing: -0.01em; }
+  .stat .l { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+  .stat .v small { font-size: 14px; color: var(--text-soft); font-weight: 500; }
+  section { margin: 56px 0; }
+  h2 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 .num { color: var(--text-dim); font-weight: 500; margin-right: 12px; }
+  .subhead { color: var(--text-soft); margin: 0 0 24px; font-size: 15px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 24px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  /* Filters */
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; align-items: center; }
+  .chip {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    color: var(--text-soft); padding: 8px 14px; border-radius: 999px;
+    font-size: 13px; cursor: pointer; transition: all 0.15s;
+    font-weight: 500;
+  }
+  .chip:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+  .chip.active { background: var(--accent); color: #1a1410; border-color: var(--accent); }
+  .chip.dar.active { background: var(--dar); border-color: var(--dar); color: #1a1410; }
+  .chip.arusha.active { background: var(--arusha); border-color: var(--arusha); color: #0d0a08; }
+  .chip.zanzibar.active { background: var(--zanzibar); border-color: var(--zanzibar); color: #0d0a08; }
+  .filter-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .filter-label { color: var(--text-dim); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 4px; }
+  /* Employer cards */
+  .emp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px; }
+  .emp {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 18px;
+    transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .emp-link {
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-top: 8px; padding: 10px 14px; border-radius: 10px;
+    background: var(--bg-soft); color: var(--text); text-decoration: none;
+    font-size: 13px; font-weight: 600; border: 1px solid var(--border);
+    transition: all 0.15s;
+  }
+  .emp-link:hover { background: var(--accent); color: #1a1410; border-color: var(--accent); }
+  .emp-link.open {
+    background: linear-gradient(120deg, var(--accent), var(--accent-3));
+    color: #1a1410; border-color: transparent;
+  }
+  .emp-link.open:hover { filter: brightness(1.1); }
+  .emp:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.18); box-shadow: 0 12px 30px rgba(0,0,0,0.4); }
+  .emp .head { display: flex; justify-content: space-between; align-items: start; gap: 8px; }
+  .emp h3 { margin: 0; font-size: 17px; }
+  .emp .city {
+    font-size: 11px; padding: 3px 8px; border-radius: 999px; font-weight: 600;
+    background: rgba(255,177,92,0.15); color: var(--dar);
+    white-space: nowrap;
+  }
+  .emp .city.arusha { background: rgba(77,214,196,0.15); color: var(--arusha); }
+  .emp .city.zanzibar { background: rgba(200,126,240,0.15); color: var(--zanzibar); }
+  .emp .sector { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+  .emp .why { font-size: 14px; color: var(--text-soft); }
+  .emp .role { font-size: 13px; color: var(--text); padding: 6px 0; border-top: 1px solid var(--border); margin-top: 2px; }
+  .emp .role b { color: var(--accent); }
+  .emp .marie { font-size: 12px; color: var(--zanzibar); margin-top: 2px; padding: 4px 8px; background: rgba(200,126,240,0.08); border-radius: 6px; border-left: 2px solid var(--zanzibar); }
+  .score { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+  .score-bar { flex: 1; height: 6px; background: var(--bg-soft); border-radius: 999px; overflow: hidden; }
+  .score-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; }
+  .score-num { font-weight: 700; color: var(--text); font-size: 13px; min-width: 28px; text-align: right; }
+  /* Timeline */
+  .tl { position: relative; padding: 16px 0; }
+  .tl-track { position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: var(--border); transform: translateY(-50%); }
+  .tl-events { display: flex; justify-content: space-between; position: relative; }
+  .tl-event { position: relative; cursor: pointer; min-width: 0; flex: 1; padding: 0 4px; }
+  .tl-dot {
+    width: 14px; height: 14px; border-radius: 50%; background: var(--bg-card);
+    border: 2px solid var(--accent); margin: 0 auto; transition: all 0.15s; position: relative; z-index: 2;
+  }
+  .tl-event:hover .tl-dot, .tl-event.active .tl-dot { background: var(--accent); transform: scale(1.4); }
+  .tl-event.active .tl-dot { background: var(--accent-2); border-color: var(--accent-2); }
+  .tl-label { font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 8px; }
+  .tl-detail {
+    margin-top: 24px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 14px; padding: 20px; min-height: 120px;
+  }
+  .tl-detail h4 { margin: 0 0 4px; font-size: 16px; }
+  .tl-detail .meta { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .tl-detail p { margin: 0; color: var(--text-soft); font-size: 14px; }
+  /* Voies (3 paths recommendation) */
+  .voies { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .voie { background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px; padding: 22px; transition: transform 0.15s, border-color 0.15s; }
+  .voie:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.18); }
+  .voie .tag { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px; }
+  .voie.a .tag { background: rgba(255,177,92,0.15); color: var(--accent); }
+  .voie.b .tag { background: rgba(77,214,196,0.15); color: var(--accent-2); }
+  .voie.c .tag { background: rgba(200,126,240,0.15); color: var(--zanzibar); }
+  .voie h3 { margin: 0 0 10px; font-size: 19px; }
+  .voie p { margin: 0 0 12px; font-size: 14px; color: var(--text-soft); }
+  .voie ul { margin: 0; padding-left: 18px; font-size: 13px; color: var(--text-soft); }
+  .voie li { margin-bottom: 4px; }
+  .voie .rg { font-size: 12px; color: var(--text-dim); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  /* City compare 3-col */
+  .city-compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .city-card { padding: 22px; border-radius: 18px; border: 1px solid var(--border); background: var(--bg-card); }
+  .city-card.dar { border-top: 3px solid var(--dar); }
+  .city-card.arusha { border-top: 3px solid var(--arusha); }
+  .city-card.zanzibar { border-top: 3px solid var(--zanzibar); }
+  .city-card h3 { margin: 0 0 12px; font-size: 22px; }
+  .city-card .tagline { font-size: 13px; color: var(--text-dim); margin-bottom: 14px; }
+  .city-card ul { margin: 0; padding-left: 18px; color: var(--text-soft); font-size: 13px; }
+  .city-card li { margin-bottom: 6px; }
+  /* Marie synergy section */
+  .marie-card {
+    background: linear-gradient(135deg, rgba(200,126,240,0.1), rgba(77,214,196,0.06));
+    border: 1px solid rgba(200,126,240,0.25); border-radius: 18px; padding: 26px;
+  }
+  .marie-card h3 { margin: 0 0 8px; font-size: 22px; color: var(--zanzibar); }
+  .marie-card .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+  .marie-card .col { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 16px; }
+  .marie-card .col h4 { margin: 0 0 8px; font-size: 14px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .marie-card .col .who { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+  .marie-card .col ul { margin: 8px 0 0; padding-left: 18px; font-size: 13px; color: var(--text-soft); }
+  .marie-card .col li { margin-bottom: 4px; }
+  .bridge { margin-top: 18px; padding: 14px 18px; background: rgba(255,177,92,0.06); border-radius: 12px; border-left: 3px solid var(--accent); }
+  .bridge b { color: var(--accent); }
+  /* Action plan */
+  .plan { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .week {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 16px;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .week:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .week .w { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 600; }
+  .week h4 { margin: 6px 0 8px; font-size: 15px; }
+  .week p { margin: 0; font-size: 13px; color: var(--text-soft); }
+  /* Charts containers */
+  .chart-box { position: relative; height: 320px; }
+  .chart-box.tall { height: 380px; }
+  canvas { max-width: 100%; }
+  /* Footer */
+  footer { color: var(--text-dim); font-size: 12px; text-align: center; padding-top: 32px; border-top: 1px solid var(--border); margin-top: 60px; }
+  footer a { color: var(--accent-2); text-decoration: none; }
+  @media (max-width: 880px) {
+    header.hero { grid-template-columns: 1fr; }
+    .grid-2, .voies, .city-compare { grid-template-columns: 1fr; }
+    .plan { grid-template-columns: repeat(2, 1fr); }
+    .marie-card .pair { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Mémo interactif · 7 mai 2026</div>
+      <h1>Cap sur la <span class="grad">Tanzanie</span><br/>pour Emile</h1>
+      <p class="lede">Profil ESCP × WinWin Afrique × FIA WEC. Trois voies (BD, Country GM, co-fondateur), 14 cibles employeurs sur 3 villes, et un atout central : Marie au pôle culturel de l'Ambassade de France.</p>
+      <div class="magellan">« Il faut savoir s'éloigner du connu pour atteindre l'inconnu. » — Stefan Zweig, <i>Magellan</i>. Le départ pour Dar es Salaam, c'est exactement ça.</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="v">2 ans</div><div class="l">XP pro (FIA + WinWin)</div></div>
+      <div class="stat"><div class="v">3 voies</div><div class="l">de positionnement</div></div>
+      <div class="stat"><div class="v">14</div><div class="l">Employeurs cibles</div></div>
+      <div class="stat"><div class="v">3 villes</div><div class="l">Dar · Arusha · Zanzibar</div></div>
+    </div>
+  </header>
+
+  <!-- 1. PROFIL -->
+  <section>
+    <h2><span class="num">01</span>Profil</h2>
+    <p class="subhead">Profil hybride : business développeur formé en grande école, déjà rodé à l'Afrique de l'Ouest, à l'aise dans le sport et l'événementiel premium.</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3 style="margin:0 0 10px">Compétences clés</h3>
+        <div class="chart-box"><canvas id="skillRadar"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px">Trajectoire</h3>
+        <div class="tl">
+          <div class="tl-track"></div>
+          <div class="tl-events" id="timelineEvents"></div>
+        </div>
+        <div class="tl-detail" id="timelineDetail"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. RECOMMANDATION : 3 VOIES -->
+  <section>
+    <h2><span class="num">02</span>Trois voies à prospecter en parallèle</h2>
+    <p class="subhead">Plutôt que de choisir tôt, ouvrir trois pistes de front pendant 3 mois et trancher selon les retours.</p>
+    <div class="voies">
+      <div class="voie a">
+        <span class="tag">Voie A · Sécurisée</span>
+        <h3>BD / Partnerships Lead</h3>
+        <p>Reproduire son rôle WinWin dans une PME ou un groupe sport-événementiel-tourisme. Capitalise direct sur les compétences sponsoring + BD.</p>
+        <ul>
+          <li>Hospitality premium (lodges, hôtels boutique)</li>
+          <li>Agences sport/event (TFF, marathons, golf)</li>
+          <li>Filiales françaises (CFAO, AGL, TotalEnergies)</li>
+        </ul>
+        <div class="rg">Salaire : 25–45 k€ net/an + housing · Risque : faible · Aventure : moyenne</div>
+      </div>
+      <div class="voie b">
+        <span class="tag">Voie B · Ambitieuse</span>
+        <h3>Country Manager adjoint</h3>
+        <p>Une PME française ou panafricaine en lancement Tanzanie le prend pour structurer l'entrée marché : recrutement, partenariats, ouverture commerciale.</p>
+        <ul>
+          <li>Solaire / Off-grid (BBOXX, Engie Energy Access)</li>
+          <li>Logistique (Africa Global Logistics)</li>
+          <li>Distribution / Mobility (CFAO Mobility)</li>
+        </ul>
+        <div class="rg">Salaire : 35–60 k€ net/an + package · Risque : moyen · Aventure : forte</div>
+      </div>
+      <div class="voie c">
+        <span class="tag">Voie C · Aventure</span>
+        <h3>Co-fondateur / Project Lead</h3>
+        <p>S'associer à un fondateur local ou monter sa propre structure (event agency, lodge, tour-opérateur premium FR). Maximum d'apprentissage, pari long.</p>
+        <ul>
+          <li>Event agency franco-tanzanienne</li>
+          <li>Lodge / glamping niche aventure</li>
+          <li>Plateforme sponsoring sport panafricain</li>
+        </ul>
+        <div class="rg">Salaire : variable (10–25 k€ + equity) · Risque : élevé · Aventure : maximale</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px">
+      <div style="display:flex;justify-content:space-between;align-items:end;margin-bottom:8px;flex-wrap:wrap;gap:12px">
+        <div>
+          <h3 style="margin:0;font-size:18px">Positionnement salarial Dar es Salaam (expat junior–mid)</h3>
+          <p class="subhead" style="margin:4px 0 0">Fourchettes nettes annuelles. Logement souvent inclus dans les packages expat.</p>
+        </div>
+      </div>
+      <div class="chart-box tall"><canvas id="salaryChart"></canvas></div>
+    </div>
+  </section>
+
+  <!-- 3. SYNERGIE MARIE -->
+  <section>
+    <h2><span class="num">03</span>L'atout Marie · pôle culturel Ambassade</h2>
+    <p class="subhead">Sa femme bosse au cœur du dispositif culturel français. C'est l'asset le plus différenciant du couple : à exploiter sans complexe (ni s'y enfermer).</p>
+    <div class="marie-card">
+      <h3>Le couple comme plateforme</h3>
+      <p style="color:var(--text-soft);margin:0;font-size:14px">Marie = porte d'entrée institutionnelle (Institut français, Saison culturelle, mécénat). Emile = exécution business, sponsoring, événementiel. Ensemble : un duo rare sur la place.</p>
+      <div class="pair">
+        <div class="col">
+          <div class="who">Marie · Ambassade FR · Chargée dév. culturel</div>
+          <h4>Réseau direct</h4>
+          <ul>
+            <li>Institut français de Tanzanie (Dar)</li>
+            <li>Alliance française Arusha & Zanzibar</li>
+            <li>Mécènes & sponsors saison culturelle</li>
+            <li>CCIFT (Chambre de commerce FR)</li>
+            <li>French Tech Dar es Salaam</li>
+            <li>Communauté française expatriée</li>
+          </ul>
+        </div>
+        <div class="col">
+          <div class="who">Emile · Profil sport, BD, événementiel</div>
+          <h4>Apport de valeur</h4>
+          <ul>
+            <li>Monter sponsorings privés pour événements culturels</li>
+            <li>Connecter sport & culture (festivals, marathons)</li>
+            <li>BD vers groupes français (Bolloré, AXIAN, Total)</li>
+            <li>Coproduire événements premium</li>
+            <li>Visibilité = nom qui se construit vite</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bridge">
+        <b>Pont concret :</b> proposer dès l'arrivée 1 ou 2 deals où le rôle d'Emile (côté sponsor privé) et celui de Marie (côté programmation publique) se complètent — exemple : Saison France-Tanzania, événement sport-culture pour les 50 ans des relations diplo, partenariat Kilimanjaro Marathon × Institut français.
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. EMPLOYEURS -->
+  <section>
+    <h2><span class="num">04</span>Cibles employeurs</h2>
+    <p class="subhead">14 structures classées par fit-score. Filtrez par ville, secteur ou voie.</p>
+    <div class="filters">
+      <div class="filter-group">
+        <span class="filter-label">Ville</span>
+        <button class="chip active" data-filter="city" data-value="all">Toutes</button>
+        <button class="chip dar" data-filter="city" data-value="dar">Dar es Salaam</button>
+        <button class="chip arusha" data-filter="city" data-value="arusha">Arusha</button>
+        <button class="chip zanzibar" data-filter="city" data-value="zanzibar">Zanzibar</button>
+      </div>
+      <div class="filter-group" style="margin-left:auto">
+        <span class="filter-label">Secteur</span>
+        <button class="chip active" data-filter="sector" data-value="all">Tous</button>
+        <button class="chip" data-filter="sector" data-value="tourism">Tourisme/Safari</button>
+        <button class="chip" data-filter="sector" data-value="sport">Sport/Event</button>
+        <button class="chip" data-filter="sector" data-value="tech">Tech/Impact</button>
+        <button class="chip" data-filter="sector" data-value="french">Réseau FR</button>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-size:16px">Top fit-scores</h3>
+        <div class="chart-box"><canvas id="fitChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 10px;font-size:16px">Répartition par secteur (filtrée)</h3>
+        <div class="chart-box"><canvas id="sectorChart"></canvas></div>
+      </div>
+    </div>
+    <div class="emp-grid" id="empGrid"></div>
+  </section>
+
+  <!-- 5. COMPARATIF VILLES -->
+  <section>
+    <h2><span class="num">05</span>Dar · Arusha · Zanzibar</h2>
+    <p class="subhead">Marie sera affectée à Dar es Salaam : c'est la base. Mais la Tanzanie pro tient en triangle.</p>
+    <div class="city-compare">
+      <div class="city-card dar">
+        <h3 style="color:var(--dar)">Dar es Salaam</h3>
+        <div class="tagline">Capitale économique · base familiale</div>
+        <ul>
+          <li><b>Volume d'opportunités</b> : maximum. Sièges, ambassade, French Tech, CCIFT.</li>
+          <li><b>Secteurs forts</b> : finance, logistique, énergie, tech, BD groupes panafricains.</li>
+          <li><b>Réseau FR</b> : Institut français, école française, communauté expat structurée.</li>
+          <li><b>Aventure</b> : urbaine, business. La porte d'entrée.</li>
+          <li><b>Verdict</b> : <span style="color:var(--accent)">priorité 1</span>, où vivre et bosser.</li>
+        </ul>
+      </div>
+      <div class="city-card arusha">
+        <h3 style="color:var(--arusha)">Arusha</h3>
+        <div class="tagline">Safari capital · porte du Serengeti</div>
+        <ul>
+          <li><b>Volume</b> : restreint mais ultra-ciblé tourisme premium.</li>
+          <li><b>Secteurs</b> : safari, lodges, aviation tourisme, conservation.</li>
+          <li><b>Réseau FR</b> : Alliance française Arusha, communauté plus petite.</li>
+          <li><b>Aventure</b> : maximale, terrain. Idéal pour Voie B/C dans tourisme.</li>
+          <li><b>Verdict</b> : <span style="color:var(--accent-2)">option fort</span> si pivot tourisme — déplacements depuis Dar.</li>
+        </ul>
+      </div>
+      <div class="city-card zanzibar">
+        <h3 style="color:var(--zanzibar)">Zanzibar</h3>
+        <div class="tagline">Hospitality & lifestyle premium</div>
+        <ul>
+          <li><b>Volume</b> : niche. Hôtellerie de luxe, immobilier touristique.</li>
+          <li><b>Secteurs</b> : boutique hotels, beach resorts, événementiel haut de gamme.</li>
+          <li><b>Réseau FR</b> : Alliance française Zanzibar, scène culturelle (Sauti za Busara).</li>
+          <li><b>Aventure</b> : lifestyle, mer, île. Déconnecté de Dar (vol 30 min).</li>
+          <li><b>Verdict</b> : <span style="color:var(--zanzibar)">side bet</span> projet ou voie C, pas base principale.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. PLAN D'ACTION -->
+  <section>
+    <h2><span class="num">06</span>Plan d'action 4 semaines</h2>
+    <p class="subhead">Cliquez sur chaque semaine pour le détail.</p>
+    <div class="plan" id="plan"></div>
+    <div class="card" id="planDetail" style="margin-top:16px;min-height:80px"></div>
+  </section>
+
+  <footer>
+    Brief généré le 7 mai 2026 · sources : LinkedIn · CCIFT Tanzania · Institut français de Tanzanie · French Tech Dar es Salaam · sites carrières des employeurs cités. Fit-scores indicatifs, à valider en entretien.
+  </footer>
+</div>
+
+<script>
+/* ---------- DATA ---------- */
+const employers = [
+  // DAR ES SALAAM
+  { name: "CFAO Mobility Tanzania", city: "dar", sector: "french", fit: 90, role: "Business Development Manager · Partnerships",
+    why: "Filiale Toyota Tsusho, leader mobility Afrique. Recrute des profils ESCP/HEC francophones pour développer flottes B2B et partenariats sport/event.",
+    marie: "Réseau CCIFT direct — Marie le voit aux events FR.",
+    url: "https://www.cfaogroup.com/en/careers/", urlLabel: "Carrières CFAO" },
+
+  { name: "Africa Global Logistics (ex-Bolloré)", city: "dar", sector: "french", fit: 88, role: "BD / Key Account Manager",
+    why: "Acteur majeur logistique panafricaine, racheté par MSC. Profils francophones très valorisés en Tanzanie. Postes BD régulièrement ouverts.",
+    marie: "L'AGL sponsorise régulièrement la Saison culturelle.",
+    url: "https://www.aglgroup.com/careers/", urlLabel: "Carrières AGL" },
+
+  { name: "TotalEnergies Marketing Tanzania", city: "dar", sector: "french", fit: 82, role: "B2B Sales / Partnerships",
+    why: "Réseau de stations + lubrifiants + énergies nouvelles. Sponsor historique d'événements sport en Afrique. Match parfait sport-event.",
+    marie: "Mécène culturel Institut français.",
+    url: "https://careers.totalenergies.com/", urlLabel: "Carrières TotalEnergies" },
+
+  { name: "BBOXX Tanzania", city: "dar", sector: "tech", fit: 86, role: "Country BD / Partnerships Lead",
+    why: "Off-grid solar, scale-up franco-britannique présente en TZ. Croissance forte, équipes mixtes, bon terrain pour Voie B (Country adjoint).",
+    marie: null,
+    url: "https://www.bboxx.com/careers/", urlLabel: "Carrières BBOXX" },
+
+  { name: "Engie Energy Access (ex-Mobisol)", city: "dar", sector: "tech", fit: 84, role: "Strategic Partnerships Manager",
+    why: "Solaire pay-as-you-go, division d'Engie. HQ régional partagé Berlin/Dar. Profils business + impact, francophones bienvenus.",
+    marie: "Engie = mécène potentiel saison culturelle.",
+    url: "https://www.engie-energyaccess.com/careers", urlLabel: "Carrières EEA" },
+
+  { name: "AXIAN Group / Yas Tanzania", city: "dar", sector: "tech", fit: 80, role: "BD Manager / Sponsoring & Brand",
+    why: "Telco group français (Hiridjee). Yas (ex-Tigo) sponsorise massivement le sport tanzanien — Simba SC, Yanga, marathons. Cœur de cible Emile.",
+    marie: "AXIAN finance régulièrement des projets culturels FR-Afrique.",
+    url: "https://www.axian-group.com/careers/", urlLabel: "Carrières AXIAN" },
+
+  { name: "Tanzania Football Federation (TFF)", city: "dar", sector: "sport", fit: 78, role: "Sponsoring & Partnerships Officer",
+    why: "Fédé nationale, sponsoring & droits TV en pleine restructuration. Pas un poste \"expat junior\" classique, mais ouverture si bon réseau.",
+    marie: null,
+    url: "https://www.tff.or.tz/", urlLabel: "Site TFF" },
+
+  { name: "Simba SC / Yanga SC", city: "dar", sector: "sport", fit: 75, role: "Sponsoring & Marketing Lead",
+    why: "Les deux clubs phares du foot tanzanien. Sponsoring, billetterie, partenariats internationaux à structurer. Approche entrepreneuriale possible.",
+    marie: null,
+    url: "https://simbasc.co.tz/", urlLabel: "Simba SC" },
+
+  { name: "Institut français de Tanzanie", city: "dar", sector: "french", fit: 70, role: "Mécénat & partenariats privés (en lien)",
+    why: "Pas employeur direct, mais hub d'opportunités. Emile peut y construire des deals sponsoring → vitrine business. Marie y bosse.",
+    marie: "Marie = relais direct.",
+    url: "https://institutfrancais-tanzanie.com/", urlLabel: "Institut français TZ" },
+
+  { name: "Sauti za Busara (festival)", city: "zanzibar", sector: "sport", fit: 72, role: "Sponsorship & Development Lead",
+    why: "Plus gros festival musical d'Afrique de l'Est, à Zanzibar. Cherche en permanence sponsors & partenariats privés. Profil sport-event 100% transférable.",
+    marie: "Festival déjà partenaire de l'IF — pont naturel.",
+    url: "https://www.busaramusic.org/", urlLabel: "Sauti za Busara" },
+
+  // ARUSHA - TOURISME
+  { name: "Asilia Africa", city: "arusha", sector: "tourism", fit: 92, role: "Sales & Partnerships Manager · BDM",
+    why: "Opérateur safari premium référence (~30 lodges Kenya/TZ). Profils francophones recrutés pour marché FR/CH/BE. Aventure + business model premium.",
+    marie: null,
+    url: "https://www.asiliaafrica.com/careers/", urlLabel: "Carrières Asilia" },
+
+  { name: "&Beyond Tanzania", city: "arusha", sector: "tourism", fit: 88, role: "Sales / Travel Specialist · BDM Europe",
+    why: "Luxury safari & lodges (Mnemba, Grumeti, Serengeti Under Canvas). Marque mondiale, bureau régional Arusha. Forte demande profils EU francophones.",
+    marie: null,
+    url: "https://www.andbeyond.com/careers/", urlLabel: "Carrières &Beyond" },
+
+  { name: "Singita Grumeti", city: "arusha", sector: "tourism", fit: 85, role: "Reservations / Sales Manager Europe",
+    why: "Ultra-premium (5 lodges Serengeti). Profils europe + sales. Très formateur, peut servir de tremplin vers GM lodge à 30 ans.",
+    marie: null,
+    url: "https://singita.com/careers/", urlLabel: "Carrières Singita" },
+
+  { name: "Nomad Tanzania", city: "arusha", sector: "tourism", fit: 80, role: "Sales & Marketing Manager",
+    why: "Camps mobiles authentiques, taille humaine, ambition forte. Profil aventure + business model. Bon match Voie B/C.",
+    marie: null,
+    url: "https://www.nomad-tanzania.com/", urlLabel: "Site Nomad" },
+];
+
+const timeline = [
+  { y: "2019–21", title: "Universiteit Leiden", org: "Licence Relations & affaires internationales", text: "Bases en relations internationales, ouverture européenne. Pays-Bas = pragmatisme business + multilingue." },
+  { y: "2021–24", title: "ESCP Business School", org: "Master Management", text: "Grande école de commerce internationale. Réseau + boîte à outils business : strat, finance, marketing, BD." },
+  { y: "2023–24", title: "FIA WEC", org: "Marketing Assistant — Paris", text: "World Endurance Championship : gestion partenariats, événementiel sport haut de gamme, exécution sur les courses 2024. Premier vrai terrain sport-business." },
+  { y: "2024 →", title: "WinWin Afrique", org: "Resp. modèle économique & développement — Abidjan", text: "Côté Côte d'Ivoire avec Ivoire Agora : développement commercial, sponsoring, gestion de lieu événementiel sportif. Premier rôle senior, déjà 1 an 8 mois." },
+  { y: "Été 2026 →", title: "Tanzanie", org: "À cadrer — voie A, B ou C", text: "Marie prend son poste à l'Ambassade. Emile arrive avec un profil rare en TZ : ESCP + XP Afrique + sport-event. Tout est à construire — c'est ça l'enjeu." },
+];
+
+const plan = [
+  { w: "Semaine 1", title: "Cadrage & narratif",
+    text: "Refondre CV + LinkedIn en orientation \"Tanzanie / East Africa\". Préparer 2 versions de pitch perso (1 voie A 'sécurisée', 1 voie B/C 'ambition'). Définir le ratio temps : 60% Dar, 25% Arusha, 15% side bets. Lister 3 personnes Sciences Po Lyon / ESCP / FIA déjà en TZ ou région à activer." },
+  { w: "Semaine 2", title: "Postes ouverts & top fit",
+    text: "Postuler immédiatement aux ouvertures actives : CFAO Mobility, AGL, Asilia, &Beyond, BBOXX, Engie EA. Cibler les profils \"BD Manager\" et \"Partnerships Lead\". Demander à WinWin une lettre de recommandation officielle FR + EN signée du DG." },
+  { w: "Semaine 3", title: "Réseau Marie + french hub",
+    text: "Avant départ : déjeuner / Zoom avec CCIFT Tanzanie (président + DG), French Tech Dar es Salaam, Institut français. Marie peut intro 5–10 personnes clés en 2 semaines. Une fois sur place : tour des grands sièges français (TotalEnergies, AXIAN, AGL) avec un pitch précis." },
+  { w: "Semaine 4", title: "Side bets + Voie C",
+    text: "Activer Sauti za Busara, fédérations sport, Kilimanjaro Marathon. Identifier 2 entrepreneurs FR déjà installés (lodges, event, tech) à rencontrer pour un éventuel \"co-fondateur\" ou \"BD freelance\". Tenir un journal de prospection : 50 contacts en 30 jours, on reparle après." },
+];
+
+/* ---------- TIMELINE ---------- */
+const tlEvents = document.getElementById("timelineEvents");
+const tlDetail = document.getElementById("timelineDetail");
+timeline.forEach((e, i) => {
+  const el = document.createElement("div");
+  el.className = "tl-event" + (i === timeline.length - 1 ? " active" : "");
+  el.innerHTML = `<div class="tl-dot"></div><div class="tl-label">${e.y}</div>`;
+  el.onclick = () => {
+    document.querySelectorAll(".tl-event").forEach(x => x.classList.remove("active"));
+    el.classList.add("active");
+    renderTL(i);
+  };
+  tlEvents.appendChild(el);
+});
+function renderTL(i) {
+  const e = timeline[i];
+  tlDetail.innerHTML = `<h4>${e.title}</h4><div class="meta">${e.org} · ${e.y}</div><p>${e.text}</p>`;
+}
+renderTL(timeline.length - 1);
+
+/* ---------- PLAN ---------- */
+const planEl = document.getElementById("plan");
+const planDetail = document.getElementById("planDetail");
+plan.forEach((p, i) => {
+  const el = document.createElement("div");
+  el.className = "week";
+  el.innerHTML = `<div class="w">${p.w}</div><h4>${p.title}</h4><p style="font-size:12px;color:var(--text-dim)">Cliquez pour le détail</p>`;
+  el.onclick = () => {
+    planDetail.innerHTML = `<div style="color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:0.1em;font-weight:600">${p.w} · ${p.title}</div><p style="margin:8px 0 0;color:var(--text-soft)">${p.text}</p>`;
+  };
+  planEl.appendChild(el);
+});
+planDetail.innerHTML = `<div style="color:var(--text-dim);font-size:13px;text-align:center;padding:20px 0">↑ Cliquez sur une semaine pour afficher le détail.</div>`;
+
+/* ---------- CHART DEFAULTS ---------- */
+Chart.defaults.color = "#b8a890";
+Chart.defaults.borderColor = "rgba(255,255,255,0.06)";
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, Inter, sans-serif";
+
+/* ---------- SKILLS RADAR ---------- */
+new Chart(document.getElementById("skillRadar"), {
+  type: "radar",
+  data: {
+    labels: ["BD commercial", "Sponsoring & partenariats", "Événementiel premium", "Sport business", "Afrique terrain", "Réseau FR / institutions", "Aventure / résilience"],
+    datasets: [{
+      label: "Niveau (auto-éval)",
+      data: [9, 9, 8, 8, 7, 7, 9],
+      backgroundColor: "rgba(255,177,92,0.18)",
+      borderColor: "rgba(255,177,92,0.9)",
+      borderWidth: 2,
+      pointBackgroundColor: "#ffb15c",
+      pointRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      r: {
+        suggestedMin: 0, suggestedMax: 10,
+        grid: { color: "rgba(255,255,255,0.07)" },
+        angleLines: { color: "rgba(255,255,255,0.07)" },
+        ticks: { display: false, stepSize: 2 },
+        pointLabels: { color: "#e0d4bd", font: { size: 11 } }
+      }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: { backgroundColor: "#0d0a08", borderColor: "rgba(255,255,255,0.1)", borderWidth: 1, titleColor: "#fff" }
+    }
+  }
+});
+
+/* ---------- SALARY CHART ---------- */
+const salaryRoles = [
+  { role: "Stage / VIE Tanzanie", min: 12, max: 22 },
+  { role: "BD Manager PME locale", min: 18, max: 32 },
+  { role: "BD / Partnerships groupe FR", min: 28, max: 48 },
+  { role: "Country Manager adjoint (Voie B)", min: 38, max: 60 },
+  { role: "Sales Manager Europe (lodges premium)", min: 32, max: 55 },
+  { role: "Co-fondateur (cash + equity)", min: 10, max: 30 },
+];
+new Chart(document.getElementById("salaryChart"), {
+  type: "bar",
+  data: {
+    labels: salaryRoles.map(r => r.role),
+    datasets: [{
+      label: "Fourchette (k€ net/an)",
+      data: salaryRoles.map(r => [r.min, r.max]),
+      backgroundColor: salaryRoles.map(r =>
+        (35 >= r.min && 35 <= r.max) ? "rgba(255,177,92,0.6)" : "rgba(77,214,196,0.35)"
+      ),
+      borderColor: salaryRoles.map(r =>
+        (35 >= r.min && 35 <= r.max) ? "#ffb15c" : "#4dd6c4"
+      ),
+      borderWidth: 1.5,
+      borderSkipped: false,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    indexAxis: "y",
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      x: {
+        min: 0, max: 70,
+        grid: { color: "rgba(255,255,255,0.05)" },
+        title: { display: true, text: "k€ net / an (hors avantages)", color: "#b8a890" }
+      },
+      y: { grid: { display: false }, ticks: { color: "#e0d4bd" } }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: "#0d0a08", borderColor: "rgba(255,255,255,0.1)", borderWidth: 1,
+        callbacks: {
+          label: (ctx) => `${ctx.raw[0]} – ${ctx.raw[1]} k€` + (35 >= ctx.raw[0] && 35 <= ctx.raw[1] ? "  ← cible réaliste" : "")
+        }
+      }
+    }
+  },
+  plugins: [{
+    id: "salaryLine",
+    afterDraw(chart) {
+      const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
+      const px = x.getPixelForValue(35);
+      ctx.save();
+      ctx.strokeStyle = "#e8a05c";
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath();
+      ctx.moveTo(px, top);
+      ctx.lineTo(px, bottom);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#e8a05c";
+      ctx.font = "600 11px -apple-system, Inter, sans-serif";
+      ctx.fillText("cible 35 k€", px + 6, top + 14);
+      ctx.restore();
+    }
+  }]
+});
+
+/* ---------- FIT CHART ---------- */
+let fitChart;
+const cityColors = { dar: "#ffb15c", arusha: "#4dd6c4", zanzibar: "#c87ef0" };
+function buildFitChart(list) {
+  const sorted = [...list].sort((a, b) => b.fit - a.fit).slice(0, 8);
+  const data = {
+    labels: sorted.map(e => e.name),
+    datasets: [{
+      label: "Fit-score",
+      data: sorted.map(e => e.fit),
+      backgroundColor: sorted.map(e => `${cityColors[e.city]}b3`),
+      borderColor: sorted.map(e => cityColors[e.city]),
+      borderWidth: 1.5,
+      borderRadius: 6,
+    }]
+  };
+  if (fitChart) { fitChart.data = data; fitChart.update(); return; }
+  fitChart = new Chart(document.getElementById("fitChart"), {
+    type: "bar", data,
+    options: {
+      indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { min: 50, max: 100, grid: { color: "rgba(255,255,255,0.05)" } },
+        y: { grid: { display: false }, ticks: { color: "#e0d4bd", font: { size: 11 } } }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "#0d0a08", borderColor: "rgba(255,255,255,0.1)", borderWidth: 1,
+          callbacks: { label: (ctx) => `Fit ${ctx.raw}/100 — ${({dar:"Dar",arusha:"Arusha",zanzibar:"Zanzibar"})[sorted[ctx.dataIndex].city]}` }
+        }
+      }
+    }
+  });
+}
+
+/* ---------- SECTOR CHART ---------- */
+let sectorChart;
+function buildSectorChart(list) {
+  const counts = { tourism: 0, sport: 0, tech: 0, french: 0 };
+  list.forEach(e => counts[e.sector]++);
+  const data = {
+    labels: ["Tourisme/Safari", "Sport/Event", "Tech/Impact", "Réseau FR"],
+    datasets: [{
+      data: [counts.tourism, counts.sport, counts.tech, counts.french],
+      backgroundColor: ["#4dd6c4", "#ffb15c", "#c87ef0", "#e8a05c"],
+      borderColor: "#0d0a08",
+      borderWidth: 3,
+      hoverOffset: 8,
+    }]
+  };
+  if (sectorChart) { sectorChart.data = data; sectorChart.update(); return; }
+  sectorChart = new Chart(document.getElementById("sectorChart"), {
+    type: "doughnut", data,
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: "62%",
+      plugins: {
+        legend: { position: "bottom", labels: { color: "#e0d4bd", padding: 14, boxWidth: 12 } },
+        tooltip: { backgroundColor: "#0d0a08", borderColor: "rgba(255,255,255,0.1)", borderWidth: 1 }
+      }
+    }
+  });
+}
+
+/* ---------- EMPLOYER GRID + FILTERS ---------- */
+const grid = document.getElementById("empGrid");
+const filterState = { city: "all", sector: "all" };
+const sectorLabels = { tourism: "Tourisme / Safari", sport: "Sport / Event", tech: "Tech / Impact", french: "Réseau français" };
+const cityLabels = { dar: "Dar es Salaam", arusha: "Arusha", zanzibar: "Zanzibar" };
+
+function renderEmployers() {
+  const list = employers.filter(e =>
+    (filterState.city === "all" || e.city === filterState.city) &&
+    (filterState.sector === "all" || e.sector === filterState.sector)
+  ).sort((a, b) => b.fit - a.fit);
+  grid.innerHTML = "";
+  if (!list.length) {
+    grid.innerHTML = `<div style="color:var(--text-dim);grid-column:1/-1;text-align:center;padding:40px">Aucun résultat. Élargissez les filtres.</div>`;
+  } else {
+    list.forEach(e => {
+      const div = document.createElement("div");
+      div.className = "emp";
+      const isOpen = e.urlLabel && e.urlLabel.toLowerCase().includes("postuler");
+      const marieBlock = e.marie ? `<div class="marie">★ Pont Marie : ${e.marie}</div>` : "";
+      div.innerHTML = `
+        <div class="head">
+          <div>
+            <div class="sector">${sectorLabels[e.sector]}</div>
+            <h3>${e.name}</h3>
+          </div>
+          <span class="city ${e.city}">${cityLabels[e.city]}</span>
+        </div>
+        <div class="why">${e.why}</div>
+        <div class="role"><b>Rôle visé :</b> ${e.role}</div>
+        ${marieBlock}
+        <div class="score">
+          <span>Fit</span>
+          <div class="score-bar"><div class="score-fill" style="width:${e.fit}%"></div></div>
+          <span class="score-num">${e.fit}</span>
+        </div>
+        <a class="emp-link ${isOpen ? "open" : ""}" href="${e.url}" target="_blank" rel="noopener">
+          ${e.urlLabel} <span style="margin-left:4px">↗</span>
+        </a>
+      `;
+      grid.appendChild(div);
+    });
+  }
+  buildFitChart(list);
+  buildSectorChart(list);
+}
+
+document.querySelectorAll(".chip").forEach(chip => {
+  chip.onclick = () => {
+    const f = chip.dataset.filter, v = chip.dataset.value;
+    filterState[f] = v;
+    document.querySelectorAll(`.chip[data-filter="${f}"]`).forEach(c => c.classList.remove("active"));
+    chip.classList.add("active");
+    renderEmployers();
+  };
+});
+renderEmployers();
+</script>
+</body>
+</html>
