@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PND 2026-2030 — Lecture Waribei</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fafaf7; color: #18181b; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.55; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 32px 80px; }
+  h1 { font-size: 28px; font-weight: 700; margin: 0 0 4px; letter-spacing: -0.01em; }
+  h2 { font-size: 19px; font-weight: 700; margin: 36px 0 12px; padding-top: 20px; border-top: 1px solid #e4e4e0; letter-spacing: -0.005em; }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  h3 { font-size: 15px; font-weight: 700; margin: 20px 0 8px; color: #27272a; }
+  p, li { font-size: 14px; color: #27272a; }
+  .lede { font-size: 15px; color: #3f3f46; }
+  .muted { color: #71717a; font-size: 12px; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; }
+  .p-orange { background: #fff1e6; color: #c2410c; }
+  .p-blue { background: #e0f0ff; color: #1d4ed8; }
+  .p-green { background: #dcfce7; color: #15803d; }
+  .p-red { background: #fee2e2; color: #b91c1c; }
+  .p-purple { background: #ede9fe; color: #6d28d9; }
+  .p-gray { background: #e4e4e7; color: #3f3f46; }
+  .grid { display: grid; gap: 14px; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 760px) { .grid-3, .grid-4, .grid-2 { grid-template-columns: 1fr; } }
+  .card { background: #fff; border: 1px solid #e4e4e0; border-radius: 10px; padding: 14px 16px; }
+  .stat { background: #fff; border: 1px solid #e4e4e0; border-radius: 10px; padding: 14px 16px; }
+  .stat .num { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+  .stat .lbl { font-size: 11px; color: #71717a; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 2px; }
+  .stat .src { font-size: 11px; color: #a1a1aa; margin-top: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e4e4e0; vertical-align: top; }
+  th { background: #f4f4f0; font-weight: 600; font-size: 12px; color: #3f3f46; text-transform: uppercase; letter-spacing: 0.04em; }
+  td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .play { background: #fff; border: 1px solid #e4e4e0; border-left: 3px solid #c2410c; border-radius: 8px; padding: 12px 14px; margin: 10px 0; }
+  .play h4 { margin: 0 0 4px; font-size: 14px; font-weight: 700; }
+  .play .why { color: #52525b; font-size: 13px; margin: 4px 0 6px; }
+  .play .hook { color: #c2410c; font-size: 12px; font-weight: 600; }
+  .risk { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 10px 14px; margin: 8px 0; font-size: 13px; }
+  .quote { font-style: italic; color: #52525b; border-left: 2px solid #d4d4d8; padding: 4px 12px; margin: 8px 0; font-size: 13px; }
+  .src { font-size: 11px; color: #a1a1aa; margin-top: 6px; }
+  ul.tight { margin: 6px 0 12px; padding-left: 18px; }
+  ul.tight li { margin: 3px 0; }
+  .hdr { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+  .chart-box { background: #fff; border: 1px solid #e4e4e0; border-radius: 10px; padding: 14px 16px; }
+  .legend-row { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 4px 0; }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; }
+  .keyword { background: #fef3c7; padding: 0 3px; border-radius: 3px; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e4e4e0; font-size: 11px; color: #a1a1aa; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hdr">
+  <div>
+    <h1>PND Côte d'Ivoire 2026-2030 — Lecture Waribei</h1>
+    <p class="muted">Synthèse stratégique des 3 tomes (Diagnostic, Orientations, Matrices d'Actions) — focus financement, priorités, plays scale.</p>
+  </div>
+  <div><span class="pill p-gray">v1 · Mai 2026</span></div>
+</div>
+
+<h2>1. Le PND en une page</h2>
+
+<p class="lede"><strong>Vision :</strong> « Bâtir une Grande Nation Stable, Ambitieuse et Solidaire. » Faire passer la Côte d'Ivoire au rang des <strong>pays à revenu intermédiaire de la tranche supérieure</strong> à horizon 2030, avec une croissance moyenne de <strong>7,2%/an</strong>, 3 millions d'emplois créés, et une réduction de la pauvreté de 37,5% (2021) à <strong>moins de 20% (2030)</strong>.</p>
+
+<div class="grid grid-4" style="margin-top: 14px;">
+  <div class="stat"><div class="num">114 839</div><div class="lbl">Mds FCFA d'investissement (~175 Md€)</div><div class="src">Total PND 2026-2030</div></div>
+  <div class="stat"><div class="num">70,2%</div><div class="lbl">Part du privé attendue</div><div class="src">80 616 Mds FCFA · IDE+IDN+PPP</div></div>
+  <div class="stat"><div class="num">+7,2%/an</div><div class="lbl">Croissance ciblée</div><div class="src">vs 6,5% en 2021-2025</div></div>
+  <div class="stat"><div class="num">91,6 → 81,8%</div><div class="lbl">Emploi informel (2021→2030)</div><div class="src">L'informalité reste écrasante</div></div>
+</div>
+
+<p style="margin-top: 18px;"><strong>Six piliers :</strong></p>
+<ol class="tight">
+  <li><span class="pill p-gray">P1</span> Paix, Sécurité et Stabilité durables</li>
+  <li><span class="pill p-green">P2</span> Modernisation de l'agriculture, sécurisation foncière, chaînes de valeur agricoles</li>
+  <li><span class="pill p-orange">P3</span> <strong>Promotion de l'investissement privé, champions nationaux et réduction de l'informalité</strong> ← <em>cœur Waribei</em></li>
+  <li><span class="pill p-blue">P4</span> Capital humain, compétences, emplois décents</li>
+  <li><span class="pill p-purple">P5</span> Infrastructures stratégiques, pôles régionaux, transition écologique</li>
+  <li><span class="pill p-red">P6</span> Bonne gouvernance et modernisation de l'État</li>
+</ol>
+
+<h2>2. Là où va l'argent</h2>
+
+<div class="grid grid-2" style="align-items: start;">
+  <div class="chart-box">
+    <h3 style="margin-top: 0">Investissement total PND par pilier (Mds FCFA)</h3>
+    <canvas id="pillarChart" height="240"></canvas>
+    <div class="src" style="margin-top: 8px;">Source : Tome 2, Tableau 63 — Cadrage budgétaire sectoriel.</div>
+  </div>
+
+  <div>
+    <h3>Lecture rapide</h3>
+    <p><strong>Pilier 3 absorbe 47% de l'enveloppe (54 123 Mds FCFA)</strong> — mais 89% provient du privé. La part publique sur P3 est concentrée sur énergie (8% PIB), industrie (2%) et PME/entrepreneuriat (1%).</p>
+    <p><strong>Pilier 5</strong> (31%) finance routes, transport, économie numérique (5% — 5 742 Mds FCFA) et urbanisme.</p>
+    <p><strong>L'État investit en priorité sur :</strong> infrastructures routières (17%), éducation-formation (10%), santé (8%), énergie (8%), agriculture (7%), transports (5%) et économie numérique (5%).</p>
+    <p class="muted" style="margin-top: 14px;"><strong>Sous-enveloppes pertinentes pour Waribei :</strong></p>
+    <ul class="tight">
+      <li>Promotion PME : <strong>1 837 Mds FCFA</strong> sur 5 ans (~2,8 Md€)</li>
+      <li>Économie numérique : <strong>5 742 Mds FCFA</strong> (~8,7 Md€)</li>
+      <li>Commerce : <strong>2 297 Mds FCFA</strong> (~3,5 Md€)</li>
+      <li>Promotion investissements privés : <strong>149 Mds FCFA</strong> (~227 M€)</li>
+    </ul>
+  </div>
+</div>
+
+<h2>3. Stratégie de financement de l'État</h2>
+
+<p>Besoin de financement public sur 5 ans : <strong>37 933 Mds FCFA (~57,9 Md€)</strong>, dont :</p>
+<ul class="tight">
+  <li><strong>26 795 Mds FCFA sur les marchés financiers</strong> (24 554 régional UEMOA + 2 241 international)</li>
+  <li><strong>11 138 Mds FCFA via Groupe Consultatif</strong> (bailleurs internationaux), dont 7 750 emprunts-projets identifiés</li>
+  <li><strong>3 389 Mds FCFA encore à rechercher</strong> — gisement actif pour les acteurs privés à impact</li>
+</ul>
+
+<p>Innovations clés annoncées :</p>
+<ul class="tight">
+  <li><strong>Émissions FCFA-offshore</strong> auprès d'investisseurs internationaux (réglées en € ou USD), Samouraï bonds (200 Mds FCFA inaugural)</li>
+  <li><strong>Fonds souverain ivoirien</strong> dédié à la transition circulaire</li>
+  <li><strong>Obligations vertes / SLB</strong> + opérationnalisation de la <strong>Taxonomie de transition</strong> (alignée FMI Resilience &amp; Sustainability Trust)</li>
+  <li><strong>Bourse de Projets Privés</strong> pour financer les études de préfaisabilité (verts/bleus en priorité)</li>
+  <li><strong>Pression fiscale 13,8% → 18% du PIB en 2030</strong> — quasi-doublement des recettes fiscales (8 613 → 16 873 Mds FCFA)</li>
+</ul>
+
+<h2>4. L'écosystème macro-financier — diagnostic brutal</h2>
+
+<p class="lede">Le PND reconnaît noir sur blanc que la profondeur financière reste un blocage structurel.</p>
+
+<div class="grid grid-3">
+  <div class="stat"><div class="num">22,5%</div><div class="lbl">Crédit au secteur privé / PIB</div><div class="src">vs 34% en ASS, 117% Malaisie, 176% Corée</div></div>
+  <div class="stat"><div class="num">23,4%</div><div class="lbl">Pénétration microfinance (2022)</div><div class="src">vs 63% UEMOA — sous-développé</div></div>
+  <div class="stat"><div class="num">84,7%</div><div class="lbl">Inclusion financière 2023</div><div class="src">déjà élevé, mais derrière Bénin/Togo</div></div>
+  <div class="stat"><div class="num">3,9%</div><div class="lbl">Crédits long terme / total</div><div class="src">structure court-termiste</div></div>
+  <div class="stat"><div class="num">28 + 45</div><div class="lbl">Banques + Microfinances en CIV</div><div class="src">tissu fragmenté, 33% détiennent 96% du crédit</div></div>
+  <div class="stat"><div class="num">81,3%</div><div class="lbl">Usage mobile money 2023</div><div class="src">20 émetteurs (vs 13 en 2021)</div></div>
+</div>
+
+<p style="margin-top: 12px;">Les défis explicitement listés : « <em>la prédominance du secteur informel et le faible recours à des instruments innovants comme le crédit-bail ou le capital-risque</em> ». Les voies prioritaires identifiées : développement de produits financiers innovants, finance alternative (islamique, solidaire), <strong>renforcement de la microfinance pour de meilleurs taux d'intérêt</strong>, et inclusion financière accélérée des acteurs <strong>agriculture et commerce</strong>.</p>
+
+<h2>5. Impact sur les startups en Côte d'Ivoire</h2>
+
+<p>Le PND positionne explicitement les <strong>startups et champions nationaux</strong> comme leviers de la transformation. Lecture pratique :</p>
+
+<table>
+  <thead><tr><th>Mesure</th><th>Description</th><th class="num">Quoi en faire</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>CI-Investment Board</strong></td>
+      <td>Nouvelle Agence Ivoirienne de Développement des Investissements. Guichet unique pour IDN + IDE, suivi des engagements.</td>
+      <td>Inscription startups locales pour visibility &amp; accès aux Forums "Invest in CI" 2026, 2028, 2030.</td>
+    </tr>
+    <tr>
+      <td><strong>Programme PEPITES Côte d'Ivoire</strong></td>
+      <td>« Programme Économique Pour l'Innovation et la Transformation des Entreprises » — destiné aux entreprises de petite taille à fort potentiel pour devenir locomotives.</td>
+      <td>Cible directe pour Waribei : <em>candidat naturel champion national fintech</em>.</td>
+    </tr>
+    <tr>
+      <td><strong>Fonds souverain + Capital-investissement</strong></td>
+      <td>Fonds d'appui aux champions, fonds capital-investissement, fonds d'assistance technique. Annoncés mais non chiffrés en montant levé.</td>
+      <td>À monitorer pour second tour ou bridge — peu probable pour Seed.</td>
+    </tr>
+    <tr>
+      <td><strong>Loi fintech</strong></td>
+      <td>Engagement explicite : "<em>accélérer l'adoption de textes législatifs destinés à encadrer et à encourager l'implantation des structures de fintech en Côte d'Ivoire</em>" (§626).</td>
+      <td>Fenêtre réglementaire : Waribei doit <em>contribuer à la rédaction</em> via lobby BCEAO/Min Commerce.</td>
+    </tr>
+    <tr>
+      <td><strong>Hub IA &amp; Agence Nationale IA</strong></td>
+      <td>Création d'une agence + hub à 4 pôles (recherche, formation, incubation, économie) pour faire de la CIV un hub IA régional.</td>
+      <td>WariBrain (scoring comportemental) = use case parfait pour le pôle économie/incubation.</td>
+    </tr>
+    <tr>
+      <td><strong>Info-Crédit / Valo-Crédit BCEAO + PME Finance+</strong></td>
+      <td>Opérationnalisation accélérée. Combine crédits bonifiés, garanties publiques, plateformes numériques. Logé dans le Guichet Unique pour le Développement des Entreprises (GUDE).</td>
+      <td>Waribei peut <strong>plug-in en tant qu'opérateur de scoring/distribution</strong> sur ce dispositif.</td>
+    </tr>
+    <tr>
+      <td><strong>Affacturage, Business Angel, Capital Risque</strong></td>
+      <td>Action 3.02.2.1.2 du Tome 3 : 6 600 M FCFA dédiés sur 5 ans pour promouvoir les instruments financiers alternatifs.</td>
+      <td>Levier narratif : Waribei = produit de financement alternatif déjà opérationnel.</td>
+    </tr>
+    <tr>
+      <td><strong>Statut de l'entreprenant</strong></td>
+      <td>Action 3.02.2.4.1 : 4 575 M FCFA pour formaliser le secteur informel via un statut allégé.</td>
+      <td>Aligné parfaitement avec la base détaillants Waribei. Partenariat data possible.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>6. Impact direct sur Waribei — où l'on coche les cases</h2>
+
+<p class="lede">Waribei est <strong>extrêmement bien positionné</strong> : 4 des 6 piliers (P3, P5, P6, et indirectement P2) servent son narratif. Le PND légitime le modèle off-balance sheet et la fintech d'inclusion.</p>
+
+<h3>6.1 — Alignements directs (cocher dans le pitch)</h3>
+
+<table>
+  <thead><tr><th>Priorité PND</th><th>Texte source</th><th>Lecture Waribei</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Réduction de l'informalité</strong></td>
+      <td>« réduction de l'informalité à travers des mesures d'incitation et de fiscalisation progressives adaptées au tissu économique, en s'appuyant fortement sur des outils digitaux innovants » (§488)</td>
+      <td>Waribei = exact "outil digital innovant". WariStock + WariBrain sont des outils de formalisation de facto pour ~5 000 détaillants ciblés.</td>
+    </tr>
+    <tr>
+      <td><strong>Inclusion financière des acteurs commerce/agri</strong></td>
+      <td>« inclusion financière des acteurs des secteurs de l'agriculture et du commerce » (§188)</td>
+      <td>Verticale alcool/boissons FMCG = commerce de détail informel. Cible identifiée par l'État.</td>
+    </tr>
+    <tr>
+      <td><strong>Modernisation du commerce intérieur</strong></td>
+      <td>« 138 marchés de proximité construits, 18 marchés de détail reconstruits, 17 centres de groupage à Abidjan, Korhogo, Abengourou, Daloa, Bouaké » (§634-635)</td>
+      <td>Ces marchés = points de concentration de détaillants. Roadmap géographique d'expansion offerte sur un plateau.</td>
+    </tr>
+    <tr>
+      <td><strong>Inclusion financière agritech</strong></td>
+      <td>« Agritech encouragée pour faciliter l'inclusion financière et commerciale des exploitants » (§4185, Tome 2)</td>
+      <td>Vertical extension Waribei post-FMCG : l'État ouvre la porte agri.</td>
+    </tr>
+    <tr>
+      <td><strong>Économie numérique et innovation</strong></td>
+      <td>« renforcer les capacités techniques et financières des startups numériques pour stimuler l'écosystème » (§1113)</td>
+      <td>Subvention Digital Africa déjà obtenue. Hub IA = nouveau dispositif à monitorer.</td>
+    </tr>
+    <tr>
+      <td><strong>Champions nationaux</strong></td>
+      <td>« faire émerger au moins un champion national dans chaque secteur prioritaire (agro-industrie, BTP, numérique, énergie...) » (§599)</td>
+      <td>Waribei vise à être <em>le</em> champion national fintech B2B francophone.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>6.2 — Risques et frictions à surveiller</h3>
+
+<div class="risk">
+<strong>1. Fiscalisation progressive de l'informel.</strong> La pression fiscale passe de 13,8% à 18% du PIB. La formalisation est un objectif d'État → la <strong>RSI ou ses successeurs vont continuer à frapper les détaillants</strong>. C'est exactement le facteur qui a contracté le loan book de Waribei en Q1 2026. À pricer dans les projections et à signaler aux investisseurs.
+</div>
+
+<div class="risk">
+<strong>2. GUDE-PME centralisé.</strong> L'État crée un Guichet Unique pour le Développement des Entreprises avec PME Finance+. Risque : devenir un goulot d'étranglement obligatoire qui court-circuite les fintechs privées. Opportunité : <strong>devenir l'un des opérateurs intégrés au GUDE</strong>.
+</div>
+
+<div class="risk">
+<strong>3. Cible 81,8% d'emploi informel en 2030.</strong> Même après 5 ans de PND, 80% du marché reste informel — le TAM Waribei est consolidé pour la décennie. Bonne nouvelle pour la longueur de runway du marché ; mauvaise nouvelle si la thèse repose sur formalisation rapide.
+</div>
+
+<div class="risk">
+<strong>4. Multiplication des fonds souverains et structures publiques.</strong> Risque dilutif : déluge de programmes (CI-Invest, PEPITES, FIDI, Fonds souverain, GUDE...). Naviguer demande du temps de CEO. Prioriser 2-3 leviers max.
+</div>
+
+<h2>7. Fenêtres de financement à explorer (priorisées)</h2>
+
+<table>
+  <thead><tr><th>Source</th><th>Type</th><th>Pourquoi pertinent</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Bailleurs Groupe Consultatif</strong> (BAD, BM, AFD, Proparco, FMO, IFC...)</td>
+      <td>Subv. + dette concessionnelle</td>
+      <td>« 3 388,8 Mds FCFA encore à rechercher » sur la période — l'État cherche des co-financements impact alignés</td>
+      <td>Approche Proparco/FMO actuels (Timothé, Meit Gandhi) avec angle PND-aligned. Demander rencontre Fabrice Perez (déjà au pipeline)</td>
+    </tr>
+    <tr>
+      <td><strong>SFI / IFC</strong></td>
+      <td>Equity + dette</td>
+      <td>Mentionnée nommément dans la stratégie PND comme partenaire au développement (§484, Tome 2)</td>
+      <td>Approche directe IFC Côte d'Ivoire — narratif "sous-traitance fintech du PND inclusion financière"</td>
+    </tr>
+    <tr>
+      <td><strong>Fonds verts &amp; climat</strong></td>
+      <td>Subv. à impact</td>
+      <td>Émission obligations vertes/SLB explicitement annoncée. Taxonomie en cours d'opérationnalisation</td>
+      <td>Construire un narratif "circular finance" autour des chaînes FMCG (réduction pertes, optim stocks). Green Climate Fund, FAST-Infra</td>
+    </tr>
+    <tr>
+      <td><strong>Programme PEPITES</strong></td>
+      <td>Accélération + financement</td>
+      <td>Conçu pour entreprises petites taille à fort potentiel = champion national tier-2</td>
+      <td>Vérifier critères et candidater dès lancement. Levier : visibilité + lobbying réglementaire</td>
+    </tr>
+    <tr>
+      <td><strong>Bourse de Projets Privés</strong></td>
+      <td>Financement préfaisabilité</td>
+      <td>Études cofinancées — utile pour expansion régionale (Bouaké, Korhogo, Daloa)</td>
+      <td>Soumettre une étude de marché expansion détaillants secondary cities</td>
+    </tr>
+    <tr>
+      <td><strong>Loi fintech (à venir)</strong></td>
+      <td>Réglementaire</td>
+      <td>Le gouvernement consultera l'écosystème pour rédiger les textes (§626)</td>
+      <td>Se positionner pour <strong>contribuer à la rédaction</strong>. Avantage : Waribei capture le cadre dont il a besoin (off-balance sheet, scoring data, partenariat MFI)</td>
+    </tr>
+    <tr>
+      <td><strong>Subventions économie numérique</strong></td>
+      <td>Subv. + accompagnement</td>
+      <td>5 742 Mds FCFA sur 5 ans, dont volet "renforcer capacités techniques et financières starts up numériques"</td>
+      <td>Suivi ANSUT, ARTCI, Min Économie Numérique. Digital Africa déjà acquis : capitaliser pour aller chercher le suivant</td>
+    </tr>
+    <tr>
+      <td><strong>Hub IA national</strong></td>
+      <td>Plateforme + visibility</td>
+      <td>4 pôles — recherche, formation, incubation, économie</td>
+      <td>WariBrain = vitrine "IA souveraine appliquée à l'inclusion financière". Approche pôle économie</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>8. Plays scale-value pour Waribei</h2>
+
+<p class="lede">Cinq mouvements offensifs où l'alignement PND crée un "tailwind" qu'il faut activement capturer.</p>
+
+<div class="play">
+  <h4>1 — Devenir l'<em>infrastructure de référence</em> du programme "réduction de l'informalité"</h4>
+  <p class="why">L'État engage 4 575 M FCFA sur 5 ans pour le statut de l'entreprenant + 4 865 M sur la sensibilisation des informels (Actions 3.02.2.4.1 et 4.3). Waribei a déjà 413 détaillants actifs dont 80% informels — c'est précisément le profil que l'État veut formaliser. <strong>Vendre WariStock/WariBrain comme outil de formalisation soft</strong>, et négocier accès aux bases de données de l'État (DGI, CGRAE) en échange de la data comportementale.</p>
+  <p class="hook">Hook : "Waribei est le seul opérateur privé qui formalise déjà 400+ détaillants par mois sans coût pour l'État."</p>
+</div>
+
+<div class="play">
+  <h4>2 — Capturer la rédaction de la loi fintech (§626)</h4>
+  <p class="why">Le PND s'engage à voter une loi cadre pour les fintechs. Si le texte est mal rédigé, Waribei finit licence MFI obligatoire. S'il est bien rédigé, le modèle off-balance sheet est sécurisé et Waribei peut signer 5 nouveaux MFI en 12 mois. <strong>Coût d'opportunité de ne pas s'impliquer = très élevé.</strong></p>
+  <p class="hook">Hook : Demander rendez-vous BCEAO + Min Économie Numérique sous 30 jours, proposer un mémo technique. Mobiliser FMCI/Finafrica comme partenaire institutionnel.</p>
+</div>
+
+<div class="play">
+  <h4>3 — Atterrir comme opérateur intégré au GUDE / PME Finance+</h4>
+  <p class="why">Le Guichet Unique pour le Développement des Entreprises sera l'interface obligatoire des PME et de l'État. Plug Waribei comme prestataire de scoring + distribution crédit court terme = volume + crédibilité institutionnelle. Permet d'atteindre les 5 000 détaillants en court-circuitant le CAC sur les non-FMCG.</p>
+  <p class="hook">Hook : Pitch "API scoring as a service" pour le GUDE. Levier latéral pour entrer dans le réseau Champions Nationaux/PEPITES.</p>
+</div>
+
+<div class="play">
+  <h4>4 — Synchroniser l'expansion géographique avec les 17 centres de groupage</h4>
+  <p class="why">L'État construit 17 centres de groupage (3 Abidjan, 4 Korhogo, 3 Abengourou, 4 Daloa, 3 Bouaké) + 138 marchés de proximité. Ces sites concentrent les détaillants à formaliser. Au lieu d'expansion ville-par-ville façon Zanifu, <strong>caler la roadmap territoriale Waribei sur ces sites</strong>. CAC chute encore parce que la concentration géographique est subventionnée par l'État.</p>
+  <p class="hook">Hook : Partenariat opérateur unique avec la Commission Nationale d'Urbanisme Commerciale (à créer). Présence physique (kiosques WariStock) dans 3 des nouveaux marchés.</p>
+</div>
+
+<div class="play">
+  <h4>5 — Pivoter une partie du narratif sur Climat / Économie Circulaire</h4>
+  <p class="why">Le PND explicite l'émission d'obligations vertes/SLB et la Taxonomie de transition. Le commerce informel a un angle "économie circulaire" légitime : réduction des pertes post-récolte, optim stocks (WariStock est de facto un outil anti-gaspi), distribution courte. <strong>Habiller 30% du loan book "vert/circulaire"</strong> ouvre la porte aux fonds verts (FAST-Infra, GCF, IFC Climate, Symbiotics).</p>
+  <p class="hook">Hook : Réécrire un mémo investisseur "Waribei × économie circulaire" en 4 pages. Approche Symbiotics/IFC Climate Business Group.</p>
+</div>
+
+<h2>9. Synthèse exécutive — 5 actions sous 90 jours</h2>
+
+<ol>
+  <li><strong>Mémo réglementaire fintech</strong> (4 pages) à envoyer BCEAO + Min Économie Numérique + Min Commerce, en s'appuyant explicitement sur §626 et §1113. Co-signer avec FMCI/Finafrica.</li>
+  <li><strong>Approche IFC + Proparco</strong> avec un narratif "Waribei = pilier privé du Pilier 3 PND, infrastructure de réduction de l'informalité". Réutiliser les chiffres officiels (91,6% emploi informel, 22,5% crédit/PIB, 23% pénétration MFI).</li>
+  <li><strong>Candidater PEPITES + CI-Investment Board</strong> dès ouverture des dossiers. Forum "Investir en Côte d'Ivoire" 2026 = vitrine.</li>
+  <li><strong>Plan d'expansion géographique</strong> aligné sur les 17 centres de groupage + 138 marchés de proximité. Demander la liste des sites prioritaires Phase 1 (Abidjan, Abengourou, Daloa).</li>
+  <li><strong>Pitch deck v2</strong> avec un slide "Waribei × PND" listant les 6 alignements directs. Forwardable aux investisseurs francophones.</li>
+</ol>
+
+<h2>10. Ce que le PND <em>ne</em> dit pas — angles morts</h2>
+
+<ul class="tight">
+  <li>Aucun chiffrage public du Fonds souverain ni des nouveaux fonds capital-investissement annoncés. Tous flagged "à mobiliser".</li>
+  <li>Aucune mention explicite de "BNPL", "credit à l'achat", ou "crédit marchand B2B" dans les 691 pages — l'angle Waribei est unique et non-encombré.</li>
+  <li>Le PND parle d'inclusion financière à 84,7% mais ignore la qualité du crédit déployé (ticket moyen, durée, tarification). Levier narratif : <strong>Waribei mesure l'inclusion réelle</strong>.</li>
+  <li>Pas de stratégie claire sur l'<em>interopérabilité</em> mobile money/microfinance/banques. Waribei se positionne sur ce trou via Apache Fineract.</li>
+</ul>
+
+<footer>
+  Sources : <em>PND 2026-2030, Tome 1 (Diagnostic, 217 p.), Tome 2 (Orientations, 266 p.), Tome 3 (Matrices d'Actions, 208 p.)</em> — MEPD/MPD République de Côte d'Ivoire, mai 2025. Citations §, paragraphes et tableaux référencés inline. Conversion FCFA→EUR au taux ~657,5 FCFA/€.
+</footer>
+
+</div>
+
+<script>
+(function(){
+  const ctx = document.getElementById('pillarChart');
+  if (!ctx) return;
+  const data = {
+    labels: ['P1 Paix/Sécu', 'P2 Agri', 'P3 Privé/PME/Informalité', 'P4 Capital humain', 'P5 Infrastructures', 'P6 Gouvernance'],
+    datasets: [{
+      label: 'Mds FCFA',
+      data: [1587, 8039, 54123, 11593, 35749, 2581],
+      backgroundColor: ['#a1a1aa','#15803d','#c2410c','#1d4ed8','#6d28d9','#b91c1c'],
+      borderRadius: 4
+    }]
+  };
+  new Chart(ctx, {
+    type: 'bar',
+    data,
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (c) => c.parsed.x.toLocaleString('fr-FR') + ' Mds FCFA (' + (c.parsed.x / 114839 * 100).toFixed(1) + '%)'
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { callback: (v) => (v/1000).toFixed(0) + 'k' }, grid: { color: '#f0f0ec' } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
