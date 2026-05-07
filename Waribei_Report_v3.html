@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Waribei — Acte fondateur (PostMortem v3)</title>
+<style>
+  @page { size: A4; margin: 22mm 18mm; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.55;
+    font-size: 11pt;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 36px 80px;
+    background: #fafaf8;
+  }
+  header {
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+  }
+  header h1 {
+    font-size: 24pt;
+    font-weight: 700;
+    margin: 0 0 6px;
+    letter-spacing: -0.4px;
+  }
+  header .subtitle {
+    font-size: 11pt;
+    color: #555;
+    font-style: italic;
+  }
+  header .meta {
+    margin-top: 14px;
+    font-size: 10pt;
+    color: #333;
+  }
+  header .meta strong { color: #1a1a1a; }
+  h2 {
+    font-size: 15pt;
+    font-weight: 700;
+    margin: 36px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #d4d4d0;
+    letter-spacing: -0.2px;
+  }
+  h3 {
+    font-size: 12pt;
+    font-weight: 600;
+    margin: 22px 0 8px;
+    color: #2a2a2a;
+  }
+  h4 {
+    font-size: 11pt;
+    font-weight: 600;
+    margin: 14px 0 6px;
+    color: #2a2a2a;
+  }
+  p { margin: 0 0 10px; }
+  ul, ol { margin: 0 0 12px; padding-left: 22px; }
+  li { margin-bottom: 5px; }
+  strong { color: #0a0a0a; font-weight: 600; }
+  em { color: #444; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 16px;
+    font-size: 10pt;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid #d4d4d0;
+    vertical-align: top;
+  }
+  th {
+    background: #f0eee8;
+    font-weight: 600;
+    font-size: 9.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #444;
+  }
+  tr:nth-child(even) td { background: #f7f5ef; }
+  .preamble {
+    background: #f0eee8;
+    border-left: 3px solid #1a1a1a;
+    padding: 14px 18px;
+    margin: 0 0 24px;
+    font-size: 10.5pt;
+    color: #333;
+  }
+  .callout {
+    border-left: 4px solid #c0392b;
+    background: #fdf2f0;
+    padding: 14px 18px;
+    margin: 14px 0 18px;
+  }
+  .callout .label {
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #c0392b;
+    margin-bottom: 6px;
+  }
+  .callout h4 { margin-top: 0; color: #1a1a1a; }
+  .note {
+    background: #f4f1e6;
+    border-left: 3px solid #b8860b;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 10pt;
+    color: #3a2f0c;
+  }
+  .signatures {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 2px solid #1a1a1a;
+  }
+  .signatures .row {
+    display: flex;
+    gap: 60px;
+    margin-top: 24px;
+  }
+  .signatures .col { flex: 1; }
+  .signatures .name { font-weight: 600; font-size: 11pt; margin-top: 32px; padding-top: 6px; border-top: 1px solid #888; }
+  .signatures .role { font-size: 10pt; color: #555; }
+  .footer {
+    margin-top: 40px;
+    padding-top: 14px;
+    border-top: 1px solid #d4d4d0;
+    font-size: 9pt;
+    color: #777;
+    text-align: center;
+  }
+  .toc {
+    background: #f0eee8;
+    padding: 14px 22px;
+    margin: 0 0 28px;
+    font-size: 10pt;
+  }
+  .toc strong { display: block; margin-bottom: 6px; font-size: 9.5pt; text-transform: uppercase; letter-spacing: 0.4px; color: #444; }
+  .toc ol { margin: 0; padding-left: 18px; }
+  .toc li { margin-bottom: 3px; }
+  @media print {
+    body { background: white; padding: 0; }
+    .callout, .note, .preamble, .toc { break-inside: avoid; }
+    h2 { break-after: avoid; }
+    table { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Waribei — Acte fondateur</h1>
+  <div class="subtitle">PostMortem v3 · Document structurel co-signé Ladislas Pham &amp; Fabrice ___</div>
+  <div class="meta">
+    <strong>Daté :</strong> 7 mai 2026 · Abidjan<br>
+    <strong>Horizon :</strong> 18 mois (jusqu'à Q2 2027, déclenchement critère de bascule)<br>
+    <strong>Diffusion :</strong> Fabrice (avant signature) → Aude / board → équipe étendue à discrétion
+  </div>
+</header>
+
+<div class="preamble">
+  <p>Ce document n'est pas un post-mortem analytique — celui-ci existe déjà dans <em>PostMortem_Report_v2</em>. C'est un acte fondateur. Il acte ce que nous tenons pour vrai, ce que nous tranchons, et ce que nous nous engageons à instruire ensemble dans les 14 jours.</p>
+  <p>Il nomme aussi <strong>explicitement les désaccords et les risques que nous portons</strong>, pas pour les évacuer, mais pour les gérer. Un document cofounders qui prétend l'unanimité est un mensonge utile à court terme et une bombe à retardement à 24 mois. Nous préférons écrire ce qui est vrai.</p>
+</div>
+
+<div class="toc">
+  <strong>Sommaire</strong>
+  <ol>
+    <li>Ce que nous tenons pour vrai (5 fondamentaux)</li>
+    <li>Ce que nous tranchons (outcome, bascule, liberté, équipe)</li>
+    <li>Ce que nous assumons comme désaccords et risques (3 bombes)</li>
+    <li>Frameworks de gestion entre cofounders</li>
+    <li>Plan d'action 14 jours</li>
+    <li>Co-signature</li>
+  </ol>
+</div>
+
+<h2>1. Ce que nous tenons pour vrai</h2>
+
+<p>Cinq fondamentaux validés par PostMortem v2 (snapshot 2026-05-06, 1 640 retailers, 16 744 disbursements, 3,52 Md FCFA décaissés). Ces fondamentaux ne sont plus à débattre — ils servent de base à toute décision suivante.</p>
+
+<h3>1.1 PMF étroit mais réel</h3>
+<p>Les cohortes matures atteignent 80–120 K FCFA d'ARPU à M+12 et continuent à scaler — pas de plafond observé. 253 retailers platine identifiés (beverage 89%, format maquis/demi-gros 65%, recommandé fournisseur 76%, ancienneté fournisseur 44 mois). Défaut J+30 à 0,7%, saturation limite à 82%. <strong>C'est notre ICP.</strong> Le PMF existe pour la fraction qui s'engage, et il scale dans la durée.</p>
+
+<h3>1.2 Opportunité macro structurelle</h3>
+<p>La pénétration du crédit institutionnel sur les chaînes de distribution en Afrique francophone est faible et jugée anormale par les acteurs systémiques. La pression top-down de formalisation (régulateurs, bailleurs, banques cherchant à descendre le marché) ne s'éteindra pas sur les 10 prochaines années. L'écosystème accepte de subventionner la phase d'apprentissage. <strong>L'opportunité existe ; le débat porte sur notre capacité à la saisir.</strong></p>
+
+<h3>1.3 Le risque a basculé du retailer au fournisseur</h3>
+<p>Charge-off GAAP réel à 2,3% — meilleur que l'industrie microfinance (≥4%). Mais 5 fournisseurs concentrent 44% des pertes (SD Philippe 23%, bricamax 27%, SD Sysy 11%, Inouss Brassivoire, Depot Florent). 22 fournisseurs présentent un clustering temporel anormal, dont 2 en alerte critique : GIDIC DISTRIBUTION (95,7% de défauts groupés mars 2026, 23 retailers) et Yapi Brassivoire (100% en novembre 2024). <strong>Le risque #1 est désormais la collusion / sélection biaisée fournisseur, pas la solvabilité retailer.</strong></p>
+
+<h3>1.4 Acquisition dégradée, structurellement</h3>
+<p>ARPU M+1 en effondrement sur 18 mois : 44 K → 24 K → 7 K → 6 K FCFA. C'est le coupable principal du plateau MRR, pas l'absence de capital. <strong>Mettre €1M dans le loan book sans réparer l'acquisition ne génère pas €1M de MRR additionnel.</strong></p>
+
+<h3>1.5 Levier mécanique sous les yeux : Limit Boost Platine</h3>
+<p>78,6% des retailers actifs saturent leur limite (utilisation moyenne 80,6%). Le programme Limit Boost Platine — +30% trimestriel sur les 245 retailers vertueux saturés — produit une estimation de +10–12 M FCFA de revenu additionnel par trimestre, soit ~+5,5 k€/mois MRR sans coût d'acquisition. <strong>C'est le premier tiers du chemin de 17 → 30 k€ MRR sans capital additionnel.</strong></p>
+
+<h2>2. Ce que nous tranchons</h2>
+
+<h3>2.1 Outcome cible — primaire et backup</h3>
+
+<p><strong>Primaire : Bv2 — Leader lending Côte d'Ivoire</strong></p>
+<ul>
+  <li><strong>Horizon :</strong> 36–48 mois.</li>
+  <li><strong>Cible business :</strong> ARR €5M / loan book €4M / 7 500 clients transactants / ratio MRR-retailer ~55€ (vs 13€ aujourd'hui, soit ×4 via Limit Boost + saturation platines).</li>
+  <li><strong>Pourquoi :</strong> nous construisons un système (WariStock + WariBrain + WariPortal), pas un produit. Nous voulons l'opérer, pas seulement le revendre. Nous croyons que ce système, à pleine maturité, fait bouger les lignes du crédit marchand court terme en Afrique francophone.</li>
+</ul>
+
+<p><strong>Trajectoire MRR de référence :</strong></p>
+<table>
+  <tr>
+    <th>Jalon</th><th>Date</th><th>MRR</th><th>Levier dominant</th>
+  </tr>
+  <tr><td>Aujourd'hui</td><td>Mai 2026</td><td>17 k€</td><td>Plateau (4 mois)</td></tr>
+  <tr><td>Post Limit Boost</td><td>Q4 2026</td><td>~30 k€</td><td>Saturation programmée du portefeuille platine</td></tr>
+  <tr><td>Critère bascule</td><td>Q2 2027</td><td>≥ 80 k€</td><td>Réparation acquisition + 3 hires opérationnels</td></tr>
+  <tr><td>Mid-term</td><td>Fin 2028</td><td>200 k€+</td><td>Réplication du modèle CI sur nouveaux quartiers / verticales adjacentes</td></tr>
+  <tr><td>Cible Bv2</td><td>2029-2030</td><td>~417 k€ (ARR €5M)</td><td>Pleine charge sur 7 500 retailers transactants</td></tr>
+</table>
+
+<p><strong>Backup : A — Vente courte à institution financière</strong></p>
+<ul>
+  <li><strong>Horizon :</strong> 18–30 mois.</li>
+  <li><strong>Cible valo :</strong> €10–20M.</li>
+  <li><strong>Acquéreurs probables :</strong> groupes africains avec institutions financières (banques régionales cherchant à descendre le marché, MFIs consolidantes). Short list à formaliser sous 14 jours.</li>
+  <li><strong>Window :</strong> ouverte jusqu'à fin 2027. Au-delà, l'asset techno + data se déprécie face aux nouveaux entrants régulés.</li>
+</ul>
+
+<h3>2.2 Critère de bascule Bv2 → A</h3>
+
+<p>À fin Q2 2027 (18 mois post-Seed), <strong>la bascule Bv2 → A est instruite si au moins l'une des trois conditions est remplie :</strong></p>
+<ul>
+  <li>MRR &lt; 80 k€ (vs trajectoire cible Bv2)</li>
+  <li>LOI / conversation d'acquisition structurée avec valo indicative ≥ €15M</li>
+  <li>LTV/CAC &lt; 2,5 sur cohortes M+12 (signal de non-réparation de l'acquisition)</li>
+</ul>
+
+<p><strong>Mécanisme de décision :</strong> session cofounders dédiée, owner arbitre Ladislas. <strong>Si Fabrice est en désaccord motivé sur la bascule, escalade au board (Aude) sous 14 jours pour arbitrage.</strong> Cette clause n'est pas une présomption d'autorité ; elle est la conséquence opérationnelle de l'asymétrie cofounders nommée en section 3.1.</p>
+
+<h3>2.3 Liberté d'entreprendre</h3>
+
+<p><strong>Plafond dilution.</strong> Stop à Series A. Cible fondateurs combinés post-A : <strong>30%</strong> (vs 60% aujourd'hui). Trajectoire cible : Seed −25% + Series A −25%. À modéliser en 3 scénarios distincts (agressive / centrale / conservatrice) avant signature term sheet — voir section 3.2 bombe #2.</p>
+
+<p><strong>Lignes rouges term sheet Seed (non-négociables) :</strong></p>
+<ol>
+  <li><strong>Pas de drag-along ni ROFR investisseur sur l'exit.</strong> Le pouvoir de décider de la bascule Bv2 → A reste cofounders.</li>
+  <li><strong>Pas de clause de résidence imposée sur le CEO</strong> (no key-man residency). Ladislas conserve la liberté de localisation tant que la conduite opérationnelle est assurée par la team CI sous direction Fabrice.</li>
+  <li><strong>Pas de veto investisseur sur recrutement senior ni budget annuel</strong> (à confirmer en revue term sheet — peut être négocié en information rights plutôt qu'en consent rights).</li>
+</ol>
+
+<p><strong>Runway perso Ladislas.</strong> 11 mois actuels (cash perso ~20 k€ / charges ~1,8 k€/mois). <strong>Action de dérisquage non-négociable avant signature term sheet :</strong> étendre à 18 mois minimum via prêt famille / ligne crédit perso (15–20 k€). Sans ce dérisquage, le rapport de force lors de la négociation est dégradé et les lignes rouges ci-dessus deviennent négociables sous pression cash personnelle.</p>
+
+<h3>2.4 Équipe — 3 hires structurants post-Seed</h3>
+
+<p>Ordre de priorité, déclenchés à la signature du term sheet Seed :</p>
+
+<table>
+  <tr>
+    <th>Hire</th><th>Salaire mensuel chargé</th><th>Décharge</th><th>Trigger</th>
+  </tr>
+  <tr>
+    <td><strong>Head of Ops</strong></td>
+    <td>1,0 M FCFA (~1 500 €)</td>
+    <td>Fabrice (Ops + tâches journalières)</td>
+    <td>Closing Seed</td>
+  </tr>
+  <tr>
+    <td><strong>CFO</strong></td>
+    <td>1,8 M FCFA (~2 750 €)</td>
+    <td>Ladislas (finance + relation MFI)</td>
+    <td>Closing Seed + 30 jours</td>
+  </tr>
+  <tr>
+    <td><strong>CPO</strong></td>
+    <td>1,5 M FCFA (~2 300 €)</td>
+    <td>Ladislas (decision produit)</td>
+    <td>Closing Seed + 60 jours</td>
+  </tr>
+</table>
+
+<p><strong>Total :</strong> ~6 550 €/mois chargé / ~150 k€ sur 18 mois (10–15% du Seed €1–1,5M). Compatible.</p>
+
+<p><strong>Capacité Fabrice :</strong> le système actuel scale ×3 sans ajout d'équipe. Au-delà de ~5 000 retailers, casse opérationnelle. Le hire Head of Ops est <strong>la première condition</strong> pour atteindre le seuil 80 k€ MRR (~6 000 retailers) sans mettre Fabrice en surcharge.</p>
+
+<p><strong>Bus factor :</strong> 1 semaine sans Fabrice est tolérable. Au-delà, casse. Le Head of Ops réduit ce risque structurellement.</p>
+
+<h2>3. Ce que nous assumons comme désaccords et risques</h2>
+
+<p>Cette section n'existe pas dans la plupart des actes fondateurs. Elle existe ici parce qu'un alignement par loyauté est une bombe à retardement. Aude nous l'a dit en session : <em>« si pas de désaccord = signal inquiétant. S'il en a un mais ne l'a pas posé = encore plus inquiétant. »</em> Nous préférons nommer maintenant ce qui pourrait nous séparer plus tard.</p>
+
+<h3>3.1 Asymétrie cofounders sur le motif</h3>
+
+<table>
+  <tr>
+    <th>Dimension</th><th>Fabrice</th><th>Ladislas</th>
+  </tr>
+  <tr>
+    <td>Motif dominant</td>
+    <td>Missionnaire (impact terrain, formalisation du crédit, écosystème CI)</td>
+    <td>Opérateur-constructeur-vendeur (système qui fait bouger les lignes, succès tangible, exit)</td>
+  </tr>
+  <tr>
+    <td>Ancrage géographique</td>
+    <td>Fort en Côte d'Ivoire</td>
+    <td>Modéré (entre Abidjan et Paris)</td>
+  </tr>
+  <tr>
+    <td>Engagement émotionnel sur l'impact</td>
+    <td>Élevé</td>
+    <td>Présent mais subordonné à la réussite du système</td>
+  </tr>
+  <tr>
+    <td>Énergie 30 derniers jours</td>
+    <td>À documenter en session cofounders</td>
+    <td>7/10 (vs 8/10 il y a 12 mois)</td>
+  </tr>
+  <tr>
+    <td>Soutenabilité 36 mois</td>
+    <td>À documenter</td>
+    <td>OUI (45h/sem actuelles)</td>
+  </tr>
+</table>
+
+<p><strong>Implications opérationnelles à anticiper, pas à éviter :</strong></p>
+
+<ul>
+  <li><strong>Sur la décision de bascule Bv2 → A :</strong> Ladislas tendra à exécuter sur trigger ; Fabrice tendra à demander « encore 6 mois ». Mécanisme d'arbitrage : décision en session cofounders, Ladislas owner ; désaccord motivé escaladé Aude sous 14 jours. <em>Cette clause est négociée maintenant pour éviter de la négocier dans la panique.</em></li>
+  <li><strong>Sur la stratégie d'expansion :</strong> Fabrice tendra vers approfondissement CI / ouverture UEMOA ; Ladislas tendra vers consolidation et préparation d'asset vendable. Mécanisme : revue 15j obligatoire des 2 north stars, écart d'opinion documenté en clôture (cf. section 4).</li>
+  <li><strong>Sur le partage equity post-A en cas de vente :</strong> carve-up à modéliser dès maintenant. Une vente A à €15M avec cap table standard donnerait à Fabrice X% (à calculer) ; il faut que Fabrice voie ce chiffre <strong>avant</strong> de signer le term sheet Seed, pas après l'exit, pour éviter que la vente se fasse contre son sentiment de juste rétribution.</li>
+</ul>
+
+<h3>3.2 Trois bombes à désamorcer avant signature term sheet Seed</h3>
+
+<div class="callout">
+  <div class="label">Bombe #1 — Salaire Fabrice : durée non discutée</div>
+  <h4>État actuel</h4>
+  <p>La conversation explicite « combien de temps Fabrice continue à son salaire actuel sans rupture » n'a pas été tenue entre cofounders.</p>
+  <h4>Risque</h4>
+  <p>Si Fabrice atteint son point de rupture cash perso à 12 mois, la bascule Bv2 → A se déclenche pour la mauvaise raison (cash équipe), pas pour les raisons stratégiques définies en 2.2. Ladislas se retrouve à vendre A en panique pendant que Fabrice cherche un job.</p>
+  <h4>Action</h4>
+  <p>Conversation explicite et datée avec Fabrice <strong>avant</strong> signature term sheet Seed. Output attendu, à intégrer dans la v3.1 du présent document : <em>« Salaire Fabrice → X € à partir de M+Y, avec ratchet equity de Z% si retardé au-delà de la date convenue. »</em></p>
+</div>
+
+<div class="callout">
+  <div class="label">Bombe #2 — Cible dilution 30% : signée par résignation, pas par conviction</div>
+  <h4>État actuel</h4>
+  <p>Position Fabrice : « à confirmer mais on n'a pas tant de choix » (formulation Ladislas, à valider Fabrice). C'est une phrase de résignation, pas de décision.</p>
+  <h4>Risque</h4>
+  <p>Cofounder amer à 24 mois, au moment de pitcher Series A. Le cofounder qui signe un cap-up qu'il a accepté « par défaut » devient le cofounder qui résiste à la Series A pour récupérer du contrôle, ou pire : qui sort.</p>
+  <h4>Action</h4>
+  <p>Modéliser <strong>3 trajectoires de dilution distinctes</strong> (agressive €1,5M @ €4M post / centrale €1,2M @ €5M post / conservatrice €800k @ €4M post + bridge ultérieur) avec leurs trade-offs en runway et en risque d'exécution. Présenter le choix, pas le verdict. Owner : Ladislas. Deadline : J−30 avant signature term sheet.</p>
+</div>
+
+<div class="callout">
+  <div class="label">Bombe #3 — Runway perso Ladislas : 11 mois</div>
+  <h4>État actuel</h4>
+  <p>Cash perso ~20 k€ / charges ~1,8 k€/mois = 11 mois de runway si Waribei stoppe le salaire. Si la levée Seed prend 6 mois, signature term sheet à T+6 avec 5 mois de runway perso restant.</p>
+  <h4>Risque</h4>
+  <p>Signature sous pression cash personnelle = lignes rouges abandonnées une à une. La cible « 30% combinés » devient « 25% », le no-drag-along devient « drag-along avec super-majorité acceptée », etc.</p>
+  <h4>Action</h4>
+  <p>Étendre runway perso à 18 mois minimum <strong>avant</strong> ouverture des conversations term sheet. Owner : Ladislas. Mécanisme : prêt famille ou ligne crédit perso 15–20 k€. Date butoir : J+14.</p>
+</div>
+
+<h2>4. Frameworks de gestion entre cofounders</h2>
+
+<p>Repris et validés depuis Synthese-Fondamentaux v1. Réécrits ici pour qu'ils soient opposables — pas une intention, une règle.</p>
+
+<h3>4.1 Cadre de pilotage récurrent</h3>
+
+<ul>
+  <li><strong>Revue 15 jours.</strong> Mardi matin, 60 min max. Owner : Ladislas. Présents : Fabrice + Aude (selon disponibilité), Leslie quand pertinent. Format : revue des 2 north stars, statut des décisions activées du présent document, blocages explicites, ardoise <em>DÉCISIONS PRISES / ACTIONS À FAIRE</em> en clôture.</li>
+  <li><strong>Two north stars.</strong>
+    <ul>
+      <li>(1) <strong>Top line</strong> — MRR + ARPU M+1 nouvelles cohortes + activation/conversion pipeline.</li>
+      <li>(2) <strong>Risque</strong> — charge-off J+180 + concentration top 5 fournisseurs + clustering temporel anormal.</li>
+    </ul>
+  </li>
+  <li><strong>Post-mortem trimestriel.</strong> Owner : Fabrice + Data Scientist. Refaire les 11 cuts du PostMortem v2. Comparer trimestre N vs N−1. C'est le livrable qui transforme la conversation « fondamentaux » en décisions.</li>
+  <li><strong>Round table conviction.</strong> Tour de parole 5 min en clôture des sessions stratégiques : <em>« Sur Waribei, où es-tu sur une échelle conviction 1–10 ? Qu'est-ce qui te ferait passer à 10 ? Qu'est-ce qui te ferait passer en dessous de 5 ? »</em> Calibration humaine, pas décision.</li>
+</ul>
+
+<h3>4.2 Méthode de prise de décision</h3>
+
+<p>Toute décision sortie d'une réunion doit avoir simultanément :</p>
+<ol>
+  <li>Un <strong>owner unique</strong>.</li>
+  <li>Une <strong>deadline datée</strong>.</li>
+  <li>Un <strong>critère d'arbitrage écrit</strong> si la décision dépend de chiffres futurs.</li>
+</ol>
+<p>Sans ces 3 éléments, ce n'est pas une décision, c'est une intention.</p>
+
+<p><strong>Primaire + backup.</strong> Pour les sujets stratégiques (outcome cible, thèse capital, alignement cofounders) : choisir un primaire + un backup. Documenter le critère qui ferait basculer du primaire au backup (cf. section 2.2 pour Bv2 → A).</p>
+
+<h3>4.3 Hygiène cofounders — anti-loyauté, anti-confirmation bias</h3>
+
+<ul>
+  <li><strong>Question anti-loyauté.</strong> Sur tout sujet structurant, demander explicitement à Fabrice : <em>« Sur cette conversation, où n'es-tu pas d'accord avec ce qu'on a dit ? Pas une nuance polie. Un vrai désaccord. »</em> Si pas de désaccord = signal inquiétant. S'il en a un mais ne l'a pas posé = encore plus inquiétant.</li>
+  <li><strong>Anti-confirmation bias.</strong> Reconnaître quand on est dans un groupe de confirmation (Aude croit, Ladislas veut croire, Fabrice silencieux). Chercher activement un dissident éclairé extérieur, hors cap table et hors équipe. Coût : 1h. Bénéfice : friction qui manque en interne.</li>
+  <li><strong>Conversations explicites datées.</strong> Toute conversation cofounders sur l'horizon de sortie, la dilution, le plan B doit être explicite et datée. Pas une présomption. Sinon, alignement par loyauté plutôt que par conviction = bombe à retardement.</li>
+</ul>
+
+<h2>5. Plan d'action 14 jours</h2>
+
+<table>
+  <tr>
+    <th>Jour</th><th>Action</th><th>Owner</th><th>Output attendu</th>
+  </tr>
+  <tr>
+    <td>J+1 → J+7</td>
+    <td><strong>Session cofounders 2–3h</strong> sur les 5 points non-discutés : salaire Fabrice, dilution (3 trajectoires), plan B perso Fabrice, alignement outcome Bv2/A, alignement critère bascule</td>
+    <td>Ladislas (orga) + Fabrice</td>
+    <td>Doc co-signé v3.1 avec sections 3.1 et 3.2 mises à jour</td>
+  </tr>
+  <tr>
+    <td>J+1 → J+14</td>
+    <td><strong>Modéliser 3 trajectoires dilution</strong> (agressive / centrale / conservatrice)</td>
+    <td>Ladislas</td>
+    <td>Spreadsheet <em>Waribei_Model_v3.xlsx</em></td>
+  </tr>
+  <tr>
+    <td>J+1 → J+14</td>
+    <td><strong>Étendre runway perso Ladislas à 18 mois</strong> (prêt famille / ligne crédit 15–20 k€)</td>
+    <td>Ladislas</td>
+    <td>Mail confirmation famille / banque</td>
+  </tr>
+  <tr>
+    <td>J+8 → J+14</td>
+    <td><strong>Short list acquéreurs</strong> (groupes financiers avec MFIs/banques en zone CI/UEMOA)</td>
+    <td>Ladislas</td>
+    <td>Liste 8–12 acquéreurs avec contact + thèse stratégique d'acquisition</td>
+  </tr>
+  <tr>
+    <td>J+1 → J+14</td>
+    <td><strong>Brief Data Scientist</strong> sur les 3 scorings (fournisseur / dépendance / agent) — repris de Synthese-Fondamentaux v1</td>
+    <td>Fabrice</td>
+    <td>Spec écrite + démarrage implémentation</td>
+  </tr>
+  <tr>
+    <td>J+10 → J+14</td>
+    <td><strong>Audit fournisseurs critiques</strong> (SD Philippe, bricamax, SD Sysy + GIDIC + Yapi Brassivoire) — décision PostMortem v2 actée non encore exécutée</td>
+    <td>Fabrice</td>
+    <td>Rapport audit + décision suspension préventive</td>
+  </tr>
+</table>
+
+<div class="note">
+  <strong>Convention de relecture.</strong> Ce document est une v3 (point d'entrée). La v3.1, produite à l'issue de la session cofounders J+1 → J+7, intégrera les positions tranchées de Fabrice sur les 5 points non-discutés. Les sections 2.2 (mécanisme bascule), 3.1 (asymétrie) et 3.2 (3 bombes) seront amendées en conséquence — pas le reste.
+</div>
+
+<h2>6. Co-signature</h2>
+
+<p>En signant ce document, nous reconnaissons :</p>
+<ul>
+  <li>Tenir pour vrai les 5 fondamentaux de la section 1 ;</li>
+  <li>Trancher les positions de la section 2 (outcome, bascule, liberté, équipe) ;</li>
+  <li>Assumer comme partagés les désaccords et risques nommés en section 3 ;</li>
+  <li>Nous engager sur le plan d'action 14 jours de la section 5.</li>
+</ul>
+
+<div class="signatures">
+  <div class="row">
+    <div class="col">
+      <div class="name">Ladislas Pham</div>
+      <div class="role">Co-fondateur &amp; CEO</div>
+    </div>
+    <div class="col">
+      <div class="name">Fabrice ___</div>
+      <div class="role">Co-fondateur &amp; ___</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Waribei · Acte fondateur (PostMortem v3) · 7 mai 2026 · Document interne cofounders — diffusion contrôlée
+</div>
+
+</body>
+</html>
