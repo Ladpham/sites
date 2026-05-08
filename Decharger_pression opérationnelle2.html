@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Waribei — Plan d'action Support · v2</title>
+<style>
+  :root{
+    --red:#F83131;--navy:#064C72;--sky:#8ECAE6;
+    --green:#1B5A43;--yellow:#FFC444;--peach:#FFDBCC;--ice:#D8ECFE;
+    --ink:#0E1F2C;--muted:#5B6E7A;--line:#E4ECF2;
+  }
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:var(--ink);background:#FAFCFE;margin:0;line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:28px 24px 60px}
+
+  header{border-bottom:4px solid var(--navy);padding-bottom:14px;margin-bottom:22px}
+  .tag{display:inline-block;background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:3px;text-transform:uppercase}
+  h1{font-size:26px;margin:8px 0 4px;color:var(--navy);line-height:1.2}
+  .meta{color:var(--muted);font-size:13px}
+  .meta strong{color:var(--ink)}
+
+  h2{color:var(--navy);font-size:18px;margin:30px 0 10px;border-bottom:2px solid var(--ice);padding-bottom:6px}
+  h3{color:var(--navy);font-size:14px;margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px}
+
+  .tldr{background:var(--ice);border-left:6px solid var(--navy);padding:14px 18px;border-radius:6px}
+  .tldr p{margin:4px 0;font-size:14px}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:6px 0 16px}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:8px 10px;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+  tbody td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#F5FAFE}
+
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;white-space:nowrap}
+  .b-waribei{background:var(--peach);color:var(--red)}
+  .b-externe{background:#E2E8EC;color:var(--muted)}
+  .b-mixte{background:#FFF4D6;color:#8A6800}
+
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px}
+  .p-tech{background:var(--ice);color:var(--navy)}
+  .p-prod{background:var(--peach);color:var(--red)}
+  .p-support{background:#FFF4D6;color:#8A6800}
+  .p-gov{background:#EFE7FF;color:#4A2A9A}
+  .p-biz{background:#D7F0E3;color:var(--green)}
+
+  .owner{font-weight:600;color:var(--navy);white-space:nowrap}
+  .due{white-space:nowrap;font-variant-numeric:tabular-nums}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .card.win{border-left:4px solid var(--green);background:#F2FAF5}
+  .card.crit{border-left:4px solid var(--red);background:#FFF5F5}
+  .card.tip{border-left:4px solid var(--yellow);background:#FFFDF5}
+  .card h4{margin:0 0 6px;font-size:14px;color:var(--ink)}
+  .card p,.card ul{margin:4px 0;font-size:13px;color:var(--ink)}
+  .card ul{padding-left:18px}
+
+  .form-block{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .form-block .head{background:var(--navy);color:#fff;padding:10px 14px;font-size:14px;font-weight:600}
+  .form-block .body{padding:14px 16px}
+  .field{margin:8px 0;display:grid;grid-template-columns:200px 1fr;gap:10px;font-size:13.5px;align-items:start}
+  .field .lbl{font-weight:600;color:var(--navy)}
+  .field .val{color:var(--ink)}
+  .field .val small{color:var(--muted);display:block;margin-top:2px}
+  @media(max-width:760px){.field{grid-template-columns:1fr}}
+
+  .axiom{background:var(--navy);color:#fff;padding:12px 16px;border-radius:8px;font-size:14px;margin:10px 0}
+  .axiom strong{color:var(--yellow)}
+
+  footer{margin-top:30px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="tag">Plan d'action Support · v2</span>
+  <h1>Décharger les agents : qui fait quoi, et quand</h1>
+  <div class="meta">
+    <strong>Date :</strong> 8 mai 2026 ·
+    <strong>Diffusion :</strong> Tech · Produit · Support ·
+    <strong>Owner :</strong> Ladislas
+  </div>
+</header>
+
+<div class="tldr">
+  <p><strong>Constat.</strong> Les agents support sont en flux tendu 7/7. Sauf livraison externe, chaque appel = une faille de notre système.</p>
+  <p><strong>Plan.</strong> 1) Règles de bordure (heures officielles + permanence). 2) Quick wins produit datés (30 j). 3) Google Form ticketing pour piloter et arbitrer.</p>
+</div>
+
+<!-- ============ 1. CARTOGRAPHIE ============ -->
+<h2>1. Cartographie — Waribei vs externe</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:30%">Sujet</th>
+      <th>Tient de</th>
+      <th>Cause</th>
+      <th>Catégorie</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pb de rechargement — <em>technique</em></td>
+      <td><span class="badge b-waribei">Waribei</span></td>
+      <td>Conciliation pas instantanée, latence PAP, bug</td>
+      <td><span class="pill p-tech">Tech</span></td>
+    </tr>
+    <tr>
+      <td>Pb de rechargement — <em>déconsidération du délai</em></td>
+      <td><span class="badge b-waribei">Waribei</span></td>
+      <td>Le client ignore le temps normal de traitement</td>
+      <td><span class="pill p-prod">Produit</span></td>
+    </tr>
+    <tr>
+      <td>Souci de livraison</td>
+      <td><span class="badge b-externe">Externe</span></td>
+      <td>Fournisseur en rupture ou retard de tournée</td>
+      <td><span class="pill p-biz">Business</span></td>
+    </tr>
+    <tr>
+      <td>Fournisseur n'a pas reçu son argent</td>
+      <td><span class="badge b-mixte">Mixte</span></td>
+      <td>Délai virement OK côté Waribei, mais le fournisseur appelle car cash-flow tendu</td>
+      <td><span class="pill p-biz">Business</span></td>
+    </tr>
+    <tr>
+      <td>Réception du message de paiement</td>
+      <td><span class="badge b-waribei">Waribei</span></td>
+      <td>Pipeline de notif (SMS / push) défaillant</td>
+      <td><span class="pill p-tech">Tech</span></td>
+    </tr>
+    <tr>
+      <td>Approche du week-end · flux tendu</td>
+      <td><span class="badge b-waribei">Waribei</span></td>
+      <td>Pas de règles de bordure ni d'auto-treatment</td>
+      <td><span class="pill p-gov">Gouv</span></td>
+    </tr>
+    <tr>
+      <td>Fournisseur n'arrive pas à scanner</td>
+      <td><span class="badge b-waribei">Waribei</span></td>
+      <td>UX app marchand peu fluide</td>
+      <td><span class="pill p-prod">Produit</span></td>
+    </tr>
+    <tr>
+      <td>Fournisseur iPhone qui ne scanne pas</td>
+      <td><span class="badge b-waribei">Waribei</span></td>
+      <td>Bug ou autorisation iOS (caméra / localisation)</td>
+      <td><span class="pill p-tech">Tech</span></td>
+    </tr>
+    <tr>
+      <td>Commerciaux disent « on est ouvert 24h/24 »</td>
+      <td><span class="badge b-waribei">Waribei</span></td>
+      <td>Pas de script ni de règle interne</td>
+      <td><span class="pill p-gov">Gouv</span></td>
+    </tr>
+    <tr>
+      <td>Vérification de compte (KYC) à faire en live</td>
+      <td><span class="badge b-waribei">Waribei</span></td>
+      <td>Process manuel, perte de dossier en 2e vérif</td>
+      <td><span class="pill p-tech">Tech</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="grid2">
+  <div class="card win">
+    <h4>9 sujets sur 10 dépendent de nous</h4>
+    <p>Seul « souci de livraison » est purement externe. Tout le reste : on a la main, donc on règle.</p>
+  </div>
+  <div class="card tip">
+    <h4>Règle de bordure (à appliquer dès lundi)</h4>
+    <ul>
+      <li>Heures officielles : <strong>L–V 8h–19h</strong></li>
+      <li>WE : permanence en rotation, pas tout le monde dispo</li>
+      <li>Hors plage : message auto + mini-guide</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ 2. PLAN PRODUIT DATÉ ============ -->
+<h2>2. Plan produit daté — un sujet, une action, une date</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:32%">Sujet</th>
+      <th>Action concrète</th>
+      <th>Owner</th>
+      <th>Échéance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pb rechargement (tech)</td>
+      <td>Conciliation auto PAP avec metadata transaction</td>
+      <td class="owner">PA</td>
+      <td class="due">5 juin</td>
+    </tr>
+    <tr>
+      <td>Pb rechargement (délai)</td>
+      <td>Écran in-app : « Paiement reçu, rechargement sous X min » + barre de progression</td>
+      <td class="owner">PA</td>
+      <td class="due">29 mai</td>
+    </tr>
+    <tr>
+      <td>Réception message paiement</td>
+      <td>Audit pipeline SMS + retry automatique + notif push de secours</td>
+      <td class="owner">PA</td>
+      <td class="due">22 mai</td>
+    </tr>
+    <tr>
+      <td>Fournisseur ne scanne pas</td>
+      <td>Refonte écran scan + bouton « saisie manuelle » de secours</td>
+      <td class="owner">PA</td>
+      <td class="due">5 juin</td>
+    </tr>
+    <tr>
+      <td>iPhone qui ne scanne pas</td>
+      <td>Fix permission caméra iOS + test sur 5 modèles iPhone</td>
+      <td class="owner">PA</td>
+      <td class="due">22 mai</td>
+    </tr>
+    <tr>
+      <td>Vérification compte live</td>
+      <td>Persistance dossier 1ère vérif + bug fix perte 2e vérif</td>
+      <td class="owner">PA</td>
+      <td class="due">22 mai</td>
+    </tr>
+    <tr>
+      <td>Proof-of-payment (transversal)</td>
+      <td>Feature in-app : capture d'écran ou ID paiement transmis directement</td>
+      <td class="owner">PA</td>
+      <td class="due">30 mai</td>
+    </tr>
+    <tr>
+      <td>Création transaction à distance</td>
+      <td>Réduire les sauts de fenêtre (un seul tap pour ouvrir l'app)</td>
+      <td class="owner">PA</td>
+      <td class="due">5 juin</td>
+    </tr>
+    <tr>
+      <td>Commerciaux 24/7</td>
+      <td>Note interne + script correctif + audit hebdo terrain</td>
+      <td class="owner">Fabrice</td>
+      <td class="due">12 mai</td>
+    </tr>
+    <tr>
+      <td>Onboarding marchand</td>
+      <td>Checklist commerciale (localisation, 1re transaction supervisée)</td>
+      <td class="owner">Fabrice</td>
+      <td class="due">22 mai</td>
+    </tr>
+    <tr>
+      <td>Souci de livraison (externe)</td>
+      <td>Pas d'action produit. Script support : orienter vers fournisseur alternatif</td>
+      <td class="owner">Macé</td>
+      <td class="due">15 mai</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ============ 3. GOOGLE FORM TICKETING ============ -->
+<h2>3. Google Form — ticketing inter-équipes</h2>
+
+<p style="font-size:14px;margin-top:0">
+Objectif : un ticket par malfonctionnement remonté. Évite les WhatsApp, les oublis, et donne enfin la donnée pour arbitrer la roadmap.
+</p>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Comment ça marche</h4>
+    <ul>
+      <li>L'agent qui reçoit l'appel ouvre le Form (raccourci sur le tel pro)</li>
+      <li>Remplit en &lt; 1 min</li>
+      <li>Le Form alimente une <strong>Google Sheet « Tickets Waribei »</strong></li>
+      <li>La Sheet est revue chaque <strong>lundi 9h</strong> en stand-up Tech / Produit / Support</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>Règles d'or</h4>
+    <ul>
+      <li>Pas de Form rempli = le sujet n'existe pas en réunion</li>
+      <li>Un ticket = un seul sujet</li>
+      <li>Sévérité « Bloquant » = traitement &lt; 24h</li>
+      <li>Tout ticket clos doit avoir une cause racine documentée</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Champs du formulaire</h3>
+
+<div class="form-block">
+  <div class="head">Form : « Ticket Waribei — malfonctionnement »</div>
+  <div class="body">
+    <div class="field"><div class="lbl">1. Date & heure</div><div class="val">Pré-rempli automatiquement</div></div>
+    <div class="field"><div class="lbl">2. Agent qui remonte</div><div class="val">Liste déroulante (Macé, Fabrice, autres)</div></div>
+    <div class="field"><div class="lbl">3. Canal</div><div class="val">Appel · WhatsApp · Présentiel · Email</div></div>
+    <div class="field"><div class="lbl">4. Type de remontée</div><div class="val">Client · Marchand · Fournisseur · Interne</div></div>
+    <div class="field"><div class="lbl">5. Identifiant client/marchand</div><div class="val">ID ou nom (pour croiser avec la base)</div></div>
+    <div class="field"><div class="lbl">6. Catégorie</div><div class="val">
+      Liste fermée (cf. cartographie) :
+      <small>Rechargement · Réception SMS · Scan · iPhone scan · KYC live · Lien à distance · Fournisseur non payé · Souci livraison · Commercial / 24-7 · Autre</small>
+    </div></div>
+    <div class="field"><div class="lbl">7. Description courte</div><div class="val">Texte libre, 2-3 phrases max</div></div>
+    <div class="field"><div class="lbl">8. Sévérité</div><div class="val">Bloquant · Gênant · Mineur</div></div>
+    <div class="field"><div class="lbl">9. Tient de</div><div class="val">Waribei · Externe · Mixte</div></div>
+    <div class="field"><div class="lbl">10. Équipe en charge</div><div class="val">Tech · Produit · Support · Business · Gouvernance</div></div>
+    <div class="field"><div class="lbl">11. Statut</div><div class="val">Nouveau · En cours · Résolu (mis à jour dans la Sheet, pas le Form)</div></div>
+    <div class="field"><div class="lbl">12. Cause racine</div><div class="val">À remplir à la clôture (texte libre)</div></div>
+    <div class="field"><div class="lbl">13. Date résolution</div><div class="val">Renseignée à la clôture</div></div>
+  </div>
+</div>
+
+<h3>Sheet associée — vues utiles</h3>
+<ul>
+  <li><strong>Vue « En cours »</strong> — filtrée sur statut ≠ Résolu, triée par sévérité.</li>
+  <li><strong>Vue « Top motifs / semaine »</strong> — pivot Catégorie × Semaine, pour la roadmap produit.</li>
+  <li><strong>Vue « Hors plage »</strong> — tickets reçus en dehors de 8h-19h L-V (mesure de l'effet règles de bordure).</li>
+  <li><strong>Vue « Externe »</strong> — pour suivre les sujets fournisseur sans saturer la roadmap interne.</li>
+</ul>
+
+<!-- ============ 4. PILOTAGE ============ -->
+<h2>4. Pilotage</h2>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Cadence</h4>
+    <ul>
+      <li><strong>Lundi 9h (15 min)</strong> — Stand-up tickets : Macé / PA / Fabrice / Ladislas</li>
+      <li><strong>Fin de mois</strong> — Revue volumes + ajustement roadmap</li>
+      <li><strong>Trimestre</strong> — Bilan plan + nouveau cycle</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h4>Indicateurs (cible fin juillet)</h4>
+    <ul>
+      <li>Appels hors plage <strong>↓ &gt; 80%</strong> vs. baseline mai</li>
+      <li>% tickets résolus self-service <strong>&gt; 50%</strong></li>
+      <li>Conciliation manuelle <strong>↓ &gt; 70%</strong></li>
+      <li><strong>0</strong> groupe WhatsApp commercial-client</li>
+    </ul>
+  </div>
+</div>
+
+<div class="axiom">
+  Règle non négociable : <strong>pas de feature qui ajoute de la charge support</strong>. Toute UX nouvelle doit passer le test « grand-mère du village ».
+</div>
+
+<footer>
+  Waribei · Plan d'action Support v2 · 8 mai 2026 · Tech · Produit · Support
+</footer>
+
+</div>
+</body>
+</html>
