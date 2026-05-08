@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Waribei — Plan d'action OODA · Pression opérationnelle Support</title>
+<style>
+  :root{
+    --red:#F83131;
+    --navy:#064C72;
+    --sky:#8ECAE6;
+    --green:#1B5A43;
+    --yellow:#FFC444;
+    --peach:#FFDBCC;
+    --ice:#D8ECFE;
+    --ink:#0E1F2C;
+    --muted:#5B6E7A;
+    --line:#E4ECF2;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:#FAFCFE;
+    margin:0;
+    line-height:1.5;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:32px 28px 80px}
+  header{
+    border-bottom:4px solid var(--navy);
+    padding-bottom:16px;
+    margin-bottom:24px;
+  }
+  header .tag{
+    display:inline-block;
+    background:var(--red);
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1px;
+    padding:4px 10px;
+    border-radius:3px;
+    text-transform:uppercase;
+  }
+  header h1{
+    font-size:28px;
+    margin:10px 0 4px;
+    color:var(--navy);
+    line-height:1.2;
+  }
+  header .meta{color:var(--muted);font-size:13px}
+  header .meta strong{color:var(--ink)}
+
+  .tldr{
+    background:var(--ice);
+    border-left:6px solid var(--navy);
+    padding:16px 20px;
+    border-radius:6px;
+    margin-bottom:32px;
+  }
+  .tldr h2{margin:0 0 8px;font-size:14px;color:var(--navy);text-transform:uppercase;letter-spacing:1px}
+  .tldr p{margin:4px 0;font-size:14px}
+
+  .ooda{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+  }
+  section.phase{
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:#fff;
+    overflow:hidden;
+  }
+  section.phase .head{
+    padding:12px 18px;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  section.phase .head .num{
+    background:rgba(255,255,255,0.18);
+    width:32px;height:32px;
+    border-radius:50%;
+    display:grid;place-items:center;
+    font-weight:700;
+  }
+  section.phase .head h2{margin:0;font-size:18px;letter-spacing:.5px}
+  section.phase .head .sub{margin-left:auto;font-size:12px;opacity:.85;font-style:italic}
+  section.phase .body{padding:18px 22px}
+
+  .observe .head{background:var(--navy)}
+  .orient .head{background:var(--green)}
+  .decide .head{background:var(--red)}
+  .act    .head{background:#3B2D9A;background:linear-gradient(90deg,var(--navy),var(--red))}
+
+  h3{color:var(--navy);font-size:15px;margin:18px 0 8px;text-transform:uppercase;letter-spacing:.5px}
+  h3:first-child{margin-top:0}
+  ul{margin:6px 0 12px 0;padding-left:20px}
+  li{margin:4px 0}
+  .pill{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    padding:3px 8px;
+    border-radius:12px;
+    margin-right:6px;
+  }
+  .pill.tech{background:var(--ice);color:var(--navy)}
+  .pill.prod{background:var(--peach);color:var(--red)}
+  .pill.support{background:#FFF4D6;color:#8A6800}
+  .pill.business{background:#D7F0E3;color:var(--green)}
+  .pill.gov{background:#EFE7FF;color:#4A2A9A}
+
+  table{width:100%;border-collapse:collapse;margin:8px 0 18px;font-size:13.5px}
+  thead th{
+    background:var(--navy);
+    color:#fff;
+    text-align:left;
+    padding:8px 10px;
+    font-weight:600;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+  tbody td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:#F5FAFE}
+  td.owner{font-weight:600;color:var(--navy);white-space:nowrap}
+  td.due{white-space:nowrap}
+  .prio{
+    display:inline-block;
+    width:14px;height:14px;
+    border-radius:50%;
+    vertical-align:middle;
+    margin-right:6px;
+  }
+  .p1{background:var(--red)}
+  .p2{background:var(--yellow)}
+  .p3{background:var(--sky)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+
+  .card{
+    background:#FFFDF5;
+    border:1px solid var(--line);
+    border-left:4px solid var(--yellow);
+    border-radius:6px;
+    padding:12px 14px;
+  }
+  .card.crit{border-left-color:var(--red);background:#FFF5F5}
+  .card.win{border-left-color:var(--green);background:#F2FAF5}
+  .card h4{margin:0 0 4px;font-size:13px;color:var(--ink)}
+  .card p{margin:0;font-size:12.5px;color:var(--muted)}
+
+  .axiom{
+    background:var(--navy);
+    color:#fff;
+    padding:14px 18px;
+    border-radius:8px;
+    font-size:14px;
+    margin:14px 0;
+  }
+  .axiom strong{color:var(--yellow)}
+
+  footer{
+    margin-top:36px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    font-size:11px;
+    color:var(--muted);
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <span class="tag">Plan d'action · OODA</span>
+  <h1>Décharger le support de la pression opérationnelle continue</h1>
+  <div class="meta">
+    <strong>Date :</strong> 8 mai 2026 &nbsp;·&nbsp;
+    <strong>Source :</strong> Réunion 8 mai (Ladislas, Fabrice, PA, Macé, équipe support) &nbsp;·&nbsp;
+    <strong>Audience :</strong> Tech · Produit · Support &nbsp;·&nbsp;
+    <strong>Owner global :</strong> Ladislas
+  </div>
+</header>
+
+<div class="tldr">
+  <h2>TL;DR</h2>
+  <p>Les agents support sont en flux tendu 7/7, dont une charge week-end injustifiée. Chaque appel reçu est, sauf souci de livraison externe, <strong>une faille du système</strong> (UX app, conciliation, onboarding marchand, communication commerciale).</p>
+  <p>Plan en 3 horizons : <strong>(1) 7 jours</strong> — règles de bordure + stop aux WhatsApp sauvages. <strong>(2) 30 jours</strong> — quick wins produit (proof-of-payment in-app, conciliation auto PAP, onboarding marchand). <strong>(3) 90 jours</strong> — application en libre-service, permanence structurée, métriques de support.</p>
+</div>
+
+<div class="ooda">
+
+<!-- ========== OBSERVE ========== -->
+<section class="phase observe">
+  <div class="head">
+    <div class="num">O</div>
+    <h2>Observe — Ce qu'on a constaté</h2>
+    <span class="sub">Les faits, sans interprétation</span>
+  </div>
+  <div class="body">
+
+    <h3>Symptômes</h3>
+    <ul>
+      <li>Macé a remonté les <strong>week-ends</strong> comme principal pain point : appels clients/fournisseurs en dehors des heures, ressenti d'être « always on ».</li>
+      <li>Pas de plage horaire officielle communiquée aux clients. Les commerciaux disent <strong>« 24h/24 »</strong> sur le terrain.</li>
+      <li>Les agents <strong>ne loggent pas</strong> les appels qu'ils reçoivent (uniquement ceux qu'ils initient) → angle mort sur le volume réel.</li>
+      <li>Ulrich (et potentiellement Basile, Wilfried) a créé des <strong>groupes WhatsApp privés avec des clients</strong>. Risque collusion et perte de contrôle relationnel.</li>
+    </ul>
+
+    <h3>Catalogue des motifs d'appel (au-delà du livraison externe)</h3>
+    <table>
+      <thead><tr><th>Motif</th><th>Type</th><th>Cause racine</th></tr></thead>
+      <tbody>
+        <tr><td>Compte non rechargé après paiement</td><td><span class="pill tech">Tech</span></td><td>Conciliation manuelle / latence PAP / délai mal compris</td></tr>
+        <tr><td>Non-réception du SMS de confirmation paiement</td><td><span class="pill tech">Tech</span></td><td>Pipeline de notification</td></tr>
+        <tr><td>Fournisseur n'arrive pas à scanner</td><td><span class="pill prod">Produit</span></td><td>UX app marchand, particulièrement iPhone</td></tr>
+        <tr><td>Vérification de compte (KYC) en live</td><td><span class="pill prod">Produit</span></td><td>Process manuel, parfois perte du dossier 2e vérif</td></tr>
+        <tr><td>Fournisseur non payé / questionne le paiement</td><td><span class="pill business">Business</span></td><td>Décalage culturel cash → app, manque de pédagogie</td></tr>
+        <tr><td>Création de transaction à distance (lien)</td><td><span class="pill prod">Produit</span></td><td>Parcours non flawless (multi-fenêtres, bouton Home)</td></tr>
+        <tr><td>Localisation non autorisée</td><td><span class="pill support">Support</span></td><td>Onboarding commercial incomplet, varie par OS</td></tr>
+        <tr><td>Souci de livraison</td><td><span class="pill business">Business</span></td><td>Externe — hors périmètre Waribei</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Tensions explicites en réunion</h3>
+    <div class="grid2">
+      <div class="card crit">
+        <h4>Faut-il être joignable le week-end ?</h4>
+        <p>Fabrice : oui, on est dans une chaîne qui tourne 7/7 (cf. Anaïs Socop). Ladislas : oui, mais avec un <em>système supportable</em>, pas de l'humain en mode pompier.</p>
+      </div>
+      <div class="card crit">
+        <h4>« Infantilisation » des clients</h4>
+        <p>PA : on n'éduque pas assez les clients/marchands à utiliser l'app eux-mêmes. Fabrice : l'UX n'est pas flawless, l'effort ne peut pas être que côté utilisateur.</p>
+      </div>
+      <div class="card win">
+        <h4>Convergence de la salle</h4>
+        <p>Tout le monde valide : <strong>chaque appel reçu = une faille du système</strong> (hors livraison externe). C'est l'axiome qui structure le plan.</p>
+      </div>
+      <div class="card">
+        <h4>Sujet hors périmètre du jour</h4>
+        <p>Déboursements (toujours faits par Fabrice, y compris week-end). À réinscrire dans les règles de bordure.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== ORIENT ========== -->
+<section class="phase orient">
+  <div class="head">
+    <div class="num">O</div>
+    <h2>Orient — Comment on lit la situation</h2>
+    <span class="sub">Cadre de pensée et hypothèses</span>
+  </div>
+  <div class="body">
+
+    <div class="axiom">
+      Axiome opérationnel : <strong>1 appel reçu = 1 faille du système</strong> (UX, conciliation, onboarding ou communication commerciale). Hors livraison externe.
+    </div>
+
+    <h3>Trois leviers, pas un seul</h3>
+    <div class="grid3">
+      <div class="card">
+        <h4>1. Règles de bordure</h4>
+        <p>Heures officielles + message automatique hors plage. Coût : faible. Impact : immédiat sur la charge mentale.</p>
+      </div>
+      <div class="card">
+        <h4>2. Self-service produit</h4>
+        <p>Proof-of-payment, conciliation auto, parcours fournisseur fluide. Coût : moyen. Impact : structurel, élimine la cause.</p>
+      </div>
+      <div class="card">
+        <h4>3. Permanence cadrée</h4>
+        <p>Rotation week-end ≠ « tout le monde dispo tout le temps ». Permet de tenir le 7/7 sans cramer l'équipe.</p>
+      </div>
+    </div>
+
+    <h3>Hypothèses à valider rapidement</h3>
+    <ul>
+      <li><strong>Volumétrie :</strong> on ne sait pas combien d'appels/jour, ni leur ventilation par motif → besoin d'1 semaine de logging exhaustif avant d'arbitrer.</li>
+      <li><strong>Conciliation auto PAP :</strong> faisabilité confirmée si <em>API</em> + metadata par transaction. À valider avec Wave (intégration API) — sinon on reste sur capture d'écran in-app.</li>
+      <li><strong>Onboarding marchand :</strong> hypothèse que 80% des problèmes « scan / localisation » disparaissent si le commercial fait l'install correctement (à mesurer après nouvelle checklist).</li>
+    </ul>
+
+    <h3>Risques si on ne fait rien</h3>
+    <ul>
+      <li>Burn-out support → départs, qualité de service en chute, image abîmée auprès des marchands.</li>
+      <li>Charge ↑ proportionnellement au nombre de marchands actifs (objectif 5 000 vs ~413 aujourd'hui) — modèle non scalable.</li>
+      <li>Groupes WhatsApp sauvages → fuite de la relation client hors Waribei, terrain de collusion / chantage commercial.</li>
+    </ul>
+
+  </div>
+</section>
+
+<!-- ========== DECIDE ========== -->
+<section class="phase decide">
+  <div class="head">
+    <div class="num">D</div>
+    <h2>Decide — Ce qu'on tranche</h2>
+    <span class="sub">Décisions actées en sortie de réunion</span>
+  </div>
+  <div class="body">
+
+    <h3>Décisions actées</h3>
+    <ol>
+      <li><strong>Heures officielles support :</strong> Lun-Ven 8h–19h. Week-end : permanence en rotation, pas tout le monde dispo.</li>
+      <li><strong>Hors plage = message automatique standardisé</strong> qui catégorise le problème et renvoie à un mini-guide self-service. Pas de prise d'appel live.</li>
+      <li><strong>Tout appel reçu sera loggé</strong> (motif + canal + résolution) à partir du lundi suivant. Sans data, pas d'arbitrage.</li>
+      <li><strong>Stop immédiat aux groupes WhatsApp clients</strong> initiés par les commerciaux. Audit Ulrich / Basile / Wilfried.</li>
+      <li><strong>Roadmap produit anti-friction</strong> à formaliser sous 7 jours avec dates : conciliation auto, proof-of-payment in-app, parcours marchand simplifié, KYC robuste.</li>
+      <li><strong>Onboarding marchand</strong> : checklist commerciale obligatoire (localisation, première transaction supervisée, capture d'écran).</li>
+      <li><strong>Principe non négociable :</strong> pas de feature qui ajoute de la charge support. Toute nouvelle UX doit être testée sur le critère « grand-mère du village ».</li>
+    </ol>
+
+    <h3>Décisions différées (à trancher dans la semaine)</h3>
+    <ul>
+      <li>Modalités exactes de la permanence week-end (qui, prime, plage) → arbitrage Ladislas + Fabrice + Macé.</li>
+      <li>Statut du sujet « déboursement week-end Fabrice » : à industrialiser ou à conserver en règle d'exception.</li>
+      <li>Sanctions pour les commerciaux qui désinforment les clients sur la disponibilité 24/7.</li>
+    </ul>
+
+  </div>
+</section>
+
+<!-- ========== ACT ========== -->
+<section class="phase act">
+  <div class="head">
+    <div class="num">A</div>
+    <h2>Act — Plan d'exécution</h2>
+    <span class="sub">Owners, deadlines, livrables</span>
+  </div>
+  <div class="body">
+
+    <h3><span class="prio p1"></span>Horizon 1 — Cette semaine (avant ven. 15 mai)</h3>
+    <table>
+      <thead><tr><th style="width:42%">Action</th><th>Type</th><th>Owner</th><th>Échéance</th><th>Livrable</th></tr></thead>
+      <tbody>
+        <tr><td>Définir et communiquer les heures officielles support (8h–19h L-V + permanence WE)</td><td><span class="pill gov">Gov</span></td><td class="owner">Ladislas</td><td class="due">Lun. 11 mai</td><td>Note interne + message client type</td></tr>
+        <tr><td>Mettre en place le message automatique hors plage (WhatsApp / téléphone) avec mini-guide</td><td><span class="pill support">Support</span></td><td class="owner">Macé</td><td class="due">Mer. 13 mai</td><td>Template message + arbre de décision</td></tr>
+        <tr><td>Lancer le logging exhaustif des appels (motif, canal, durée, résolution)</td><td><span class="pill support">Support</span></td><td class="owner">Macé</td><td class="due">Lun. 11 mai</td><td>Sheet partagée + format standard</td></tr>
+        <tr><td>Audit groupes WhatsApp commerciaux (Ulrich, Basile, Wilfried) + ordre de fermeture</td><td><span class="pill gov">Gov</span></td><td class="owner">Fabrice</td><td class="due">Lun. 11 mai</td><td>Rapport + entretiens individuels</td></tr>
+        <tr><td>Note commerciaux : interdiction de promettre la dispo 24/7 + script correctif</td><td><span class="pill business">Business</span></td><td class="owner">Fabrice</td><td class="due">Mar. 12 mai</td><td>Mémo équipe ventes</td></tr>
+        <tr><td>Cadrer la rotation permanence week-end (qui, prime, plage)</td><td><span class="pill gov">Gov</span></td><td class="owner">Ladislas + Macé</td><td class="due">Ven. 15 mai</td><td>Planning sur 4 semaines</td></tr>
+      </tbody>
+    </table>
+
+    <h3><span class="prio p2"></span>Horizon 2 — 30 jours (avant ven. 5 juin)</h3>
+    <table>
+      <thead><tr><th style="width:42%">Action</th><th>Type</th><th>Owner</th><th>Échéance</th><th>Livrable</th></tr></thead>
+      <tbody>
+        <tr><td>Feature « Proof of payment » in-app : capture d'écran ou ID transaction transmis directement</td><td><span class="pill prod">Produit</span></td><td class="owner">PA</td><td class="due">30 mai</td><td>Spec + release v_X</td></tr>
+        <tr><td>Conciliation automatique paiements PAP (avec metadata par transaction)</td><td><span class="pill tech">Tech</span></td><td class="owner">PA</td><td class="due">5 juin</td><td>Pipeline en prod</td></tr>
+        <tr><td>Validation faisabilité API Wave + metadata transaction (alternative ou complément PAP)</td><td><span class="pill tech">Tech</span></td><td class="owner">PA + Fabrice</td><td class="due">22 mai</td><td>Note de faisabilité</td></tr>
+        <tr><td>Refonte parcours « lien de paiement à distance » (réduire les sauts de fenêtre)</td><td><span class="pill prod">Produit</span></td><td class="owner">PA</td><td class="due">5 juin</td><td>Nouveau flow + test marchand</td></tr>
+        <tr><td>Checklist onboarding marchand obligatoire pour les commerciaux + formation</td><td><span class="pill business">Business</span></td><td class="owner">Fabrice</td><td class="due">22 mai</td><td>Checklist + session training</td></tr>
+        <tr><td>Stabiliser le process KYC (perte de dossier en 2e vérif vue cette semaine)</td><td><span class="pill tech">Tech</span></td><td class="owner">PA</td><td class="due">22 mai</td><td>Bug fix + log d'incidents</td></tr>
+        <tr><td>Première analyse du logging support (motifs majoritaires, volumétrie)</td><td><span class="pill support">Support</span></td><td class="owner">Macé + Ladislas</td><td class="due">29 mai</td><td>Synthèse pour board / produit</td></tr>
+      </tbody>
+    </table>
+
+    <h3><span class="prio p3"></span>Horizon 3 — 90 jours (avant fin juillet)</h3>
+    <table>
+      <thead><tr><th style="width:42%">Action</th><th>Type</th><th>Owner</th><th>Échéance</th><th>Livrable</th></tr></thead>
+      <tbody>
+        <tr><td>App marchand & client en libre-service : tout ce qui n'est pas déboursement réalisable sans agent</td><td><span class="pill prod">Produit</span></td><td class="owner">PA + Ladislas</td><td class="due">31 juil.</td><td>Roadmap v2 livrée</td></tr>
+        <tr><td>SLA support formalisé (temps de réponse, taxonomie incidents, escalade)</td><td><span class="pill gov">Gov</span></td><td class="owner">Macé</td><td class="due">30 juin</td><td>SLA + dashboard</td></tr>
+        <tr><td>KPI hebdo support : volume d'appels / motif / temps de résolution / appels « hors plage »</td><td><span class="pill support">Support</span></td><td class="owner">Macé</td><td class="due">15 juin</td><td>Dashboard live</td></tr>
+        <tr><td>Tests UX systématiques avant release (critère « grand-mère du village »)</td><td><span class="pill prod">Produit</span></td><td class="owner">PA</td><td class="due">30 juin</td><td>Process produit documenté</td></tr>
+        <tr><td>Réécriture règles d'engagement commerciaux (sanctions claires, audit trimestriel)</td><td><span class="pill business">Business</span></td><td class="owner">Fabrice</td><td class="due">30 juin</td><td>Code de conduite + revue</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Indicateurs de succès (à mesurer fin juillet)</h3>
+    <ul>
+      <li><strong>Appels reçus hors plage</strong> ↓ &gt;80% vs. baseline mai.</li>
+      <li><strong>% appels résolus par self-service</strong> &gt; 50%.</li>
+      <li><strong>Volume conciliation manuelle</strong> ↓ &gt;70% (passage en auto PAP/Wave).</li>
+      <li><strong>NPS interne support</strong> en hausse mesurable, 0 départ involontaire lié à la charge.</li>
+      <li><strong>0 groupe WhatsApp commercial-client</strong> actif.</li>
+    </ul>
+
+    <h3>Cadence de revue</h3>
+    <ul>
+      <li><strong>Hebdo (lundi 9h)</strong> — Ladislas / Macé / PA / Fabrice : 15 min, statut Horizon 1 + 2.</li>
+      <li><strong>Mensuel (1er lun.)</strong> — Revue indicateurs support, ajustement roadmap.</li>
+      <li><strong>Trimestriel</strong> — Bilan plan complet + nouveau cycle OODA.</li>
+    </ul>
+
+  </div>
+</section>
+
+</div>
+
+<footer>
+  Waribei · Brief OODA généré le 8 mai 2026 · Diffusion : Tech · Produit · Support · Co-fondateurs
+</footer>
+
+</div>
+</body>
+</html>
