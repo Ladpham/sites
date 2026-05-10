@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vridi (côté pont) — One-pager BandamaInvestment</title>
+<style>
+  :root { --bg:#fafaf9; --fg:#1c1917; --muted:#57534e; --line:#e7e5e4; --accent:#1e40af; --green:#15803d; --red:#b91c1c; --amber:#b45309; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--fg); background: var(--bg); margin: 0; line-height: 1.5; }
+  .container { max-width: 880px; margin: 0 auto; padding: 28px 24px 60px; }
+  .back { font-size: 12px; color: var(--muted); text-decoration: none; }
+  .back:hover { color: var(--accent); }
+  header { border-bottom: 2px solid var(--fg); padding: 18px 0 14px; margin-bottom: 22px; }
+  .tag { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; color: var(--accent); }
+  h1 { font-size: 28px; margin: 6px 0 4px; letter-spacing: -0.3px; }
+  .meta { font-size: 13px; color: var(--muted); }
+  h2 { font-size: 17px; margin: 24px 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--line); }
+  h3 { font-size: 13px; margin: 14px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .card { background: white; border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+  .kpi { display:flex; flex-direction: column; gap: 2px; }
+  .kpi .l { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .kpi .v { font-size: 19px; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0 10px; }
+  th, td { text-align: left; padding: 7px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #f5f5f4; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); font-weight: 600; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .badge.green { background: #dcfce7; color: var(--green); }
+  .badge.red { background: #fee2e2; color: var(--red); }
+  .badge.amber { background: #fef3c7; color: var(--amber); }
+  .callout { background: white; border-left: 3px solid var(--accent); padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+  .callout.warn { border-left-color: var(--amber); background: #fffbeb; }
+  .callout.danger { border-left-color: var(--red); background: #fef2f2; }
+  ul { margin: 4px 0 8px; padding-left: 20px; font-size: 13.5px; }
+  li { margin: 2px 0; }
+  p { margin: 6px 0; font-size: 14px; }
+  @media print { body { background: white; } .back { display: none; } }
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back" href="BandamaInvestment_Dossier_v1.html">← Retour au dossier</a>
+
+<header>
+  <div class="tag">One-pager · Zone 1/3</div>
+  <h1>Vridi (côté pont) — pari asymétrique</h1>
+  <div class="meta">Driver : pont Île Boulay · Risque : élevé · Multiple visé : 3-5x sur 7 ans</div>
+</header>
+
+<!-- Thèse -->
+<h2>Thèse en 3 lignes</h2>
+<p>Vridi côté pont est aujourd'hui une zone <strong>quasi inaccessible</strong> par voie terrestre et donc très peu valorisée. L'ouverture du pont Île Boulay (calendrier officiel 2027-2028) la <strong>connecte directement</strong> au Plateau et à Treichville. C'est le pari "Sangotedo / Ibeju-Lekki" version Abidjan : entrer avant que l'infra ne reclasse la zone, sortir une fois la nouvelle catégorie pricée.</p>
+
+<!-- KPIs -->
+<div class="grid-3" style="margin-top:14px">
+  <div class="card kpi"><span class="l">Prix m² estimé*</span><span class="v">50–200k XOF</span></div>
+  <div class="card kpi"><span class="l">Surface accessible</span><span class="v">800–2 500 m²</span></div>
+  <div class="card kpi"><span class="l">Multiple visé 7 ans</span><span class="v">3–5x</span></div>
+</div>
+<p style="font-size:11px; color: var(--muted); margin-top:6px">* Estimation : zones non urbanisées peu listées publiquement. Fourchette haute si déjà reclassée par PUd.</p>
+
+<!-- Pricing -->
+<h2>Pricing &amp; sizing pour 60-100k€ pool</h2>
+<table>
+  <thead><tr><th>Hypothèse prix m²</th><th>60k€ pool</th><th>80k€ pool</th><th>100k€ pool</th></tr></thead>
+  <tbody>
+    <tr><td>50k XOF/m² (76€/m²)</td><td>~790 m²</td><td>~1 050 m²</td><td>~1 320 m²</td></tr>
+    <tr><td>100k XOF/m² (152€/m²)</td><td>~395 m²</td><td>~525 m²</td><td>~660 m²</td></tr>
+    <tr><td>200k XOF/m² (305€/m²)</td><td>~200 m²</td><td>~265 m²</td><td>~330 m²</td></tr>
+  </tbody>
+</table>
+<p style="font-size:12px; color: var(--muted)">Hypothèse : 12 % de frais annexes (notaire + droits + bornage + DD avocat) inclus dans le pool. Conversion 1 EUR ≈ 656 XOF.</p>
+
+<!-- Variables -->
+<h2>Variables clés à challenger</h2>
+<table>
+  <thead><tr><th>Variable</th><th>Hypothèse v1</th><th>Comment l'affiner</th></tr></thead>
+  <tbody>
+    <tr><td>Date d'ouverture du pont</td><td>2027-2028</td><td>Confirmer auprès Ministère + presse spécialisée</td></tr>
+    <tr><td>Reclassement PUd</td><td>Probable post-pont</td><td>Vérifier le PUd actuel via contact Ministère</td></tr>
+    <tr><td>Prix m² zone immédiate</td><td>50-200k XOF</td><td>Sourcing 5+ comparables Jiji + visite physique</td></tr>
+    <tr><td>Accès actuel (route, pirogue)</td><td>Difficile</td><td>Tester accès depuis Plateau, mesurer temps</td></tr>
+    <tr><td>Risque submersion / inondation</td><td>À vérifier</td><td>Topographie, retour d'expérience riverains</td></tr>
+    <tr><td>Statut foncier dominant</td><td>Mix lettre d'attribution / coutumier</td><td>Vérifier proportion ACD/TF disponibles</td></tr>
+  </tbody>
+</table>
+
+<!-- Capex Phase 1 -->
+<h2>Capex Phase 1 estimé (acquisition + sécurisation)</h2>
+<table>
+  <thead><tr><th>Poste</th><th>Hypothèse 1 000 m² à 100k XOF/m²</th><th>EUR équivalent</th></tr></thead>
+  <tbody>
+    <tr><td>Prix terrain</td><td>100 M XOF</td><td>~152 k€</td></tr>
+    <tr><td>Frais notaire (4 %)</td><td>4 M XOF</td><td>~6,1 k€</td></tr>
+    <tr><td>Droits d'enregistrement (4 %)</td><td>4 M XOF</td><td>~6,1 k€</td></tr>
+    <tr><td>Bornage géomètre</td><td>250k XOF</td><td>~380 €</td></tr>
+    <tr><td>DD avocat indépendant</td><td>800k XOF</td><td>~1,2 k€</td></tr>
+    <tr><td>Grillage + porte (1 000 m² périmètre ~130 m)</td><td>~3 M XOF</td><td>~4,6 k€</td></tr>
+    <tr><td>Gardien 24 mois (60k XOF/mois)</td><td>1,44 M XOF</td><td>~2,2 k€</td></tr>
+    <tr><td><strong>Total estimé</strong></td><td><strong>~113 M XOF</strong></td><td><strong>~172 k€</strong></td></tr>
+  </tbody>
+</table>
+<div class="callout warn">Le scénario à 1 000 m² × 100k XOF/m² <strong>dépasse</strong> le pool 60-100k€. Il faudrait soit (a) viser un terrain plus petit (~500 m² à 100k), soit (b) sourcer à 50k XOF/m² (zone moins reclassée, plus risquée), soit (c) lever un ticket plus élevé.</div>
+
+<!-- Timeline -->
+<h2>Timeline indicative</h2>
+<table>
+  <thead><tr><th>Étape</th><th>Durée</th><th>Cumul</th></tr></thead>
+  <tbody>
+    <tr><td>Sourcing &amp; comparables</td><td>2-3 mois</td><td>M+3</td></tr>
+    <tr><td>Pré-DD + visite + lettre d'intention</td><td>1 mois</td><td>M+4</td></tr>
+    <tr><td>DD complète (avocat, géomètre, cadastre)</td><td>1-2 mois</td><td>M+6</td></tr>
+    <tr><td>Acte notarié + enregistrement</td><td>1 mois</td><td>M+7</td></tr>
+    <tr><td>Sécurisation (grillage, gardien)</td><td>1-2 mois</td><td>M+9</td></tr>
+    <tr><td>Ouverture pont (catalyseur prix)</td><td>~M+18 à M+30</td><td>—</td></tr>
+    <tr><td>Sortie cible (revente après reclass)</td><td>M+72 à M+96</td><td>6-8 ans</td></tr>
+  </tbody>
+</table>
+
+<!-- Exits -->
+<h2>Scénarios de sortie (sur 100 k€ pool, terrain 1 000 m²)</h2>
+<table>
+  <thead><tr><th>Scénario</th><th>Hypothèse prix sortie</th><th>Multiple capital</th><th>IRR</th></tr></thead>
+  <tbody>
+    <tr><td>Bear — pont retardé 5 ans</td><td>1,5x prix achat à 10 ans</td><td>1,3x net</td><td>~3 %</td></tr>
+    <tr><td>Base — pont 2028, reclass</td><td>3,5x prix achat à 7 ans</td><td>~3x net</td><td>~17 %</td></tr>
+    <tr><td>Bull — Sangotedo CI</td><td>8x prix achat à 10 ans</td><td>~7x net</td><td>~22 %</td></tr>
+  </tbody>
+</table>
+<p style="font-size:12px; color: var(--muted)">Net de coûts de portage et frais. Tableau précis dans le Google Sheet.</p>
+
+<!-- Risques -->
+<h2>Risques principaux</h2>
+<div class="callout danger">
+  <strong>Risques spécifiques Vridi :</strong>
+  <ul>
+    <li><strong>Calendrier infrastructure</strong> — chaque année de retard coûte ~5 % en coûts de portage et impacte massivement l'IRR</li>
+    <li><strong>Submersion lagunaire</strong> — vérifier altitude et historique inondations</li>
+    <li><strong>Statut foncier complexe</strong> — zone pas encore intégralement viabilisée administrativement, ratio ACD/lettre d'attribution à clarifier</li>
+    <li><strong>Squat / occupation</strong> — zone peu surveillée, risque d'invasion sans grillage immédiat</li>
+    <li><strong>Liquidité</strong> — quasi nulle tant que le pont n'est pas ouvert ; pas d'exit anticipé possible</li>
+  </ul>
+</div>
+
+<!-- Next actions -->
+<h2>Next actions concrètes (avant tout engagement)</h2>
+<ol style="font-size:14px">
+  <li>Visite physique des zones côté pont (week-end dédié à 2-4)</li>
+  <li>Confirmer date pont Île Boulay via Ministère (notre contact)</li>
+  <li>Récupérer le PUd actuel et les zones reclassées prévues</li>
+  <li>Sourcing 5-10 comparables Jiji + agences locales sur 6-12 mois</li>
+  <li>Identifier 1-2 vendeurs avec ACD ou TF disponibles</li>
+  <li>Demander note de risque submersion à un géomètre local</li>
+</ol>
+
+</div>
+</body>
+</html>

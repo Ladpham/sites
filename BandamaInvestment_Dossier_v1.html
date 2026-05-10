@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BandamaInvestment — Dossier Foncier Abidjan</title>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --fg: #1c1917;
+    --muted: #57534e;
+    --line: #e7e5e4;
+    --accent: #1e40af;
+    --accent-soft: #dbeafe;
+    --green: #15803d;
+    --green-soft: #dcfce7;
+    --red: #b91c1c;
+    --red-soft: #fee2e2;
+    --amber: #b45309;
+    --amber-soft: #fef3c7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0;
+    line-height: 1.55;
+  }
+  .container { max-width: 980px; margin: 0 auto; padding: 32px 24px 80px; }
+  header.hero {
+    border-bottom: 2px solid var(--fg);
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+  }
+  header.hero .tag {
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+  }
+  header.hero h1 {
+    font-size: 34px; margin: 8px 0 6px; letter-spacing: -0.5px;
+  }
+  header.hero .meta {
+    color: var(--muted); font-size: 13px;
+  }
+  nav.toc {
+    background: white; border: 1px solid var(--line); border-radius: 8px;
+    padding: 16px 20px; margin-bottom: 32px;
+  }
+  nav.toc h3 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  nav.toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 24px; font-size: 14px; }
+  nav.toc a { color: var(--fg); text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); }
+  section { margin-bottom: 44px; scroll-margin-top: 20px; }
+  section h2 {
+    font-size: 22px; margin: 0 0 14px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--line);
+  }
+  section h3 { font-size: 16px; margin: 22px 0 8px; }
+  section h4 { font-size: 14px; margin: 16px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  p { margin: 8px 0; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 10px 0 14px; font-size: 13.5px;
+  }
+  th, td {
+    text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top;
+  }
+  th { background: #f5f5f4; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+  tr:hover td { background: #fafaf9; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .badge.green { background: var(--green-soft); color: var(--green); }
+  .badge.red { background: var(--red-soft); color: var(--red); }
+  .badge.amber { background: var(--amber-soft); color: var(--amber); }
+  .badge.blue { background: var(--accent-soft); color: var(--accent); }
+  .callout {
+    background: white; border-left: 3px solid var(--accent); padding: 14px 18px;
+    margin: 14px 0; border-radius: 0 6px 6px 0;
+  }
+  .callout.warn { border-left-color: var(--amber); background: #fffbeb; }
+  .callout.danger { border-left-color: var(--red); background: #fef2f2; }
+  .callout.success { border-left-color: var(--green); background: #f0fdf4; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .card {
+    background: white; border: 1px solid var(--line); border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .card h3 { margin-top: 0; }
+  .kpi { display: flex; flex-direction: column; gap: 2px; }
+  .kpi .v { font-size: 22px; font-weight: 700; }
+  .kpi .l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  ul { margin: 6px 0 10px; padding-left: 22px; }
+  li { margin: 3px 0; }
+  .pill-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill-list li {
+    background: #f5f5f4; padding: 4px 10px; border-radius: 12px;
+    font-size: 12px; color: var(--muted);
+  }
+  a.btn {
+    display: inline-block; background: var(--fg); color: white;
+    padding: 8px 14px; border-radius: 6px; text-decoration: none;
+    font-size: 13px; font-weight: 500; margin: 4px 6px 4px 0;
+  }
+  a.btn:hover { background: var(--accent); }
+  a.btn.secondary { background: white; color: var(--fg); border: 1px solid var(--line); }
+  footer {
+    margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 12px; text-align: center;
+  }
+  .question-box {
+    background: #f5f5f4; border-radius: 6px; padding: 12px 16px; margin: 8px 0;
+  }
+  .question-box .q { font-weight: 600; }
+  @media (max-width: 700px) {
+    nav.toc ol { columns: 1; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+  @media print {
+    body { background: white; }
+    .container { padding: 0; max-width: none; }
+    a.btn { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header class="hero">
+  <div class="tag">BandamaInvestment · Dossier de cadrage v1</div>
+  <h1>Acquisition foncière collective — Périphérie Abidjan</h1>
+  <div class="meta">4 associés (Ladislas, Emil, Léo, Nicolas) · 2 sur Abidjan, 2 à distance · Mai 2026 · Document de travail interne</div>
+</header>
+
+<nav class="toc">
+  <h3>Sommaire</h3>
+  <ol>
+    <li><a href="#exec">Executive summary</a></li>
+    <li><a href="#these">Thèse macro</a></li>
+    <li><a href="#bench-pos">Benchmark positif — Lekki</a></li>
+    <li><a href="#bench-neg">Benchmark négatif — East Legon</a></li>
+    <li><a href="#variables">Variables critiques de succès</a></li>
+    <li><a href="#zones">Les 3 zones cibles</a></li>
+    <li><a href="#legal">Cadre légal Côte d'Ivoire</a></li>
+    <li><a href="#gouvernance">Gouvernance entre associés</a></li>
+    <li><a href="#questions">Questions à débattre</a></li>
+    <li><a href="#livrables">Livrables liés</a></li>
+  </ol>
+</nav>
+
+<!-- ============== EXEC SUMMARY ============== -->
+<section id="exec">
+  <h2>1. Executive summary</h2>
+  <div class="grid-3">
+    <div class="card kpi"><span class="l">Pool capital cible</span><span class="v">60–100 k€</span><span class="l">15-25k€ × 4 associés</span></div>
+    <div class="card kpi"><span class="l">Horizon</span><span class="v">5 → 20 ans</span><span class="l">Médian : revente après viabilisation à 7 ans</span></div>
+    <div class="card kpi"><span class="l">Stratégie</span><span class="v">Buy &amp; hold</span><span class="l">Plus-value foncière + optionalité dev.</span></div>
+  </div>
+  <p style="margin-top:14px"><strong>Logique d'investissement.</strong> Acheter en commun un terrain de taille suffisante dans une zone sous-exploitée mais avec catalyseurs d'urbanisation identifiés (pont Vridi, étalement Songon vers Dabou, gentrification Bingerville). La mutualisation à 4 permet (a) un ticket plus élevé donc accès à de meilleurs lots, (b) la création d'un <em>premium de rareté</em> sur grand terrain, (c) la mutualisation des coûts opérationnels (grillage, gardiennage, démarches admin).</p>
+  <p><strong>Hypothèse centrale.</strong> Périphérie Abidjan = +15 à 20 %/an sur les zones sous catalyseur infrastructure. La classe moyenne ivoirienne se densifie : produit cible = grand terrain découpable en lots résidentiels classe moyenne, OU lot unique pour usage commercial/zone d'activité (premium).</p>
+  <div class="callout warn">
+    <strong>Statut du dossier.</strong> Document v1, 100 % hypothétique sur les parcelles. Aucune offre n'est encore engagée. Les chiffres sont sourcés sur le marché public (Sikafinance, observatoires immobiliers, comparables Jiji/Meqasa). Ils s'affineront au fur et à mesure de la prospection.
+  </div>
+</section>
+
+<!-- ============== THESE ============== -->
+<section id="these">
+  <h2>2. Thèse macro</h2>
+
+  <h3>2.1 Drivers démographiques et urbains</h3>
+  <ul>
+    <li><strong>Population Grand Abidjan</strong> : ~6,3 M aujourd'hui, projetée à 8 M en 2035. Étalement sur Songon (ouest), Bingerville (est), Anyama (nord) déjà engagé.</li>
+    <li><strong>Classe moyenne</strong> : objectif national de doublement à horizon 2030 (Plan National de Développement). Demande croissante pour habitat individuel sécurisé en périphérie.</li>
+    <li><strong>Infrastructure structurante</strong> : pont Vridi/Île Boulay (en cours), autoroute Y4, métro Abidjan, échangeurs périphériques. Chaque ouvrage rapproche de 30-40 minutes des zones aujourd'hui isolées.</li>
+  </ul>
+
+  <h3>2.2 Pourquoi acheter à 4 plutôt qu'individuellement</h3>
+  <table>
+    <thead><tr><th>Levier</th><th>Seul (15-25k€)</th><th>À 4 (60-100k€)</th></tr></thead>
+    <tbody>
+      <tr><td>Surface accessible</td><td>300-800 m² zone moyenne</td><td>1 500-4 000 m² ou 1 grand lot premium</td></tr>
+      <tr><td>Optionalité usage</td><td>Maison unique, revente lot</td><td>Découpage, mixte résidentiel/commercial, zone d'activité</td></tr>
+      <tr><td>Coûts fixes (grillage, gardien)</td><td>~100 % à charge</td><td>~25 % par tête → effet de levier ROI</td></tr>
+      <tr><td>Risque vendeur (double sale)</td><td>Élevé — un seul à vérifier</td><td>Réparti — DD à 4 yeux + budget avocat possible</td></tr>
+      <tr><td>Effet de rareté en sortie</td><td>Faible</td><td>Fort si terrain &gt; 3 000 m² avec ACD</td></tr>
+    </tbody>
+  </table>
+
+  <h3>2.3 Stratégies de sortie envisagées</h3>
+  <table>
+    <thead><tr><th>Scénario</th><th>Horizon</th><th>Multiple visé</th><th>Effort opérationnel</th></tr></thead>
+    <tbody>
+      <tr><td>S1 — Revente nu après bornage/grillage</td><td>3-5 ans</td><td>1,5-2,5x</td><td>Faible</td></tr>
+      <tr><td>S2 — Revente après viabilisation légère</td><td>5-10 ans</td><td>2,5-5x</td><td>Moyen (gestion travaux)</td></tr>
+      <tr><td>S3 — Découpage en lots résidentiels</td><td>7-12 ans</td><td>3-6x</td><td>Élevé (lotissement, vente unitaire)</td></tr>
+      <tr><td>S4 — Construction (résidentiel locatif ou centre commercial)</td><td>10-20 ans</td><td>4-10x</td><td>Très élevé (capex 2-5x le foncier)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============== BENCH POSITIF ============== -->
+<section id="bench-pos">
+  <h2>3. Benchmark positif — Lekki Corridor (Lagos, Nigeria)</h2>
+
+  <p>Lekki est <em>le</em> cas d'école d'urbanisation foncière sur la côte ouest-africaine. Caractéristiques similaires à la périphérie Abidjan : zone côtière/lagunaire sous-exploitée, catalysée par infrastructure (pont Lekki-Ikoyi, Lekki Free Trade Zone, Dangote Refinery), à 30-60 min du centre économique.</p>
+
+  <h3>3.1 Performance documentée 2010-2024</h3>
+  <table>
+    <thead><tr><th>Sous-zone</th><th>Statut 2010</th><th>Appréciation 2010-2024</th><th>Driver principal</th></tr></thead>
+    <tbody>
+      <tr><td>Lekki Phase 1</td><td>Établi haut de gamme</td><td><span class="badge green">+650 %</span></td><td>Densification résidentielle premium</td></tr>
+      <tr><td>Chevron Drive</td><td>Périphérique aisé</td><td><span class="badge green">+567 %</span></td><td>Liaison routière améliorée</td></tr>
+      <tr><td>Osapa London</td><td>Émergent</td><td><span class="badge green">+900 %</span></td><td>Transformation en enclave premium</td></tr>
+      <tr><td>Sangotedo</td><td>Sous-exploité</td><td><span class="badge green">+1 525 %</span></td><td>Étalement Lekki, prix d'entrée bas</td></tr>
+      <tr><td>Ibeju-Lekki</td><td>Quasi rural</td><td><span class="badge green">+2 900 %</span></td><td>Free Trade Zone + raffinerie + nouvel aéroport projeté</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px; color: var(--muted)">Source : Niesv Lagos Land Price Appreciation Index 2024, IJISRT 2025. Chiffres en valeur foncière nominale (NGN), avec l'inflation NGN-USD le réel est plus faible mais les multiples USD restent &gt; 5x sur 14 ans en moyenne.</p>
+
+  <h3>3.2 Lecture comparative pour Abidjan</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Patterns gagnants identifiés</h4>
+      <ul>
+        <li>Acheter <strong>avant</strong> l'achèvement de l'infrastructure (le marché price l'incertitude)</li>
+        <li>Privilégier les zones avec <strong>zonage clarifié</strong> par l'État (Lekki Master Plan)</li>
+        <li>Tenir long : les multiples &gt;5x demandent &gt;10 ans</li>
+        <li>Détenir un titre incontestable (C of O au Nigeria, ACD ou TF en CI)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Translation Vridi/Songon/Bingerville</h4>
+      <ul>
+        <li>Vridi côté pont = pré-Sangotedo (zone sous-exploitée + cataliseur infrastructure)</li>
+        <li>Songon = pré-Ibeju-Lekki (rural, prix d'entrée très bas, gros pari)</li>
+        <li>Bingerville = pré-Osapa London (déjà émergent, growth confirmé +200/500 % sur 3 ans)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============== BENCH NEGATIF ============== -->
+<section id="bench-neg">
+  <h2>4. Benchmark négatif — East Legon (Accra, Ghana)</h2>
+  <p>East Legon est le cas inverse instructif. Zone à très forte appréciation des prix sur le papier — mais où une part significative des investisseurs étrangers a <strong>perdu son capital</strong> à cause de problèmes structurels de propriété foncière. Le risque ne se voit pas dans le prix : il se voit dans le titre.</p>
+
+  <h3>4.1 Patterns d'échec documentés</h3>
+  <table>
+    <thead><tr><th>Pattern</th><th>Mécanisme</th><th>Coût pour l'investisseur</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Double sale</strong></td><td>Le même terrain est vendu à 2 ou 3 acheteurs successifs par un vendeur ou un intermédiaire malhonnête</td><td>Litige &gt; 5 ans, frais d'avocat 10-30 % du prix, perte totale fréquente</td></tr>
+      <tr><td><strong>Conflit coutumier (chieftaincy)</strong></td><td>Une famille ou chefferie revendique le terrain après transaction, contestant la chaîne de titres</td><td>Démolition possible, blocage de construction, perte si défense impossible</td></tr>
+      <tr><td><strong>Limites floues</strong></td><td>Bornage non officiel ou contesté ; le voisin envahit le terrain et invoque un titre concurrent</td><td>Terrain inutilisable jusqu'à arbitrage, perte partielle</td></tr>
+      <tr><td><strong>Spéculation pyramidale</strong></td><td>Le prix monte sur des transactions sans titre solide. Quand le marché se réveille, les derniers acheteurs sont coincés</td><td>Décote 50-80 % du prix d'achat à la revente</td></tr>
+      <tr><td><strong>Absence du propriétaire</strong></td><td>Investisseur expat parti, terrain envahi, occupation illégale qui se régularise par usucapion</td><td>Perte totale si non défendu rapidement</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout danger">
+    <strong>Lecture pour BandamaInvestment.</strong> Les <em>5 patterns</em> ci-dessus existent à l'identique en Côte d'Ivoire — la dualité droit moderne / droit coutumier est encore plus forte qu'au Ghana. Sans <strong>ACD ou Titre Foncier validé par contrôle direct au Ministère / Cadastre</strong>, le risque de perte totale est non-négligeable. Cf. section <a href="#legal">Cadre légal</a>.
+  </div>
+
+  <h3>4.2 Mitigations identifiées (à appliquer chez nous)</h3>
+  <ul>
+    <li>Vérification physique du titre au <strong>Ministère de la Construction et de l'Urbanisme</strong> (notre contact évoqué) ET à la Direction du Cadastre — pas uniquement sur copie fournie par vendeur</li>
+    <li><strong>Avocat indépendant</strong> mandaté par les acheteurs (jamais celui du vendeur)</li>
+    <li>Bornage géomètre agréé sur le terrain physique — comparer avec plan officiel</li>
+    <li>Présence permanente sur le terrain dès la signature : grillage + gardien + visite hebdomadaire</li>
+    <li>Acquisition exclusivement par voie d'<strong>acte notarié authentique</strong> — refus de tout sous-seing ou "cession entre la main"</li>
+  </ul>
+</section>
+
+<!-- ============== VARIABLES ============== -->
+<section id="variables">
+  <h2>5. Variables critiques de succès</h2>
+  <p>Synthèse des leviers qui déterminent le succès / l'échec d'un investissement foncier de ce type. Hiérarchisés par impact sur la valeur terminale.</p>
+
+  <table>
+    <thead><tr><th>#</th><th>Variable</th><th>Impact</th><th>Sous notre contrôle ?</th><th>Action de mitigation</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Sécurité du titre (ACD/TF)</strong></td><td><span class="badge red">Critique</span></td><td>Oui, via DD</td><td>Vérification triple : Ministère + Cadastre + Avocat</td></tr>
+      <tr><td>2</td><td><strong>Localisation vs catalyseur infra</strong></td><td><span class="badge red">Critique</span></td><td>Partiel (timing)</td><td>Acheter avant achèvement, pas après</td></tr>
+      <tr><td>3</td><td><strong>Prix d'entrée vs comparables</strong></td><td><span class="badge amber">Élevé</span></td><td>Oui</td><td>Sourcing 5+ comparables, ne pas surpayer</td></tr>
+      <tr><td>4</td><td><strong>Présence physique / gardiennage</strong></td><td><span class="badge amber">Élevé</span></td><td>Oui (coût)</td><td>Grillage + gardien dès J+0, visite hebdo</td></tr>
+      <tr><td>5</td><td><strong>Alignement entre associés</strong></td><td><span class="badge amber">Élevé</span></td><td>Oui</td><td>Pacte d'associés, clauses sortie, gouvernance écrite</td></tr>
+      <tr><td>6</td><td><strong>Liquidité à la sortie</strong></td><td><span class="badge amber">Moyen</span></td><td>Partiel</td><td>Choisir zone avec demande croissante (Bingerville &gt; Songon)</td></tr>
+      <tr><td>7</td><td><strong>Évolution réglementaire (PUd, fiscalité)</strong></td><td><span class="badge blue">Moyen</span></td><td>Non</td><td>Diversification multi-zones</td></tr>
+      <tr><td>8</td><td><strong>Volatilité XOF / parité EUR</strong></td><td><span class="badge blue">Faible</span></td><td>Non (XOF arrimé EUR)</td><td>Risque structurellement contenu</td></tr>
+      <tr><td>9</td><td><strong>Coût de portage (gardiennage, taxes)</strong></td><td><span class="badge blue">Faible</span></td><td>Oui</td><td>Mutualisation à 4 → ~2-3 % du capital/an</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============== ZONES ============== -->
+<section id="zones">
+  <h2>6. Les 3 zones cibles</h2>
+  <p>Trois thèses indépendantes, à arbitrer en fonction du profil de risque retenu collectivement. Idéalement on choisit <strong>une seule zone pour le premier deal</strong> et on garde les deux autres en watchlist pour un second tour.</p>
+
+  <table>
+    <thead><tr><th>Zone</th><th>Prix m² actuel</th><th>Catalyseur</th><th>Risque</th><th>Multiple visé 7 ans</th><th>Liquidité sortie</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Vridi (côté pont)</strong></td>
+        <td>50-200k XOF/m² estimé*</td>
+        <td>Pont Île Boulay</td>
+        <td><span class="badge red">Élevé</span></td>
+        <td>3-5x</td>
+        <td>Faible court terme, élevée moyen terme</td>
+      </tr>
+      <tr>
+        <td><strong>Songon</strong></td>
+        <td>2-6k XOF/m²</td>
+        <td>Étalement ouest, autoroute Y4</td>
+        <td><span class="badge amber">Moyen-élevé</span></td>
+        <td>4-8x</td>
+        <td>Faible aujourd'hui, moyenne dans 5-7 ans</td>
+      </tr>
+      <tr>
+        <td><strong>Bingerville</strong></td>
+        <td>15-30k XOF/m² périphérie / 60-150k centre</td>
+        <td>Densification résidentielle classe moyenne</td>
+        <td><span class="badge green">Moyen</span></td>
+        <td>2,5-4x</td>
+        <td>Moyenne aujourd'hui, élevée dans 5 ans</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px; color: var(--muted)">* Vridi côté pont = estimation : zones non urbanisées encore peu listées. Le fourchette haute (200k) reflète le pricing si la zone est déjà reclassée par le PUd ; la fourchette basse (50k) reflète terrain à statut foncier en cours.</p>
+
+  <div class="grid-3" style="margin-top:18px">
+    <div class="card">
+      <h3>Vridi (côté pont)</h3>
+      <p style="font-size:13px"><strong>Profil :</strong> Le pari le plus asymétrique. Zone aujourd'hui difficilement accessible — devient connectée dès l'ouverture du pont (calendrier officiel 2027-2028).</p>
+      <p style="font-size:13px"><strong>Pourquoi c'est intéressant :</strong> Effet "pré-Sangotedo Lagos" — entrer sur un territoire qui change de catégorie. Multiples potentiels élevés.</p>
+      <p style="font-size:13px"><strong>Risque principal :</strong> Calendrier infrastructure non garanti. Si le pont glisse de 5 ans, le coût de portage devient lourd.</p>
+      <a class="btn" href="BandamaInvestment_OnePager-Vridi_v1.html">One-pager Vridi →</a>
+    </div>
+    <div class="card">
+      <h3>Songon</h3>
+      <p style="font-size:13px"><strong>Profil :</strong> Le pari volume. Prix au m² extrêmement bas, surface accessible &gt; 5 000 m² avec un budget de 60-100k€.</p>
+      <p style="font-size:13px"><strong>Pourquoi c'est intéressant :</strong> Si l'étalement Abidjan se confirme (probable), Songon devient banlieue résidentielle. Effet Vridi double : le pont rend Songon plus connecté indirectement via les axes ouest.</p>
+      <p style="font-size:13px"><strong>Risque principal :</strong> Liquidité quasi nulle aujourd'hui. Prêt à attendre 7-10 ans. Risque coutumier élevé.</p>
+      <a class="btn" href="BandamaInvestment_OnePager-Songon_v1.html">One-pager Songon →</a>
+    </div>
+    <div class="card">
+      <h3>Bingerville</h3>
+      <p style="font-size:13px"><strong>Profil :</strong> Le pari raisonnable. Zone déjà en cours de gentrification, croissance prix +200/500 % sur 3 ans documentée.</p>
+      <p style="font-size:13px"><strong>Pourquoi c'est intéressant :</strong> Pour de la classe moyenne ivoirienne en quête d'habitat individuel. Demande structurelle solide.</p>
+      <p style="font-size:13px"><strong>Risque principal :</strong> Multiples plus modestes (le marché a déjà commencé à bouger). Concurrence d'investisseurs locaux et expats.</p>
+      <a class="btn" href="BandamaInvestment_OnePager-Bingerville_v1.html">One-pager Bingerville →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== LEGAL ============== -->
+<section id="legal">
+  <h2>7. Cadre légal Côte d'Ivoire — checklist d'acquisition</h2>
+
+  <h3>7.1 Hiérarchie des titres fonciers</h3>
+  <table>
+    <thead><tr><th>Document</th><th>Niveau de sécurité</th><th>Acceptable pour nous ?</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Titre Foncier (TF)</strong></td><td><span class="badge green">Maximum</span> — propriété définitive, opposable à tous</td><td>Oui, idéal</td></tr>
+      <tr><td><strong>Arrêté de Concession Définitive (ACD)</strong></td><td><span class="badge green">Élevé</span> — équivalent en zone urbaine</td><td>Oui</td></tr>
+      <tr><td><strong>Lettre d'attribution</strong></td><td><span class="badge amber">Moyen</span> — droit d'occupation, conversion ACD nécessaire</td><td>Seulement si conversion budgétée</td></tr>
+      <tr><td><strong>Acte de cession coutumière</strong></td><td><span class="badge red">Faible</span> — pas opposable à l'État</td><td>Non, jamais en final</td></tr>
+      <tr><td><strong>Sous-seing privé sans notaire</strong></td><td><span class="badge red">Aucune</span></td><td>Non</td></tr>
+    </tbody>
+  </table>
+
+  <h3>7.2 Coûts annexes à l'acquisition</h3>
+  <table>
+    <thead><tr><th>Poste</th><th>Montant indicatif</th><th>Quand</th></tr></thead>
+    <tbody>
+      <tr><td>Frais notaire (acte authentique)</td><td>~3-5 % du prix</td><td>Signature</td></tr>
+      <tr><td>Droits d'enregistrement</td><td>~4 % du prix</td><td>Post-signature</td></tr>
+      <tr><td>Conversion en ACD (si lettre d'attribution)</td><td>~850k XOF (~1,3k€) + 8-18 mois</td><td>Avant ou après acquisition selon cas</td></tr>
+      <tr><td>Bornage géomètre agréé</td><td>~150-300k XOF par parcelle</td><td>Avant signature impérativement</td></tr>
+      <tr><td>Avocat indépendant DD</td><td>~500k-1M XOF</td><td>Avant signature</td></tr>
+      <tr><td>Taxe foncière annuelle</td><td>~0,5-1 % de la valeur cadastrale</td><td>Annuel</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px; color: var(--muted)">Total frais annexes acquisition ≈ 8-12 % du prix terrain. À budgéter dès le pricing initial.</p>
+
+  <h3>7.3 Notre avantage : contact Ministère de l'Urbanisme</h3>
+  <div class="callout success">
+    Le contact évoqué au Ministère de la Construction et de l'Urbanisme est un atout majeur — il permet de <strong>valider en amont</strong> l'authenticité d'un titre, d'identifier les zones reclassées par le PUd, et d'éviter les chaînes de titres viciées. À utiliser systématiquement avant tout engagement.
+  </div>
+
+  <h3>7.4 Étapes d'acquisition (workflow type)</h3>
+  <ol>
+    <li><strong>Sourcing</strong> — repérage parcelle via comparables Sikafinance/Jiji + réseau local</li>
+    <li><strong>Pré-DD informelle</strong> — vérification rapide avec le contact Ministère sur la nature du titre</li>
+    <li><strong>Visite physique</strong> — bornage visuel, voisinage, accès, contraintes</li>
+    <li><strong>Lettre d'intention</strong> — engagement non liant, prix négocié</li>
+    <li><strong>DD complète</strong> — avocat indépendant + géomètre agréé + cadastre + impayés taxes</li>
+    <li><strong>Acte notarié</strong> — signature acte authentique chez un notaire ivoirien</li>
+    <li><strong>Enregistrement</strong> — paiement droits + dépôt au Cadastre</li>
+    <li><strong>Sécurisation</strong> — bornage matériel, grillage, gardien, panneau "propriété privée"</li>
+  </ol>
+</section>
+
+<!-- ============== GOUVERNANCE ============== -->
+<section id="gouvernance">
+  <h2>8. Gouvernance entre associés — pacte recommandé</h2>
+
+  <h3>8.1 Structure juridique : comparatif</h3>
+  <table>
+    <thead><tr><th>Structure</th><th>Coût setup</th><th>Coût annuel</th><th>Pros</th><th>Cons</th><th>Reco</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>SARL ivoirienne</strong> (Société à Responsabilité Limitée)</td>
+        <td>~1-1,5 M XOF (1,5-2,3k€)</td>
+        <td>~500k XOF compta + AG</td>
+        <td>Adaptée détention foncière, fiscalité claire, IS 25 %, transmission cessible</td>
+        <td>Compta locale obligatoire, expert-comptable agréé</td>
+        <td><span class="badge green">Recommandée</span> si terrain &gt; 50k€</td>
+      </tr>
+      <tr>
+        <td><strong>SCI ivoirienne</strong></td>
+        <td>~800k-1,2M XOF</td>
+        <td>~300k XOF</td>
+        <td>Vocation immobilière pure, transparence fiscale possible</td>
+        <td>Moins répandue en CI, moins de jurisprudence, expertise locale rare</td>
+        <td>Acceptable</td>
+      </tr>
+      <tr>
+        <td><strong>SCI française détenant le terrain en CI</strong></td>
+        <td>~1,5-3k€ (FR)</td>
+        <td>~500-1k€ (FR)</td>
+        <td>Familier, gestion à distance facile</td>
+        <td>Double fiscalité possible, complexe pour foncier en CI, BOFiP risque</td>
+        <td><span class="badge red">À éviter</span></td>
+      </tr>
+      <tr>
+        <td><strong>Indivision + pacte</strong></td>
+        <td>~500k XOF (acte notarié)</td>
+        <td>0</td>
+        <td>Léger, rapide</td>
+        <td>Sortie d'un associé = nightmare. Tout acte = unanimité. Pas de personne morale</td>
+        <td><span class="badge red">À éviter</span> à 4</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Recommandation :</strong> SARL ivoirienne au capital de la mise totale (60-100k€), 4 associés à parts égales OU prorata du ticket effectif. Gérant désigné = un des deux associés basés à Abidjan, avec mandat opérationnel cadré.</p>
+
+  <h3>8.2 Clauses essentielles du pacte d'associés</h3>
+  <table>
+    <thead><tr><th>Clause</th><th>Recommandation</th><th>Pourquoi</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Vote</strong></td><td>Au prorata du capital — majorité simple pour gestion courante, 75 % pour décisions structurantes (cession, emprunt, dev. construction)</td><td>Aligne pouvoir et risque, évite blocage à 50/50</td></tr>
+      <tr><td><strong>Apport en industrie / prime gérant</strong></td><td>Le gérant local touche une indemnité forfaitaire (ex. 200-300€/mois sur frais réels) OU un % de la plus-value à la sortie (5-10 %)</td><td>Compense le temps réel investi, évite le free-riding</td></tr>
+      <tr><td><strong>Sortie volontaire</strong></td><td>Préemption des 3 autres au prix d'expert (géomètre + 2e expert si désaccord) ; si refus collectif : sortie autorisée vers tiers agréé</td><td>Protège la cohésion, évite tiers indésirable</td></tr>
+      <tr><td><strong>Sortie forcée (départ Abidjan)</strong></td><td>Si associé quitte la CI &gt; 12 mois sans projet de retour, droit de rachat des autres au prix de l'apport indexé inflation</td><td>Évite associés "fantômes" qui bloquent</td></tr>
+      <tr><td><strong>Apports complémentaires</strong></td><td>Si capex additionnel (viabilisation, construction), appel de fonds au prorata. Refus = dilution mécanique</td><td>Évite blocage par associé non-suiveur</td></tr>
+      <tr><td><strong>Décès / incapacité</strong></td><td>Préemption des 3 autres aux héritiers, prix expert</td><td>Garde le contrôle entre les 4 cercles connus</td></tr>
+      <tr><td><strong>Reporting</strong></td><td>Compte-rendu trimestriel écrit + photos terrain ; AG annuelle physique ou visio à date fixe</td><td>Cadre la communication, prévient l'opacité</td></tr>
+      <tr><td><strong>Distribution</strong></td><td>Pas de distribution avant sortie totale. Tout cash flow opérationnel reste en réserve pour gardiennage / opportunités</td><td>Évite micro-débats sur dividendes, garde la trésorerie</td></tr>
+      <tr><td><strong>Conflit / arbitrage</strong></td><td>Médiation amiable d'abord, puis arbitrage CCJA OHADA</td><td>Évite tribunaux ivoiriens lents et coûteux</td></tr>
+    </tbody>
+  </table>
+
+  <h3>8.3 Rituel de fonctionnement proposé</h3>
+  <ul>
+    <li><strong>Hebdo (15 min)</strong> — point WhatsApp informel par le gérant : statut sourcing, démarches en cours, photos terrain</li>
+    <li><strong>Mensuel (45 min)</strong> — call à 4, agenda fixe : sourcing / DD en cours / décisions ouvertes / budget</li>
+    <li><strong>Trimestriel (1h)</strong> — review formelle écrite : KPIs (m² acquis, % avancement, dépenses vs budget), décisions à voter</li>
+    <li><strong>Annuel (2h)</strong> — AG, validation comptes, mise à jour valorisation par expert externe une fois sur deux</li>
+  </ul>
+</section>
+
+<!-- ============== QUESTIONS ============== -->
+<section id="questions">
+  <h2>9. Questions à débattre collectivement avant engagement</h2>
+  <p>À répondre à 4 lors d'une session de cadrage dédiée. Ces réponses figeront les hypothèses du Google Sheet financier.</p>
+
+  <h4>Capital et engagement</h4>
+  <div class="question-box">
+    <span class="q">Q1.</span> Chacun confirme-t-il un ticket de 15-25k€ disponible <em>cash</em> sous 3 mois ? Si fourchette, quelle est-elle individuellement ?
+  </div>
+  <div class="question-box">
+    <span class="q">Q2.</span> Acceptons-nous tous des <strong>appels de fonds complémentaires</strong> (viabilisation, défense juridique) à hauteur de +50 % du ticket initial sur 5 ans ?
+  </div>
+  <div class="question-box">
+    <span class="q">Q3.</span> Quelle est notre <strong>tolérance au coût de portage</strong> annuel (gardiennage + taxes + admin) ? 2 % ? 5 % ? 10 % du capital ?
+  </div>
+
+  <h4>Horizon et sortie</h4>
+  <div class="question-box">
+    <span class="q">Q4.</span> Sommes-nous prêts à <strong>tenir 10 ans minimum</strong> avant toute sortie ? Quelle est la fenêtre cible privilégiée par chacun ?
+  </div>
+  <div class="question-box">
+    <span class="q">Q5.</span> Privilégions-nous la <strong>revente nu</strong> (S1/S2 — passive) ou sommes-nous prêts à porter du <strong>développement actif</strong> (S3/S4 — capex et temps additionnels) ?
+  </div>
+  <div class="question-box">
+    <span class="q">Q6.</span> Acceptons-nous la possibilité d'<strong>activité commerciale</strong> sur le terrain (location à un tiers exploitant, centre commercial) ou strictement résidentiel ?
+  </div>
+
+  <h4>Risque et zone</h4>
+  <div class="question-box">
+    <span class="q">Q7.</span> Si l'on doit <strong>choisir une seule zone</strong> pour le premier deal, dans quel ordre de préférence chacun classe-t-il Vridi / Songon / Bingerville ?
+  </div>
+  <div class="question-box">
+    <span class="q">Q8.</span> Quel niveau de risque chacun accepte-t-il ? Multiple plus faible mais probable (Bingerville) vs multiple potentiellement élevé mais incertain (Vridi) ?
+  </div>
+
+  <h4>Gouvernance et opérations</h4>
+  <div class="question-box">
+    <span class="q">Q9.</span> Qui parmi les 2 associés à Abidjan accepte d'être <strong>gérant opérationnel</strong> ? Sous quelle forme de compensation (forfait mensuel, % plus-value, mix) ?
+  </div>
+  <div class="question-box">
+    <span class="q">Q10.</span> Acceptons-nous le principe d'une <strong>SARL ivoirienne</strong> (vs indivision ou SCI fr) ? Si non, pourquoi ?
+  </div>
+  <div class="question-box">
+    <span class="q">Q11.</span> Qui prend la responsabilité de <strong>quoi</strong> jusqu'au premier deal : sourcing parcelles, DD juridique, comparables prix, suivi pacte d'associés, modélisation financière ?
+  </div>
+</section>
+
+<!-- ============== LIVRABLES ============== -->
+<section id="livrables">
+  <h2>10. Livrables liés à ce dossier</h2>
+  <p>Les fichiers ci-dessous sont dans le même dossier <code>BandamaInvestment/</code> et fonctionnent comme un système :</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>One-pagers par zone</h4>
+      <p style="font-size:13px">Fiche synthétique 1 page par zone : thèse, prix m², variables, timeline, exit, risques, next actions. À lire après ce dossier macro.</p>
+      <a class="btn secondary" href="BandamaInvestment_OnePager-Vridi_v1.html">Vridi →</a>
+      <a class="btn secondary" href="BandamaInvestment_OnePager-Songon_v1.html">Songon →</a>
+      <a class="btn secondary" href="BandamaInvestment_OnePager-Bingerville_v1.html">Bingerville →</a>
+    </div>
+    <div class="card">
+      <h4>Modèle financier (Google Sheet)</h4>
+      <p style="font-size:13px">Le fichier <code>BandamaInvestment_Script_v1.gs</code> est un script Google Apps Script qui crée automatiquement le workbook complet : Hypothèses ajustables, Capex, P&amp;L par zone sur 10 ans, Avancement type kanban, Projections / Exit scenarios, Dashboard.</p>
+      <p style="font-size:13px"><strong>Pour déployer :</strong> aller sur <a href="https://script.google.com" target="_blank">script.google.com</a> → Nouveau projet → coller le contenu du <code>.gs</code> → exécuter <code>buildWorkbook()</code> → autoriser. Le workbook est créé dans ton Drive racine.</p>
+      <a class="btn" href="BandamaInvestment_Script_v1.gs">Script .gs →</a>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px">Roadmap des prochaines versions</h3>
+  <table>
+    <thead><tr><th>Version</th><th>Mise à jour prévue</th><th>Trigger</th></tr></thead>
+    <tbody>
+      <tr><td>v1 (ce dossier)</td><td>Cadrage hypothétique, 3 zones, structure légale</td><td>Mai 2026 — idéation</td></tr>
+      <tr><td>v2</td><td>Choix de zone arrêté collectivement, premiers comparables réels remontés</td><td>Après session cadrage à 4</td></tr>
+      <tr><td>v3</td><td>Parcelle(s) identifiée(s) avec prix négocié, DD préliminaire, pacte d'associés rédigé</td><td>Avant lettre d'intention</td></tr>
+      <tr><td>v4</td><td>Pré-acquisition : DD complète, structure SARL constituée, plan de financement définitif</td><td>Avant signature</td></tr>
+      <tr><td>v5+</td><td>Post-acquisition : suivi opérationnel, valorisation périodique, pré-sortie</td><td>Annuel</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer>
+  BandamaInvestment · Dossier de cadrage v1 · Mai 2026<br>
+  Document de travail interne — non opposable, hypothèses à confirmer collectivement<br>
+  Sources marché : Sikafinance, Jiji.co.ci, Niesv Lagos Land Index 2024, Ghana Lands Commission, observatoires immobiliers CI.
+</footer>
+
+</div>
+</body>
+</html>
