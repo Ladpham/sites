@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Intégration Coris Waribei</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Coris Meso Finance × Waribei : chaque événement du flux, qui agit, quelles données circulent et ce qui s'écrit dans le core banking, sans accès direct au CBS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : une colonne de lecture, un schéma à couloirs cliquable au centre, détail de l'événement dessous */
+:root{--bg:#F3F5F7;--bg2:#FFFFFF;--bg3:#E8ECF0;--line:#D3DAE1;--ink:#15212C;--ink2:#4A5A69;--mute:#7A8795;
+ --wari:#E02B2B;--wari-soft:#FFE4E2;--coris:#0B4F7C;--coris-soft:#DCEBF8;--mid:#1B5A43;--mid-soft:#DCEFE6;--rail:#8A6D1F;--rail-soft:#FFF1C9;
+ --ok:#1B5A43;--ok-soft:#DCEFE6;--wait:#8A6D1F;--wait-soft:#FFF1C9;--todo:#5C6B7A;--todo-soft:#E8ECF0;
+ --sans:"DM Sans",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;--mono:"DM Mono",ui-monospace,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1720;--bg2:#172230;--bg3:#1F2C3B;--line:#2C3A4A;--ink:#E8EDF2;--ink2:#B7C2CC;--mute:#8593A1;
+ --wari:#FF6B66;--wari-soft:#3A1C1C;--coris:#6AB0E0;--coris-soft:#14314A;--mid:#5BB28C;--mid-soft:#163526;--rail:#E2B84A;--rail-soft:#3A3014;
+ --ok:#5BB28C;--ok-soft:#163526;--wait:#E2B84A;--wait-soft:#3A3014;--todo:#A6B2BD;--todo-soft:#1F2C3B;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F1720;--bg2:#172230;--bg3:#1F2C3B;--line:#2C3A4A;--ink:#E8EDF2;--ink2:#B7C2CC;--mute:#8593A1;
+ --wari:#FF6B66;--wari-soft:#3A1C1C;--coris:#6AB0E0;--coris-soft:#14314A;--mid:#5BB28C;--mid-soft:#163526;--rail:#E2B84A;--rail-soft:#3A3014;
+ --ok:#5BB28C;--ok-soft:#163526;--wait:#E2B84A;--wait-soft:#3A3014;--todo:#A6B2BD;--todo-soft:#1F2C3B;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding-block:36px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:clamp(28px,4vw,40px);line-height:1.1}
+h2{font-size:22px;line-height:1.2}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.lede{color:var(--ink2);max-width:64ch;margin-top:10px}
+.parties{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.party{display:inline-flex;align-items:center;gap:8px;padding:5px 11px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);font-size:13px;font-weight:500}
+.party i{width:9px;height:9px;border-radius:50%}
+section{margin-top:44px}
+.sh{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+.sh .n{font-family:var(--mono);font-size:32px;font-weight:500;letter-spacing:-.03em;color:var(--wari);line-height:1}
+.sh p{color:var(--ink2);font-size:14px;margin-top:4px;max-width:64ch}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.rule{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.rule h3{font-size:15.5px;margin-bottom:4px}
+.rule p{font-size:14px;color:var(--ink2)}
+.rule .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.k.w{color:var(--wari)}.k.c{color:var(--coris)}.k.m{color:var(--mid)}.k.r{color:var(--rail)}
+/* flow */
+.flow{background:var(--bg2);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.ctl{display:flex;gap:8px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.ctl .sp{flex:1}
+button{font:inherit;cursor:pointer}
+.btn{border:1px solid var(--line);background:var(--bg2);color:var(--ink);padding:6px 12px;border-radius:8px;font-size:13.5px;font-weight:500}
+.btn:hover{background:var(--bg3)}
+button:focus-visible{outline:2px solid var(--coris);outline-offset:2px}
+.steps{display:flex;gap:4px;flex-wrap:wrap}
+.steps button{width:28px;height:28px;border-radius:7px;border:1px solid var(--line);background:var(--bg2);font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.steps button.cur{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.steps button.chg{position:relative}
+.steps button.chg::after{content:"";position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--coris)}
+.phb{padding:10px 14px;background:var(--coris-soft);color:var(--ink);font-size:13.5px;border-bottom:1px solid var(--line)}
+.phb b{color:var(--coris);font-weight:700}
+.box.cbs p.alt{margin-top:6px;font-size:12.5px;color:var(--ink2)}
+.phase{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.phase button{border:0;background:var(--bg2);color:var(--ink2);padding:6px 11px;font-size:13px;font-weight:500}
+.phase button[aria-pressed="true"]{background:var(--coris-soft);color:var(--coris)}
+.svgw{overflow-x:auto}
+.svgw svg{display:block;min-width:1060px;width:100%;height:auto}
+.lbg{fill:var(--bg)}.lbg.alt{fill:var(--bg2)}
+.ll{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.ll.t{fill:var(--ink2)}.ll.w{fill:var(--wari)}.ll.m{fill:var(--mid)}.ll.c{fill:var(--coris)}.ll.r{fill:var(--rail)}
+.cl{font-family:var(--mono);font-size:10.5px;fill:var(--mute);text-anchor:middle;cursor:pointer}.cl.lit{fill:var(--ink);font-weight:500}
+.edge{fill:none;stroke:var(--line);stroke-width:2}.edge.lit{stroke:var(--ink);stroke-dasharray:4 4;animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-16}}
+.node{fill:var(--bg2);stroke:var(--line);stroke-width:1.5;cursor:pointer}
+.node.t{stroke:var(--ink2)}.node.w{stroke:var(--wari)}.node.m{stroke:var(--mid)}.node.c{stroke:var(--coris)}.node.r{stroke:var(--rail)}
+.node.lit{stroke-width:2.5}.node.lit.t{fill:var(--bg3)}.node.lit.w{fill:var(--wari-soft)}.node.lit.m{fill:var(--mid-soft)}.node.lit.c{fill:var(--coris-soft)}.node.lit.r{fill:var(--rail-soft)}
+.nl{font-family:var(--sans);font-size:10.5px;fill:var(--ink2);text-anchor:middle;pointer-events:none}.nl.lit{fill:var(--ink);font-weight:500}
+.token{fill:var(--ink);stroke:var(--bg2);stroke-width:2.5}
+.desc{display:grid;grid-template-columns:64px minmax(0,1fr);gap:6px 16px;padding:16px 18px;border-top:1px solid var(--line)}
+.desc .num{font-family:var(--mono);font-size:34px;font-weight:500;letter-spacing:-.03em;line-height:1}
+.desc .num small{display:block;font-size:11px;color:var(--mute);margin-top:4px;letter-spacing:0}
+.desc .who{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:3px}
+.desc h3{font-size:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.desc p{font-size:14px;color:var(--ink2);margin-top:4px;max-width:70ch}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.box{border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0}
+.box .h{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.box.cbs{background:var(--coris-soft);border-color:transparent}
+.box.cbs .h{color:var(--coris)}
+.box p{margin:0;font-size:13.5px;color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:var(--mono);font-size:11.5px;padding:2px 7px;border-radius:5px;background:var(--bg3);color:var(--ink2)}
+.src{font-family:var(--mono);font-size:11px;color:var(--mute);margin-top:10px}
+.pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;font-weight:500}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.wait{background:var(--wait-soft);color:var(--wait)}.pill.todo{background:var(--todo-soft);color:var(--todo)}
+@media (prefers-reduced-motion:reduce){.edge.lit{animation:none}}
+/* tables */
+.tw{overflow-x:auto;border-radius:12px;border:1px solid var(--line)}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--bg2)}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:500;background:var(--bg3)}
+tr:last-child td{border-bottom:0}
+td.c{color:var(--coris);font-weight:500}td.w{color:var(--wari);font-weight:500}
+td .s{display:block;font-size:12.5px;color:var(--ink2);font-weight:400}
+.figs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.figs .v{font-family:var(--mono);font-size:24px;font-weight:500;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums}
+.figs .v small{font-size:12px;color:var(--mute)}
+.figs p{font-size:13px;color:var(--ink2);margin-top:6px}
+ol.asks{margin:0;padding:0;list-style:none;display:grid;gap:10px;counter-reset:a}
+ol.asks li{counter-increment:a;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+ol.asks li::before{content:counter(a);font-family:var(--mono);font-size:18px;color:var(--coris);line-height:1.2}
+ol.asks b{font-weight:500}
+ol.asks span{display:block;font-size:13.5px;color:var(--ink2);margin-top:2px}
+.foot{margin-top:40px;font-size:12.5px;color:var(--mute);max-width:72ch}
+@media (max-width:720px){.rule,.grid2{grid-template-columns:1fr}.figs{grid-template-columns:1fr 1fr}.desc{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">Coris Meso Finance × Waribei · document de travail pour la DSI · 28.10.2026</div>
+  <h1 style="margin-top:8px">Intégration Coris × Waribei, événement par événement</h1>
+  <p class="lede">Ce que fait chaque partie à chaque étape, quelles données circulent, dans quel sens, et ce qui s'écrit dans votre core banking. Le principe posé le 27.10 : aucun système externe n'écrit directement dans le CBS. Waribei dépose, Coris vérifie et écrit.</p>
+  <div class="parties">
+    <span class="party"><i style="background:var(--ink2)"></i>Terrain · détaillant, fournisseur</span>
+    <span class="party"><i style="background:var(--wari)"></i>Waribei · plateforme, KYC, scoring, suivi</span>
+    <span class="party"><i style="background:var(--mid)"></i>Zone d'échange · le sas avant le CBS</span>
+    <span class="party"><i style="background:var(--coris)"></i>Coris · décision, core banking</span>
+    <span class="party"><i style="background:var(--rail)"></i>Compte d'opération · la liquidité</span>
+  </div>
+
+  <section>
+    <div class="sh"><span class="n">1</span><div><h2>Les quatre règles du montage</h2><p>Elles répondent aux contraintes exprimées par Coris : pas d'accès direct au CBS, responsabilité de crédit chez Coris, volumétrie impossible à traiter à la main.</p></div></div>
+    <div class="rule">
+      <div class="card"><div class="k c">Coris décide</div><h3>Client, limite, prêt</h3><p>Les trois actes qui relèvent d'un établissement de crédit restent chez Coris : création du client, attribution de la limite, approbation du prêt. Waribei prépare et propose, sans pouvoir de décision.</p></div>
+      <div class="card"><div class="k m">Pas d'écriture directe</div><h3>Un sas entre les deux systèmes</h3><p>Waribei dépose les dossiers et les événements dans une zone d'échange. C'est Coris qui les lit et les intègre dans le CBS, à son rythme et avec ses contrôles. Waribei a déjà un middleware qui prévoit une validation humaine avant écriture.</p></div>
+      <div class="card"><div class="k r">Liquidité séparée des écritures</div><h3>Un compte d'opération dédié</h3><p>Les fonds vivent sur un compte d'opération ouvert au nom de Coris, provisionné par décision de comité selon les limites validées. Le CBS ne reçoit que des écritures. Option privilégiée : Coris Money, s'il sait payer vers virement, Wave, Orange Money et PI-SPI.</p></div>
+      <div class="card"><div class="k w">KYC aligné sur Coris</div><h3>Votre fiche, nos données</h3><p>Waribei collecte sur le terrain et remplit la fiche KYC de Coris, avec ses champs et la réglementation LBC/FT. Seuls les nouveaux clients venus par Waribei sont concernés, les clients Coris existants ne sont pas touchés.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="n">2</span><div><h2>Le flux, cliquable</h2><p>Cliquez une étape, un bloc ou utilisez la lecture. Le bouton Phase montre comment chaque étape passe dans le CBS : la phase 1 démarre sans API Coris, la phase 2 automatise quand la DSI est prête. Les étapes marquées d'un point bleu sont celles qui changent d'une phase à l'autre.</p></div></div>
+    <div class="flow">
+      <div class="ctl">
+        <button class="btn" id="prev" type="button" aria-label="Étape précédente">←</button>
+        <button class="btn" id="play" type="button">Lecture</button>
+        <button class="btn" id="next" type="button" aria-label="Étape suivante">→</button>
+        <div class="steps" id="sb"></div>
+        <span class="sp"></span>
+        <div class="phase" role="group" aria-label="Phase d'intégration">
+          <button type="button" id="ph1" aria-pressed="true">Phase 1 · semi-automatique</button>
+          <button type="button" id="ph2" aria-pressed="false">Phase 2 · API</button>
+        </div>
+      </div>
+      <div class="phb" id="phb"></div>
+      <div class="svgw"><svg id="svg" viewBox="0 0 1200 530" role="img" aria-label="Schéma à couloirs du flux Coris Waribei"></svg></div>
+      <div class="desc" id="desc" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="n">3</span><div><h2>Qui fait quoi</h2><p>La même lecture que le schéma, en tableau. Le sens indique où la donnée entre.</p></div></div>
+    <div class="tw"><table>
+      <thead><tr><th>Événement</th><th>Waribei</th><th>Coris</th><th>Sens de la donnée</th></tr></thead>
+      <tbody id="raci"></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="n">4</span><div><h2>La volumétrie à absorber</h2><p>C'est elle qui rend le traitement manuel impossible et justifie la phase 2. Dernier mois complet disponible.</p></div></div>
+    <div class="figs">
+      <div class="card"><div class="v">391 M <small>FCFA</small></div><p>Financé en août 2026, tous partenaires confondus</p></div>
+      <div class="card"><div class="v">2 174</div><p>Financements dans le mois, soit environ 500 par semaine</p></div>
+      <div class="card"><div class="v">180 000 <small>FCFA</small></div><p>Montant moyen, entre 50 000 et 1 M</p></div>
+      <div class="card"><div class="v">7,6 <small>jours</small></div><p>Durée moyenne, remboursement en une fois</p></div>
+    </div>
+    <p class="src">Source : extraction Waribei du 18.09.2026 (activité mensuelle, mois d'août 2026). Septembre 2026 : environ 405 M FCFA financés.</p>
+  </section>
+
+  <section>
+    <div class="sh"><span class="n">5</span><div><h2>Ce qu'il nous faut de la DSI</h2><p>Pour passer de ce schéma à une séance de travail technique avant la fin du mois.</p></div></div>
+    <ol class="asks">
+      <li><div><b>Le canal de la zone d'échange</b><span>Fichier déposé sur un serveur sécurisé (SFTP), écran de back-office que vos agents consultent, ou API d'un middleware hébergé chez Coris. Nous nous adaptons au canal que la DSI et le groupe acceptent.</span></div></li>
+      <li><div><b>La fiche KYC Coris et ses champs obligatoires</b><span>Avec les exigences LBC/FT à jour. Nous indiquons champ par champ ce que nous collectons déjà et ce qui manque.</span></div></li>
+      <li><div><b>Le produit dans le CBS et son schéma d'écritures</b><span>Prêt court (7 jours, remboursement en une fois, solde anticipé possible), comptes de décaissement et de remboursement, compte d'opération.</span></div></li>
+      <li><div><b>Le compte d'opération</b><span>Coris Money (API, paiement vers virement, Wave, Orange Money, PI-SPI) ou, à défaut, un compte d'opération Coris chez un agrégateur. Qui le provisionne, à quelle fréquence.</span></div></li>
+      <li><div><b>Les identifiants de retour</b><span>Format du numéro client, du numéro de compte et du numéro de prêt que Coris renvoie, pour que chaque écriture soit rapprochée sans ambiguïté.</span></div></li>
+      <li><div><b>Une séance de travail DSI × équipe tech Waribei</b><span>En partage d'écran ou dans vos bureaux, sur la base de ce document.</span></div></li>
+    </ol>
+  </section>
+
+  <p class="foot">Document de travail Waribei, non contractuel, établi à partir de la réunion Coris × Waribei du 27.10.2026 et du kick-off d'intégration du 25.09.2025. Aucune donnée client réelle : les exemples sont fictifs. Les règles de gestion définitives (retards, garanties, tarification) sont fixées par le contrat entre Coris et Waribei.</p>
+</div>
+
+<script>
+(function(){
+  var LANES=[{y:100,k:'t',l:'Terrain · détaillant, fournisseur'},{y:192,k:'w',l:'Waribei · plateforme'},{y:284,k:'m',l:'Zone d’échange'},{y:376,k:'c',l:'Coris · agent & core banking'},{y:468,k:'r',l:'Compte d’opération'}];
+  var X=[110,220,330,440,550,660,770,880,990,1100];
+  var GROUPS=[{from:0,to:3,l:'Entrée en relation'},{from:4,to:4,l:'Liquidité'},{from:5,to:8,l:'Cycle de financement'},{from:9,to:9,l:'Contrôle'}];
+  var S=[
+   {c:'Enrôlement',t:'Enrôler et scorer le détaillant',who:'Agent Waribei + détaillant',st:['ok','En place'],
+    a:'Un agent Waribei rencontre le commerçant à son point de vente. Collecte de l’identité, contrôle de la pièce, photos du commerce et position GPS, entre autres. L’historique d’achats chez ses fournisseurs alimente le score.',
+    d:['nom, prénoms','date de naissance','n° CNI','NNI','téléphone','nom du père','nom de la mère','selfie','photos du commerce','GPS','historique d’achats'],
+    dir:'Terrain → Waribei',cbs:['Rien. Aucune donnée ne part vers Coris à ce stade.','Rien. Aucune donnée ne part vers Coris à ce stade.'],src:'Réunion du 27.10 (17:40 à 18:10, 27:10) : champs d’identification cités',
+    n:[[0,0,'Détaillant'],[0,1,'KYC + score']],path:[[0,0],[0,1]]},
+   {c:'Dossier',t:'Déposer le dossier au format Coris',who:'Waribei → zone d’échange',st:['wait','À brancher'],
+    a:'Le dossier est mis au format de la fiche KYC Coris. Avant dépôt, Waribei vérifie l’unicité (CNI, NNI, téléphone) pour éviter les doublons. Seuls les commerçants venus par Waribei, en compte personnel.',
+    d:['fiche KYC Coris','pièces jointes','référence dossier Waribei','contrôle doublon CNI / NNI / tél.'],
+    dir:'Waribei → Coris',cbs:['Rien encore. Le dossier attend dans la zone d’échange que Coris le prenne (fichier ou écran de back-office).','Rien encore. Le dossier est transmis à l’API du middleware Coris, qui le met en file.'],src:'Réunion du 27.10 (16:14, 18:28, 27:31) : dossier digital, middleware avant le CBS',
+    n:[[1,1,'Dossier KYC'],[1,2,'Fichier déposé','Envoyé par API']],path:[[1,1],[1,2]]},
+   {c:'Client',t:'Créer le client et son compte',who:'Coris',st:['todo','À construire'],
+    a:'Un agent Coris vérifie le dossier et crée le client dans le CBS. Le numéro client et le numéro de compte reviennent à Waribei par la zone d’échange. Un refus revient avec son motif.',
+    d:['n° client Coris','n° de compte','statut : créé / refusé','motif de refus'],
+    dir:'Coris → Waribei',cbs:['Création du client et ouverture du compte, saisies par un agent Coris à partir des champs pré-remplis.','Création automatique par le middleware Coris après contrôles, avec validation a posteriori par un agent.'],src:'Réunion du 27.10 (19:44) : la création du client est de la responsabilité de Coris',
+    n:[[2,2,'Lu par l\u2019agent','Reçu par l\u2019API'],[2,3,'Saisi par l\u2019agent','Créé auto'],[2,1,'N° client reçu']],path:[[2,2],[2,3],[2,2],[2,1]]},
+   {c:'Limite',t:'Attribuer la limite de financement',who:'Waribei propose, Coris approuve',st:['todo','À construire'],
+    a:'Waribei propose une limite à partir de son score. Coris l’approuve, la réduit ou la refuse. La limite approuvée s’affiche dans l’application du commerçant. Coris peut construire son propre score en parallèle avec les mêmes données.',
+    d:['score Waribei','limite proposée','limite approuvée','date de revue'],
+    dir:'Waribei → Coris → Waribei',cbs:['Limite saisie par Coris sur le compte du client.','Limite inscrite automatiquement, dans les plafonds fixés par le comité Coris.'],src:'Réunion du 27.10 (19:48, 37:53) : attribution des limites chez Coris, score proposé par Waribei',
+    n:[[3,1,'Limite proposée'],[3,2,'Fichier déposé','Envoyé par API'],[3,3,'Saisie par l\u2019agent','Inscrite auto']],path:[[3,1],[3,2],[3,3],[3,2],[3,1]]},
+   {c:'Provision',t:'Provisionner le compte d’opération',who:'Comité Coris',st:['todo','À décider'],
+    a:'Le comité Coris met à disposition sur le compte d’opération le montant correspondant aux limites validées. Les fonds sortent de vos comptes internes vers ce compte dédié, d’où partiront tous les paiements aux fournisseurs.',
+    d:['montant mis à disposition','référence comité','solde du compte d’opération'],
+    dir:'Coris → compte d’opération',cbs:['Écriture de mise à disposition vers le compte d’opération.','Même écriture, avec un solde du compte d’opération lu par API.'],src:'Réunion du 27.10 (28:48 à 29:28) : poche de liquidité externalisée, fixée par comité',
+    n:[[4,3,'Comité Coris'],[4,4,'Compte provisionné']],path:[[4,3],[4,4]]},
+   {c:'Achat',t:'Acheter chez le fournisseur',who:'Détaillant + fournisseur',st:['ok','En place'],
+    a:'Le commerçant présente le QR code de son application. Le fournisseur le scanne, saisit le montant et photographie la facture. Le commerçant valide, ce qui vaut ordre de payer le fournisseur. Waribei contrôle que le montant tient dans la limite.',
+    d:['n° client Coris','montant','photo de facture','fournisseur','horodatage'],
+    dir:'Terrain → Waribei',cbs:['Rien encore.','Rien encore.'],src:'Réunion du 27.10 (22:12 à 23:06) : QR, montant, photo de facture',
+    n:[[5,0,'QR + facture'],[5,1,'Limite contrôlée']],path:[[5,0],[5,1]]},
+   {c:'Prêt',t:'Créer le prêt',who:'Waribei → zone d’échange → Coris',st:['todo','À construire'],
+    a:'Chaque achat validé devient un prêt au nom du client, dans la limite approuvée par Coris. Avec environ 500 prêts par semaine, la saisie unitaire n’est pas tenable : en phase 1 les prêts sont intégrés par lots, en phase 2 un par un et en temps réel.',
+    d:['n° client','n° prêt Waribei','montant','date d’échéance (J+7)','frais','fournisseur'],
+    dir:'Waribei → Coris',cbs:['Import d’un fichier de prêts du jour par Coris, contrôlé puis intégré. La limite fait office d’approbation pour chaque prêt qui la respecte.','Prêt créé à la réception, numéro de prêt Coris renvoyé à Waribei.'],src:'Réunion du 27.10 (09:57, 19:49) : approbation du prêt chez Coris, 200 à 300 dossiers par semaine non traitables à la main',
+    n:[[6,1,'Prêt demandé'],[6,2,'Lot du jour','Prêt par API'],[6,3,'Lot importé','Créé en temps réel']],path:[[6,1],[6,2],[6,3]]},
+   {c:'Paiement',t:'Payer le fournisseur',who:'Compte d’opération → fournisseur',st:['wait','À brancher'],
+    a:'Le fournisseur est payé depuis le compte d’opération de Coris, par virement, Wave, Orange Money ou PI-SPI. Le commerçant ne reçoit jamais d’argent : la marchandise part directement chez lui. Le fournisseur n’a pas besoin d’être client Coris.',
+    d:['n° prêt','montant','moyen de paiement','référence de paiement','statut'],
+    dir:'Waribei → compte d’opération → fournisseur',cbs:['Écriture de décaissement (compte de prêt débité, compte d’opération crédité), dans le lot du jour.','Même écriture, passée à la confirmation du paiement.'],src:'Réunion du 27.10 (25:21 à 26:24, 29:55 à 30:13) : décorrélation liquidité / écritures, canaux de paiement',
+    n:[[7,1,'Ordre de paiement'],[7,4,'Paiement émis','Paiement + écriture'],[7,0,'Fournisseur payé']],path:[[7,1],[7,4],[7,0]]},
+   {c:'Encaissement',t:'Rembourser et solder',who:'Détaillant → compte d’opération',st:['wait','À brancher'],
+    a:'Le commerçant rembourse par mobile money vers le compte d’opération, en une ou plusieurs fois avant l’échéance. Quand le montant dû est atteint, le prêt est soldé et la limite redevient disponible.',
+    d:['n° prêt','montant reçu','référence mobile money','reste dû','statut : soldé'],
+    dir:'Terrain → compte d’opération → Coris',cbs:['Écriture de remboursement dans le lot du jour, prêt soldé quand le total est atteint.','Écriture au fil de l’eau, solde automatique du prêt.'],src:'Réunion du 27.10 (26:06, 31:56 à 32:49) : remboursement sur le compte d’opération, clôture au paiement',
+    n:[[8,0,'Détaillant paie'],[8,4,'Fonds reçus'],[8,3,'Soldé dans le lot','Soldé au fil de l\u2019eau']],path:[[8,0],[8,4],[8,3]]},
+   {c:'Contrôle',t:'Rapprocher chaque jour',who:'Waribei → Coris',st:['ok','En place, à enrichir'],
+    a:'Chaque jour, Waribei transmet l’état des prêts, des paiements et des remboursements, rapproché avec le compte d’opération. Coris contrôle que ses livres et le compte d’opération disent la même chose. Les événements financiers sont déjà envoyés par mail aujourd’hui.',
+    d:['prêts du jour','remboursements','encours par client','solde du compte d’opération','écarts'],
+    dir:'Waribei → Coris',cbs:['Contrôle par Coris entre le lot intégré et l’état Waribei.','Contrôle automatique, seuls les écarts remontent à un agent.'],src:'Réunion du 27.10 (45:06 à 45:24) : événements financiers déjà reçus par Coris',
+    n:[[9,1,'État du jour'],[9,2,'Fichier déposé','Envoyé par API'],[9,3,'Contrôle complet','Écarts seuls']],path:[[9,1],[9,2],[9,3]]}
+  ];
+  var svg=document.getElementById('svg'),NS='http://www.w3.org/2000/svg',cur=0,ph=0,playing=false,timer=null,raf=null,W=1200;
+  var SW=[];
+  function fit(t,s){t.setAttribute('font-size',s.length>17?'9':s.length>15?'9.5':'10.5');}
+  var PH=[{lane:'Zone d’échange · fichier ou back-office',b:'<b>Phase 1, semi-automatique.</b> Aucun développement dans le core banking. Waribei dépose des fichiers pré-remplis, un agent Coris vérifie et saisit les clients et les limites. Les prêts, paiements et remboursements arrivent en un lot par jour, importé par Coris.'},
+          {lane:'Zone d’échange · API du middleware Coris',b:'<b>Phase 2, API.</b> Quand la DSI ouvre une API sur son middleware : clients, prêts et écritures passent au fil de l’eau, avec les contrôles de Coris. L’agent ne traite plus que les refus et les écarts.'}];
+  function el(n,a,t){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(t!=null)e.textContent=t;return e;}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  LANES.forEach(function(L,i){svg.appendChild(el('rect',{x:0,y:L.y-46,width:W,height:92,'class':'lbg'+(i%2?' alt':'')}));svg.appendChild(el('text',{x:12,y:L.y-31,'class':'ll '+L.k},L.l));});
+  GROUPS.forEach(function(g){var x1=X[g.from]-50,x2=X[g.to]+50;svg.appendChild(el('line',{x1:x1,y1:16,x2:x2,y2:16,'class':'edge'}));svg.appendChild(el('text',{x:(x1+x2)/2,y:11,'class':'ll t','text-anchor':'middle'},g.l));});
+  S.forEach(function(s,i){
+    var lab=el('text',{x:X[i],y:38,'class':'cl','data-s':i},(i+1)+' · '+s.c);lab.addEventListener('click',function(){stop();go(i);});svg.appendChild(lab);
+    for(var p=0;p<s.path.length-1;p++){var a=s.path[p],b=s.path[p+1];if(a[0]===b[0]&&a[1]===b[1])continue;svg.appendChild(el('line',{x1:X[a[0]],y1:LANES[a[1]].y,x2:X[b[0]],y2:LANES[b[1]].y,'class':'edge','data-s':i}));}
+  });
+  S.forEach(function(s,i){
+    s.n.forEach(function(N){var L=LANES[N[1]];var r=el('rect',{x:X[N[0]]-50,y:L.y-16,width:100,height:32,rx:8,'class':'node '+L.k,'data-s':i});r.addEventListener('click',function(){stop();go(i);});svg.appendChild(r);var t=el('text',{x:X[N[0]],y:L.y+4,'class':'nl','data-s':i},N[2]);svg.appendChild(t);if(N[3])SW.push([t,N[2],N[3]]);fit(t,N[2]);});
+  });
+  var laneMid=svg.querySelectorAll('.ll.m')[0];
+  svg.appendChild(el('circle',{r:7,'class':'token',id:'tok',cx:X[0],cy:LANES[0].y}));
+  var sb=document.getElementById('sb');S.forEach(function(s,i){var b=document.createElement('button');b.type='button';b.textContent=i+1;if(s.cbs[0]!==s.cbs[1])b.classList.add('chg');b.setAttribute('aria-label','Étape '+(i+1)+' : '+s.t);b.onclick=function(){stop();go(i);};sb.appendChild(b);});
+  var raci=document.getElementById('raci');
+  var R=[['Prépare et collecte','Rien'],['Met au format, dédoublonne, dépose','Reçoit'],['Reçoit le numéro client','Vérifie, crée le client et le compte'],['Propose score et limite','Approuve, réduit ou refuse'],['Suit le solde','Comité : met les fonds à disposition'],['Contrôle la limite, enregistre l’achat','Rien'],['Dépose le prêt','Crée le prêt dans le CBS'],['Ordonne le paiement depuis le compte Coris','Passe l’écriture de décaissement'],['Encaisse sur le compte Coris, relance','Passe l’écriture, solde le prêt'],['Transmet l’état rapproché','Contrôle ses livres']];
+  S.forEach(function(s,i){var tr=document.createElement('tr');tr.innerHTML='<td><b>'+(i+1)+'. '+esc(s.t)+'</b></td><td class="w">'+esc(R[i][0])+'</td><td class="c">'+esc(R[i][1])+'</td><td>'+esc(s.dir)+'</td>';raci.appendChild(tr);});
+  function render(){var s=S[cur];
+    document.getElementById('desc').innerHTML='<div class="num">'+(cur+1)+'<small>/ '+S.length+'</small></div><div><div class="who">'+esc(s.who)+'</div><h3>'+esc(s.t)+' <span class="pill '+s.st[0]+'">'+esc(s.st[1])+'</span></h3><p>'+esc(s.a)+'</p>'+
+      '<div class="grid2"><div class="box"><div class="h">Données qui circulent · '+esc(s.dir)+'</div><div class="chips">'+s.d.map(function(x){return'<span class="chip">'+esc(x)+'</span>';}).join('')+'</div></div>'+
+      '<div class="box cbs"><div class="h">Dans le core banking Coris · '+(s.cbs[0]===s.cbs[1]?'identique dans les deux phases':'phase '+(ph+1))+'</div><p>'+esc(s.cbs[ph])+'</p>'+(s.cbs[0]===s.cbs[1]?'':'<p class="alt">En phase '+(2-ph)+' : '+esc(s.cbs[1-ph])+'</p>')+'</div></div><div class="src">'+esc(s.src)+'</div></div>';}
+  function go(i){cur=(i+S.length)%S.length;
+    Array.prototype.forEach.call(svg.querySelectorAll('[data-s]'),function(e){e.classList.toggle('lit',+e.getAttribute('data-s')===cur);});
+    Array.prototype.forEach.call(sb.children,function(b,j){b.classList.toggle('cur',j===cur);});
+    render();
+    var w=document.querySelector('.svgw');if(w&&w.scrollWidth>w.clientWidth){var target=X[cur]*w.scrollWidth/W-w.clientWidth/2;w.scrollTo({left:Math.max(0,target),behavior:'smooth'});}
+    anim(S[cur].path);}
+  function anim(path){if(raf)cancelAnimationFrame(raf);var tok=document.getElementById('tok');var pts=path.map(function(p){return[X[p[0]],LANES[p[1]].y];});
+    if((window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||pts.length<2){tok.setAttribute('cx',pts[pts.length-1][0]);tok.setAttribute('cy',pts[pts.length-1][1]);return;}
+    var segs=[],tot=0;for(var i=0;i<pts.length-1;i++){var d=Math.hypot(pts[i+1][0]-pts[i][0],pts[i+1][1]-pts[i][1]);segs.push(d);tot+=d;}
+    var dur=Math.max(800,tot*4),t0=null;
+    (function f(ts){if(!t0)t0=ts;var k=Math.min(1,(ts-t0)/dur),e=k<.5?2*k*k:-1+(4-2*k)*k,dist=e*tot,acc=0;
+      for(var i=0;i<segs.length;i++){if(dist<=acc+segs[i]||i===segs.length-1){var q=segs[i]?Math.max(0,Math.min(1,(dist-acc)/segs[i])):1;tok.setAttribute('cx',pts[i][0]+(pts[i+1][0]-pts[i][0])*q);tok.setAttribute('cy',pts[i][1]+(pts[i+1][1]-pts[i][1])*q);break;}acc+=segs[i];}
+      if(k<1)raf=requestAnimationFrame(f);})(performance.now());}
+  function setPh(p){ph=p;document.getElementById('ph1').setAttribute('aria-pressed',p===0);document.getElementById('ph2').setAttribute('aria-pressed',p===1);
+    SW.forEach(function(x){x[0].textContent=x[1+p];fit(x[0],x[1+p]);});
+    if(laneMid)laneMid.textContent=PH[p].lane;document.getElementById('phb').innerHTML=PH[p].b;render();}
+  setPh(0);
+  document.getElementById('ph1').onclick=function(){setPh(0);};
+  document.getElementById('ph2').onclick=function(){setPh(1);};
+  function play(){playing=true;document.getElementById('play').textContent='Pause';tick();}
+  function tick(){timer=setTimeout(function(){if(!playing)return;go(cur+1);tick();},6000);}
+  function stop(){playing=false;document.getElementById('play').textContent='Lecture';if(timer)clearTimeout(timer);}
+  document.getElementById('play').onclick=function(){playing?stop():play();};
+  document.getElementById('prev').onclick=function(){stop();go(cur-1);};
+  document.getElementById('next').onclick=function(){stop();go(cur+1);};
+  go(0);
+})();
+</script>
+</body>
+</html>
